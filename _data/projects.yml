@@ -1,0 +1,163 @@
+# Open source libraries listed on the home page.
+#
+# Ordered by download count, descending. Download counts are from the RubyGems
+# API and were last verified on 2026-08-06. To refresh them:
+#
+#   curl -s https://rubygems.org/api/v1/gems/<gem>.json | jq .downloads
+#
+# Fields:
+#   name        Display name.
+#   gem         RubyGems gem name. Omit for non-Ruby projects.
+#   github      Full GitHub repo URL.
+#   docs        Documentation site URL. Omit if the project has no doc site.
+#   downloads   Human-formatted download count for the badge.
+#   status      "active" or "stable". "stable" renders in a muted card and is
+#               described as complete rather than actively developed.
+#   summary     One or two sentences. Shown for every project.
+#   detail      Optional extra paragraph. Only projects with doc sites have one.
+
+- name: Semantic Logger
+  gem: semantic_logger
+  github: https://github.com/reidmorrison/semantic_logger
+  docs: https://logger.reidmorrison.com
+  downloads: 36.0M
+  status: active
+  summary: >-
+    A high-performance, asynchronous structured logging framework for Ruby.
+  detail: >-
+    Ordinary loggers flatten everything into a string. Semantic Logger keeps the
+    message and the data separate, so a payload, exception, duration, metric, or
+    tag survives all the way to the destination and stays searchable. Log events
+    are queued in memory and written by a background thread, so the application
+    is never blocked waiting on disk or a remote service. Ships with appenders
+    for Syslog, Graylog, Elasticsearch, Splunk, Loggly, New Relic, Bugsnag,
+    MongoDB, and HTTP(S).
+
+- name: Rails Semantic Logger
+  gem: rails_semantic_logger
+  github: https://github.com/reidmorrison/rails_semantic_logger
+  docs: https://logger.reidmorrison.com/rails.html
+  downloads: 24.1M
+  status: active
+  summary: >-
+    Drops Semantic Logger into Rails, replacing the default logger so that Rails
+    itself, your application code, and many common gems all log through
+    structured logging instead of plain text. Add the gem and Rails log output
+    becomes structured, with no code changes.
+
+- name: Symmetric Encryption
+  gem: symmetric-encryption
+  github: https://github.com/reidmorrison/symmetric-encryption
+  docs: https://encryption.reidmorrison.com
+  downloads: 6.3M
+  status: active
+  summary: >-
+    Symmetric encryption for Ruby and Rails projects using OpenSSL.
+  detail: >-
+    Any project pursuing PCI compliance has to encrypt data in flight and at
+    rest, including passwords in configuration files. Symmetric Encryption makes
+    that a one-liner, exposes the full range of OpenSSL ciphers, and handles key
+    management and key rotation so encrypted columns and files stay readable
+    across key changes.
+
+- name: JRuby JMS
+  gem: jruby-jms
+  github: https://github.com/reidmorrison/jruby-jms
+  downloads: 5.1M
+  status: stable
+  summary: >-
+    A complete JRuby API into the Java Messaging Specification, letting Ruby code
+    talk to any JMS provider. Feature complete and unchanged for years; still
+    downloaded steadily by JRuby shops running enterprise messaging.
+
+- name: IOStreams
+  gem: iostreams
+  github: https://github.com/reidmorrison/iostreams
+  docs: https://iostreams.reidmorrison.com
+  downloads: 2.6M
+  status: active
+  summary: >-
+    A streaming library that makes compression, encryption, file format, and
+    storage location transparent to your code.
+  detail: >-
+    One customer sends gzipped CSV, another sends a PGP encrypted file, a third
+    uploads a spreadsheet. The files are on local disk in development and in S3
+    in production. Without IOStreams each combination needs its own handling, and
+    large files risk exhausting memory. With it, you read and write any of them
+    as if they were plain local text, one block at a time, regardless of size.
+
+- name: Net::TCPClient
+  gem: net_tcp_client
+  github: https://github.com/reidmorrison/net_tcp_client
+  downloads: 1.1M
+  status: stable
+  summary: >-
+    A TCP socket client with automated failover, load balancing, retries, and
+    genuinely reliable timeouts. Written because Ruby's built-in socket timeouts
+    do not behave the way production traffic needs them to.
+
+- name: Secret Config
+  gem: secret_config
+  github: https://github.com/reidmorrison/secret_config
+  docs: https://config.reidmorrison.com
+  downloads: 451K
+  status: active
+  summary: >-
+    Centralized configuration and secrets management for Ruby and Rails.
+  detail: >-
+    Keeps database credentials, connection pool sizes, hostnames, timeouts, and
+    encryption keys in one central place instead of scattered across config
+    files. Reads from a file for development, AWS Systems Manager Parameter Store
+    for production, and lets environment variables override any setting, with
+    string values converted to the types your code expects.
+
+- name: SyncAttr
+  gem: sync_attr
+  github: https://github.com/reidmorrison/sync_attr
+  downloads: 447K
+  status: stable
+  summary: >-
+    Thread-safe lazy-initialized class and instance attributes for Ruby. Small,
+    finished, and still in daily use.
+
+- name: Rocket Job
+  gem: rocketjob
+  github: https://github.com/reidmorrison/rocketjob
+  docs: https://rocketjob.reidmorrison.com
+  downloads: 438K
+  status: active
+  summary: >-
+    A distributed, priority-based background job and batch processing system for
+    Ruby. Process millions of records across thousands of workers.
+  detail: >-
+    Jobs are real Ruby classes with typed, validated fields, persisted to MongoDB
+    and processed in business priority order so critical work jumps ahead of
+    routine work. Add one line and a job's input is split into slices and
+    processed concurrently across every available worker, turning a file with
+    millions of rows into thousands of parallel units that can be paused,
+    resumed, retried, or aborted as a whole.
+
+- name: Parallel Minion
+  gem: parallel_minion
+  github: https://github.com/reidmorrison/parallel_minion
+  docs: https://minion.reidmorrison.com
+  downloads: 380K
+  status: active
+  summary: >-
+    Run slow steps at the same time and cut request latency.
+  detail: >-
+    Hand a block of work to a minion, carry on with something else, and collect
+    the result when you need it. Steps that used to run one after another now
+    overlap, so total time is closer to the slowest single step than to the sum
+    of all of them. Handles exception propagation, timeouts, and passing logging
+    context and Rails state across the thread boundary.
+
+- name: Data Cleansing
+  gem: data_cleansing
+  github: https://github.com/reidmorrison/data_cleansing
+  downloads: 360K
+  status: active
+  summary: >-
+    Declarative cleansing of data arriving from Rails forms, APIs, files, or
+    plain Ruby objects. Define the rules once on the model instead of scattering
+    strip and normalize calls through every controller.

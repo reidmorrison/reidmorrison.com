@@ -1,0 +1,44 @@
+title: Reid Morrison
+tagline: Principal Software Engineer
+description: >-
+  Reid Morrison. Principal Software Engineer building AI agents and distributed
+  systems that run in production. Author of 11 open-source Ruby libraries with
+  over 75 million combined downloads, including Semantic Logger and Symmetric
+  Encryption.
+url: https://reidmorrison.com
+author: Reid Morrison
+
+github_username: reidmorrison
+linkedin_username: reidmorrison
+
+# Kramdown settings match the project doc sites so markdown behaves identically
+# across reidmorrison.com and logger/encryption/rocketjob/etc.
+markdown: kramdown
+kramdown:
+  toc_levels: "2..3"
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+feed:
+  path: feed.xml
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      # Blog posts live under /writing/. No posts yet; see writing.md.
+      # Scoped to posts rather than set globally: a top-level `permalink` key
+      # switches *pages* to pretty URLs too (about/index.html), which breaks the
+      # .html nav links shared with the project doc sites.
+      permalink: /writing/:year/:month/:day/:title/
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - CLAUDE.md
+  - README.md
+  - vendor

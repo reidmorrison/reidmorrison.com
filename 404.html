@@ -1,0 +1,18 @@
+---
+layout: default
+title: Page not found
+permalink: /404.html
+---
+
+<h2>Page not found</h2>
+
+<p>That page does not exist. It may have moved when this site was reorganized.</p>
+
+<p>Try the <a href="/">home page</a> for the open-source projects, or one of the
+documentation sites:</p>
+
+<ul>
+  {% for project in site.data.projects %}{% if project.docs %}
+  <li><a href="{{ project.docs }}">{{ project.name }}</a></li>
+  {% endif %}{% endfor %}
+</ul>
