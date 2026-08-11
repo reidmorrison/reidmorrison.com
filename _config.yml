@@ -30,7 +30,8 @@ defaults:
       type: posts
     values:
       layout: post
-      # Blog posts live under /writing/. No posts yet; see writing.md.
+      # Blog posts live under /writing/. No posts yet, and no index page:
+      # the scaffold is kept so a future post gets a URL and a feed entry.
       # Scoped to posts rather than set globally: a top-level `permalink` key
       # switches *pages* to pretty URLs too (about/index.html), which breaks the
       # .html nav links shared with the project doc sites.

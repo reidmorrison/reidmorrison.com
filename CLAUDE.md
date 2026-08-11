@@ -11,8 +11,8 @@ Three jobs, in priority order:
 1. **Index the open-source libraries.** 11 Ruby gems, 77M+ combined downloads.
    Each entry links to its documentation site and source.
 2. **Establish credibility.** The About page carries the professional narrative.
-3. **Hold a place for future writing.** The blog is scaffolded but empty. Do not
-   invent posts for it.
+3. **Hold a place for future writing.** The blog is scaffolded but empty, and
+   there is no writing index page. Do not invent posts for it.
 
 ## Repository facts
 
@@ -30,11 +30,10 @@ _config.yml            Site config. kramdown settings mirror the doc sites.
 _data/projects.yml     THE source of truth for the library list. Edit here.
 _layouts/default.html  Shared shell: sticky header, nav, footer.
 _layouts/post.html     Blog post wrapper.
-_posts/                Empty. Blog scaffold only.
+_posts/                Empty. Blog scaffold only, with no index page.
 index.md               Home. Renders _data/projects.yml as cards.
 about.md               Professional bio.
 talks.md               Conference talks.
-writing.md             Blog index. Renders "nothing yet" when _posts is empty.
 404.html               Links back to the doc sites.
 stylesheets/           Copied from semantic_logger/docs. See "Styling".
 javascripts/main.js    Placeholder, copied from the doc sites.
