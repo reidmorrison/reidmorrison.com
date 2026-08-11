@@ -10,9 +10,7 @@ Three jobs, in priority order:
 
 1. **Index the open-source libraries.** 11 Ruby gems, 77M+ combined downloads.
    Each entry links to its documentation site and source.
-2. **Establish credibility.** The About page and the AI Skills page carry the
-   professional narrative. AI Skills is the differentiated content and is the
-   likeliest traffic driver.
+2. **Establish credibility.** The About page carries the professional narrative.
 3. **Hold a place for future writing.** The blog is scaffolded but empty. Do not
    invent posts for it.
 
@@ -35,7 +33,6 @@ _layouts/post.html     Blog post wrapper.
 _posts/                Empty. Blog scaffold only.
 index.md               Home. Renders _data/projects.yml as cards.
 about.md               Professional bio.
-ai-skills.md           AI Skills methodology write-up.
 talks.md               Conference talks.
 writing.md             Blog index. Renders "nothing yet" when _posts is empty.
 404.html               Links back to the doc sites.
@@ -119,9 +116,9 @@ both places.
 
 ## `.needs-input` blocks are scaffolding and must not ship
 
-`ai-skills.md` and `talks.md` contain `<div class="needs-input" markdown="1">`
-blocks holding questions for Reid. They render as **visible orange dashed boxes
-labelled "TO FILL IN"**.
+`talks.md` contains `<div class="needs-input" markdown="1">` blocks holding
+questions for Reid. They render as **visible orange dashed boxes labelled
+"TO FILL IN"**.
 
 Before pointing the custom domain at this repo, or any time before announcing the
 site, check:

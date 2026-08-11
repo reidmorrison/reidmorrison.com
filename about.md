@@ -49,7 +49,7 @@ The full list, with write-ups, is on the [home page](index.html).
 ## AI as a working multiplier
 
 That's the thread in my recent work: AI as a working engineering multiplier, not a slide.
-I created an ["AI Skills" methodology](ai-skills.html), precisely structured business
+I created an "AI Skills" methodology, precisely structured business
 requirements that frontier models turn into production-ready code, that roughly doubled
 per-engineer productivity, with zero major compliance incidents.
 

@@ -25,7 +25,7 @@
       output name against the href.
     {% endcomment %}
     {% assign current_page = page.name | replace: '.md', '.html' %}
-    {% assign nav_items = "index.html=Home,ai-skills.html=AI Skills,talks.html=Talks,writing.html=Writing,about.html=About" | split: ',' %}
+    {% assign nav_items = "index.html=Home,talks.html=Talks,writing.html=Writing,about.html=About" | split: ',' %}
     {% for item in nav_items %}{% assign pair = item | split: '=' %}
     <a href="{{ pair[0] | relative_url }}" class="btn{% if pair[0] == current_page %} active{% endif %}">{{ pair[1] }}</a>{% endfor %}
     <a href="https://github.com/{{ site.github_username }}" class="btn">GitHub</a>

@@ -20,7 +20,7 @@ pull request for regulatory compliance, credit-bureau reporting, and security vi
 
 Alongside that I maintain **11 open-source libraries with over 77 million combined
 downloads**, in daily production use worldwide. Four of them shipped new versions in July
-2026, built using [AI-agentic workflows](ai-skills.html).
+2026, built using AI-agentic workflows.
 
 {% for project in site.data.projects %}
 <div class="project-card{% if project.status == 'stable' %} is-stable{% endif %}">
