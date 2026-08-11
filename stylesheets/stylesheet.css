@@ -348,6 +348,40 @@ html {
   border-color: #dce6f0;
   background-color: #f3f6fa; }
 
+/* Circular headshot on the About page, set beside the intro quote. */
+.about-intro {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem; }
+
+.about-intro blockquote {
+  margin: 0;
+  padding: 0;
+  border-left: none;
+  color: #1f2933;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.5; }
+
+.about-intro p {
+  margin: 0; }
+
+.avatar {
+  flex: none;
+  width: 8rem;
+  height: 8rem;
+  margin: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  border: solid 3px #fff;
+  box-shadow: 0 0 0 3px #3a9bff; }
+
+@media screen and (max-width: 42em) {
+  .about-intro {
+    flex-direction: column;
+    align-items: flex-start; } }
+
 /* Lede paragraph under the h1 of a content page. */
 .lede {
   font-size: 1.15rem;

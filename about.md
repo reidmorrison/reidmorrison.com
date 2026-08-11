@@ -8,15 +8,13 @@ description: >-
 ---
 
 ## About
-{:.no_toc}
 
-**Contents**
-
-* TOC
-{:toc}
+<div class="about-intro" markdown="1">
+![Reid Morrison]({{ '/images/reid-morrison.jpg' | relative_url }}){: class="avatar" }
 
 > Principal Software Engineer. Author of 11 Ruby libraries, 75M+ downloads. Building AI
 > agents and distributed systems that run in production.
+</div>
 
 ## What I do
 

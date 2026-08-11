@@ -16,24 +16,14 @@ description: >-
 
 I speak at ElixirConf and RailsConf.
 
-<div class="needs-input" markdown="1">
-Reid: I could not find talk titles, years, or recording links from your repos or profile
-text, and I am not going to invent them. Below is the structure with one worked example
-showing the intended format. For each talk, fill in title, conference, year, a one or two
-sentence description, and links to the video and slides where they exist.
-
-If you have a talk list somewhere (a speakerdeck account, a YouTube playlist, a CV), point
-me at it and I will populate this page from it.
-</div>
-
 ## ElixirConf
 
 <div class="project-card">
-  <h3>Talk title goes here</h3>
-  <p>ElixirConf, year. One or two sentences on what the talk covered and who it was for.</p>
+  <h3>Supercharging Kafka Processing with Broadway: Achieving Unmatched Parallelism and Efficiency</h3>
+  <p>ElixirConf, 2024. How we harnessed the power of Broadway to supercharge our Kafka message processing, achieving unparalleled parallelism in a high-stakes, mission-critical environment. Discover the challenges we faced, the innovative solutions we implemented, and the transformative benefits we reaped. Learn how Broadway enabled us to scale effortlessly, meeting the ever-growing demands of our dynamic Software as a Service business.</p>
   <p class="project-meta">
-    <a href="#">Video</a>
-    <a href="#">Slides</a>
+    <a href="https://youtu.be/yztdGZALxfE">YouTube</a>
+    <a href="/slides/elixirconf-2024-broadway.pdf">Slides</a>
   </p>
 </div>
 
@@ -50,12 +40,14 @@ me at it and I will populate this page from it.
 
 ## Contributions
 
-A fix I contributed was adopted by the Rails core team.
-
-<div class="needs-input" markdown="1">
-Reid: a link to the merged pull request or commit in rails/rails would make this concrete.
-As written it is an unverifiable claim, which is weaker than the fact deserves.
-</div>
+I diagnosed a Rails 4 ActiveRecord connection pool performance regression under
+concurrent load
+([rails/rails#14891](https://github.com/rails/rails/issues/14891)) and
+proposed a fix
+([rails/rails#14926](https://github.com/rails/rails/pull/14926)). The Rails
+core team reviewed it and merged a smaller-scope version of the fix, split
+into several commits, in
+[rails/rails#14938](https://github.com/rails/rails/pull/14938).
 
 ## Speaking enquiries
 

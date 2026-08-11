@@ -7,7 +7,7 @@ description: >-
   Logger, and Symmetric Encryption.
 ---
 
-## Open Source
+## About Me
 {:.no_toc}
 
 I design, build, and own production systems end to end: distributed platforms, real-time
@@ -17,6 +17,8 @@ availability with sub-second latency, an event-driven rules engine on Elixir, Ph
 Kafka, and most recently AI agents built into a production CI/CD pipeline that review every
 pull request for regulatory compliance, credit-bureau reporting, and security violations.
 [More about me](about.html).
+
+## Open Source
 
 Alongside that I maintain **11 open-source libraries with over 77 million combined
 downloads**, in daily production use worldwide. Four of them shipped new versions in July

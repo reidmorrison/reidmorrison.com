@@ -103,7 +103,8 @@
   downloads: 451K
   status: active
   summary: >-
-    Centralized configuration and secrets management for Ruby and Rails.
+    Ship the same image to every environment and tenant. Configuration and
+    secrets come from one central store.
   detail: >-
     Keeps database credentials, connection pool sizes, hostnames, timeouts, and
     encryption keys in one central place instead of scattered across config
