@@ -9,12 +9,15 @@ description: >-
 ## Talks
 {:.no_toc}
 
+I speak at ElixirConf and RailsConf, mostly about the open-source libraries I
+maintain. The best place to start is *Supercharging Kafka Processing with
+Broadway* from ElixirConf 2024, the most recent talk and the only one with video.
+{:.lede}
+
 **Contents**
 
 * TOC
 {:toc}
-
-I speak at ElixirConf and RailsConf.
 
 ## ElixirConf
 
@@ -30,6 +33,14 @@ I speak at ElixirConf and RailsConf.
 ## RailsConf
 
 <div class="project-card">
+  <h3>Background Jobs with Types</h3>
+  <p>RailsConf, 2017. Lightning talk aimed at the Rails core team, making the case for typed arguments and attributes in background jobs.</p>
+  <p class="project-meta">
+    <a href="/slides/railsconf-2017-background-job-types.pdf">Slides</a>
+  </p>
+</div>
+
+<div class="project-card">
   <h3>RocketJob: Ruby's Missing Batch System</h3>
   <p>RailsConf, 2016. Lightning talk for Rails developers on RocketJob, the open-source distributed job and batch processing system Reid created and maintains. Covered running background jobs in business-priority order and slicing huge files into pieces that thousands of workers process in parallel, all coordinated through MongoDB with no separate message broker.</p>
   <p class="project-meta">
@@ -42,14 +53,6 @@ I speak at ElixirConf and RailsConf.
   <p>RailsConf, 2015. Lightning talk for Rails developers on why concurrency is hard to get right in Ruby, and Parallel Minion, the open-source gem Reid created and maintains to make it more approachable. Covered running I/O-bound work such as database queries, HTTP calls, and external service requests on separate threads so independent steps overlap, with exceptions re-raised on the calling thread and timeouts to bound the wait.</p>
   <p class="project-meta">
     <a href="/slides/railsconf-2015-pragmatic-concurrency.pdf">Slides</a>
-  </p>
-</div>
-
-<div class="project-card">
-  <h3>Build Powerful Solutions with Ruby Inheritance and NoSQL Databases</h3>
-  <p>RailsConf, 2015. Proposed talk, not accepted, on how RocketJob uses Ruby inheritance and Mongoid's single collection inheritance to store background jobs of different types in one NoSQL collection, with typed, validated fields and a clean separation of data from behavior. Would have closed with a call for contributors to RocketJob.</p>
-  <p class="project-meta">
-    <a href="/slides/railsconf-proposal-2015-ruby-inheritance-nosql.pdf">Slides</a>
   </p>
 </div>
 
@@ -69,19 +72,11 @@ I speak at ElixirConf and RailsConf.
   </p>
 </div>
 
-<div class="project-card">
-  <h3>Background Jobs with Types</h3>
-  <p>RailsConf, 2017. Lightning talk aimed at the Rails core team, making the case for typed arguments and attributes in background jobs.</p>
-  <p class="project-meta">
-    <a href="/slides/railsconf-2017-background-job-types.pdf">Slides</a>
-  </p>
-</div>
-
 ## Red Hat Road Show
 
 <div class="project-card">
   <h3>Open Source Technology Adoption</h3>
-  <p>Red Hat Road Show, 2008. A large audience of Tampa Bay business and technology leaders evaluating open source for their own companies. As Software Architect at WellCare my role was to introduce open source technologies into the company, and this talk walked through several of the projects we delivered successfully with them. It is where my evangelism of open source to business leaders started.</p>
+  <p>Red Hat Road Show, 2008. A large audience of Tampa Bay business and technology leaders evaluating open source for their own companies. As Software Architect at WellCare my role was to introduce open source technologies into the company, and this talk walked through several of the projects we delivered successfully with them. A significant part of it covered how we used RHEL containerization to deploy our production infrastructure, five years before Docker existed. It is where my evangelism of open source to business leaders started.</p>
   <p class="project-meta">
     <a href="/slides/redhat-roadshow-2008-open-source.pdf">Slides</a>
   </p>
@@ -129,6 +124,17 @@ I speak at ElixirConf and RailsConf.
   </p>
 </div>
 
+## Contributions
+
+I diagnosed a Rails 4 ActiveRecord connection pool performance regression under
+concurrent load
+([rails/rails#14891](https://github.com/rails/rails/issues/14891)) and
+proposed a fix
+([rails/rails#14926](https://github.com/rails/rails/pull/14926)). The Rails
+core team reviewed it and merged a smaller-scope version of the fix, split
+into several commits, in
+[rails/rails#14938](https://github.com/rails/rails/pull/14938).
+
 ## Training
 
 <div class="project-card">
@@ -154,17 +160,6 @@ I speak at ElixirConf and RailsConf.
     <a href="/slides/training-2020-slack-overview.pdf">Slides</a>
   </p>
 </div>
-
-## Contributions
-
-I diagnosed a Rails 4 ActiveRecord connection pool performance regression under
-concurrent load
-([rails/rails#14891](https://github.com/rails/rails/issues/14891)) and
-proposed a fix
-([rails/rails#14926](https://github.com/rails/rails/pull/14926)). The Rails
-core team reviewed it and merged a smaller-scope version of the fix, split
-into several commits, in
-[rails/rails#14938](https://github.com/rails/rails/pull/14938).
 
 ## Speaking enquiries
 

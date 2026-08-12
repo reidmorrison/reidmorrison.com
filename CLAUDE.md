@@ -72,10 +72,6 @@ divergences.
 `_data/projects.yml` drives both `index.md` and `404.html`. Never hardcode a
 project into a page.
 
-The 11 libraries were chosen as the top 11 by download count, which is what
-supports the "11 libraries, 75M+ downloads" claim used on LinkedIn. The exact
-total as of 2026-08-06 is **77,188,673**.
-
 `jruby-jms` and `sync_attr` are in the list because they are needed to reach 11
 and are genuinely widely downloaded, but both are archived or long-finished.
 They carry `status: stable`, which renders a muted card and describes them as

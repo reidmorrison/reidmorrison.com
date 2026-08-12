@@ -12,7 +12,7 @@ description: >-
 <div class="about-intro" markdown="1">
 ![Reid Morrison]({{ '/images/reid-morrison.jpg' | relative_url }}){: class="avatar" }
 
-> Principal Software Engineer. Author of 11 Ruby libraries, 75M+ downloads. Building AI
+> Principal Software Engineer. Author of 11 Ruby libraries, 77M+ downloads. Building AI
 > agents and distributed systems that run in production.
 </div>
 
@@ -36,7 +36,7 @@ Over 20+ years, that has looked like:
 
 ## Open source
 
-I'm the author of 11 open-source libraries with over 75 million combined downloads,
+I'm the author of 11 open-source libraries with over 77 million combined downloads,
 including [Semantic Logger](https://logger.reidmorrison.com) (35M) and
 [Symmetric Encryption](https://encryption.reidmorrison.com) (6M), in daily production use
 worldwide. Still actively shipping: I released new versions of four of them in July 2026
