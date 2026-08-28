@@ -292,6 +292,123 @@ tbody tr:last-child td{border-bottom:0}
   content:"TO FILL IN: ";font-weight:700;color:var(--warn);
 }
 
+/* ------------------------------------------------------------ masthead --- */
+
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px;
+}
+
+.standfirst{
+  margin:14px 0 0;max-width:62ch;
+  color:var(--ink-2);font-size:18px;line-height:1.5;
+}
+
+/* --------------------------------------------------------- call to action --- */
+
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 8px}
+
+.btn{
+  display:inline-block;padding:11px 20px;border-radius:3px;
+  font-weight:600;font-size:15px;text-decoration:none;
+  border:1px solid var(--accent);
+}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.1);text-decoration:none}
+.btn-secondary{background:transparent;color:var(--accent)}
+.btn-secondary:hover{background:var(--accent-soft);text-decoration:none}
+
+.nav a.nav-cta{
+  color:var(--accent);font-weight:600;text-decoration:none;
+  border:1px solid var(--accent);border-radius:3px;padding:3px 11px;
+}
+.nav a.nav-cta:hover{background:var(--accent-soft);text-decoration:none}
+
+/* ------------------------------------------------------------- options --- */
+
+/* Three ways to respond to the finding. A grid because they are alternatives
+   to weigh side by side, not a sequence. */
+.options{display:grid;gap:16px;margin:0 0 18px}
+@media (min-width:52em){.options{grid-template-columns:repeat(3,1fr)}}
+
+.option{
+  background:var(--surface);border:1px solid var(--rule);
+  border-top:3px solid var(--rule-2);border-radius:4px;
+  padding:18px 20px;box-shadow:var(--shadow);
+}
+.option--crit{border-top-color:var(--crit)}
+.option--warn{border-top-color:var(--warn)}
+.option--ok{border-top-color:var(--ok)}
+.option h3{margin:0 0 8px;font-size:16px}
+.option p{font-size:14.5px;color:var(--ink-2);margin:0 0 10px;max-width:none}
+.option p:last-child{margin-bottom:0}
+.option .verdict{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+}
+.option--crit .verdict{color:var(--crit)}
+.option--warn .verdict{color:var(--warn)}
+.option--ok .verdict{color:var(--ok)}
+
+/* --------------------------------------------------------------- price --- */
+
+.price{
+  display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;
+  background:var(--surface);border:1px solid var(--rule);
+  border-left:4px solid var(--accent);border-radius:4px;
+  box-shadow:var(--shadow);padding:20px 24px;margin:0 0 18px;
+}
+.price-figure{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:30px;font-weight:600;color:var(--accent);
+  font-variant-numeric:tabular-nums;line-height:1.1;
+}
+.price-terms{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+}
+.price p{margin:0;font-size:14.5px;color:var(--ink-2)}
+
+/* ---------------------------------------------------------------- form --- */
+
+.form{
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  box-shadow:var(--shadow);padding:22px 24px;margin:0 0 20px;
+}
+.form-row{display:grid;gap:14px}
+@media (min-width:40em){.form-row{grid-template-columns:1fr 1fr}}
+
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.field .hint{font-size:12.5px;color:var(--ink-3);margin:0;line-height:1.4}
+
+.field input[type=text],
+.field input[type=email],
+.field select,
+.field textarea{
+  width:100%;padding:10px 11px;border:1px solid var(--rule-2);border-radius:3px;
+  background:var(--surface);color:var(--ink);font:inherit;font-size:15px;
+}
+.field select,.field input[type=text]{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:14px}
+.field textarea{min-height:88px;resize:vertical;font-family:inherit;font-size:15px}
+
+.form button{
+  width:100%;padding:12px;border:0;border-radius:3px;
+  background:var(--accent);color:var(--accent-ink);
+  font:inherit;font-weight:600;font-size:15px;cursor:pointer;
+}
+.form button:hover{filter:brightness(1.1)}
+.form button:disabled{opacity:.6;cursor:default}
+
+.note{margin:12px 0 0;font-size:13.5px;color:var(--ink-3)}
+.note--err{color:var(--crit)}
+
+.done{
+  background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok);
+  border-radius:3px;padding:16px 18px;font-size:14.5px;font-weight:500;
+}
+.hidden{display:none}
+
 /* -------------------------------------------------------------- footer --- */
 
 .site-footer{

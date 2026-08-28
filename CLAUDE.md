@@ -30,15 +30,24 @@ engineer is the internal advocate who forwards the finding, not the signer.
 ### Rebuild in progress
 
 The full plan, its reasoning and the sequencing are recorded outside this repo.
-Shipped: `/eol/` with its data file, sitemap, nav entry, and the site-wide
-retheme into the calculator's design system.
+Shipped: `/eol/` with its data file, sitemap, the site-wide retheme, and the
+page set: a home page that sells the finding, `/assessment`, `/contact`,
+`/open-source`.
 
-Still to do: a new home page selling the assessment, `/assessment`, `/contact`
-with a booking link, move the gem list to `/open-source`, and a security posture
-page. **Until that lands the home page still carries the old personal-site
-copy**, restyled but not rewritten. `/eol/` keeps its own self-contained shell;
-it now matches the rest of the site visually, so folding it into the shared
-layout is optional cleanup rather than a fix.
+Still to do:
+
+- **A security posture page.** How client code is handled, where it lives, what
+  is retained, laptop encryption, credential handling. The plan calls having
+  this unprompted a differentiator, and the question always comes.
+- **Set `booking_url`.** Every page pushes toward a video call, but no booking
+  link exists yet, so the contact form is currently the only route. Nothing
+  renders a booking button until this is set.
+- **A social share image.** Link unfurls for `/eol/` are text-only.
+- **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
+  only reproduced.
+
+`/eol/` keeps its own self-contained shell. It now matches the rest of the site
+visually, so folding it into the shared layout is optional cleanup, not a fix.
 
 ## Commercial rules that constrain content
 
@@ -54,6 +63,12 @@ one costs real money.
 - **Do not name competitors** or run price comparisons on the site. A referral
   relationship with the Rails upgrade agencies is still an open question, and a
   public comparison closes it.
+
+  **One deliberate exception:** `/eol/` credits the FastRuby compatibility table
+  in its sources footer, because that is genuinely where the Ruby version
+  ceilings come from. Citing a source you rely on is not positioning against
+  someone, and stripping the credit while keeping their data would be worse. Do
+  not "fix" this in either direction without a reason.
 - **Verified citations only.** PCI DSS **4.0.1**, never 4.0 (retired
   2024-12-31). HIPAA **164.308(a)(1)(ii)(A)-(B)**, never 164.312. SOC 2
   **CC7.1 with CC6.8**, never CC6.1. These specific errors regenerate; check
@@ -98,9 +113,16 @@ _layouts/default.html  Shared shell: sticky top bar, page title, footer.
                        their own title as a leading heading.
 _layouts/post.html     Blog post wrapper. Date line, then content.
 _posts/                Empty. Blog scaffold only, with no index page.
-index.md               Home. Renders _data/projects.yml as cards.
-about.md               Professional bio.
-talks.md               Conference talks.
+index.md               Home. Sells the finding. The library list moved OUT of
+                       here to open-source.md in the step 5 rewrite.
+assessment.md          The $12,500 product page. Renders the control table
+                       from _data/eol.yml, so citations have one home.
+contact.md             Qualifying form plus optional booking link. The Rails
+                       version dropdown is generated from _data/eol.yml.
+open-source.md         The library list, generated from _data/projects.yml.
+about.md               Professional bio. See the prose constraint below.
+talks.md               Conference talks. Not in the nav; linked from About and
+                       from open-source.md.
 404.html               Links back to the doc sites.
 stylesheets/site.css   THE stylesheet. The only one. See "Styling".
 images/                favicon.ico, apple-touch-icon.png, reid-morrison.jpg.
@@ -149,6 +171,23 @@ this site does not.
 - The separator pseudo-elements (`.project-meta a + a::before`) need
   `display:inline-block`, otherwise the parent link's underline propagates into
   the middot and it renders as an underscore.
+
+### Front matter the layout understands
+
+- `title` sets the browser tab and search result, and is the `h1` fallback.
+- `heading` overrides the `h1`. Use it when the selling headline is a full
+  sentence and the tab should stay short.
+- `eyebrow` renders a small mono label above the `h1`.
+- `standfirst` renders the lead paragraph under it.
+
+### The About page prose is constrained
+
+`about.md` body text is adapted closely from Reid's LinkedIn About section on
+purpose, so the voice matches across both. **Do not rewrite it into different
+phrasing without asking.** Step 5 therefore changed only its front matter
+framing and one link that had gone stale when the library list moved off the
+home page. A fuller rewrite aimed at a compliance buyer is still an open
+question for Reid.
 
 ### The layout renders the page title
 

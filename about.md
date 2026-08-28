@@ -1,6 +1,10 @@
 ---
 layout: default
 title: About
+heading: The person who does the work
+standfirst: >-
+  Twenty years on systems where being wrong was expensive. I do not hand this to
+  a junior.
 description: >-
   Reid Morrison, Principal Software Engineer. Distributed systems, real-time data
   platforms, AI agents in production, and 11 open-source libraries with 77M+
@@ -40,7 +44,7 @@ including [Semantic Logger](https://logger.reidmorrison.com) (35M) and
 worldwide. Still actively shipping: I released new versions of four of them in July 2026
 using AI-agentic workflows, delivering in days what previously took weeks.
 
-The full list, with write-ups, is on the [home page](index.html).
+The full list, with write-ups, is on the [open source page](open-source.html).
 
 ## AI as a working multiplier
 

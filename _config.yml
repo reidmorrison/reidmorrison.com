@@ -32,6 +32,12 @@ plugins:
 # While this is empty the form is NOT rendered and /eol/ points people at
 # LinkedIn instead. That is deliberate: a form that discards submissions is
 # worse than no form. Paste the key here and the form appears.
+# Video call booking link, shown on /contact.html and the home page when set.
+# Empty means no booking button is rendered anywhere, and the contact form is
+# the only route. Cal.com's free plan allows several event types; Calendly's
+# free plan allows one.
+booking_url: ""
+
 web3forms_key: "018411c9-90f9-4b0f-aa92-b3c080d2c362"
 
 feed:
