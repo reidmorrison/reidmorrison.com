@@ -7,9 +7,6 @@ description: >-
   Logger, and Symmetric Encryption.
 ---
 
-## About Me
-{:.no_toc}
-
 I design, build, and own production systems end to end: distributed platforms, real-time
 data systems, and AI agents doing real work in production. Over the past twenty years that
 has included a real-time credit bureau processing over 100,000 inquiries per day at 99.99%

@@ -1,0 +1,328 @@
+/* ===========================================================================
+   reidmorrison.com
+
+   ONE stylesheet for the whole site. The design system is the one built for
+   the EOL exposure check at /eol/: Spectral for display, IBM Plex Sans for
+   body, IBM Plex Mono for labels and data, a muted navy accent, and semantic
+   critical / warning / ok colours kept separate from that accent.
+
+   This replaced the stylesheet copied from semantic_logger/docs. The doc sites
+   keep their own look; they serve engineers reading API documentation, and
+   this site now serves someone deciding whether to trust a vendor with
+   production access. See CLAUDE.md.
+
+   Theme rules, in order, so all three viewer states resolve:
+     :root                                    complete light palette
+     @media (prefers-color-scheme:dark)       dark, unless light was chosen
+     :root[data-theme="dark"]                 explicit dark wins either way
+   Never declare a colour only inside a media block.
+   =========================================================================== */
+
+:root{
+  --ground:#F2F4F7; --surface:#FFFFFF; --surface-2:#E9EDF2;
+  --ink:#131A22; --ink-2:#3D4854; --ink-3:#6B7684;
+  --rule:#D3DAE3; --rule-2:#BFC8D4;
+  --accent:#1B4B7A; --accent-ink:#FFFFFF; --accent-soft:#DCE7F2;
+  --crit:#9E2A20; --crit-soft:#F7E2E0;
+  --warn:#8A5300; --warn-soft:#FAECD8;
+  --ok:#1A5C43;  --ok-soft:#DCEDE5;
+  --shadow:0 1px 2px rgba(19,26,34,.06),0 8px 24px -12px rgba(19,26,34,.18);
+  --bar:rgba(242,244,247,.88);
+}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
+    --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
+    --rule:#28323E; --rule-2:#3A4654;
+    --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
+    --crit:#F0918A; --crit-soft:#33191A;
+    --warn:#E5B369; --warn-soft:#2E2415;
+    --ok:#7BC7A5;  --ok-soft:#12291F;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+    --bar:rgba(14,19,25,.88);
+  }
+}
+
+:root[data-theme="dark"]{
+  --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
+  --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
+  --rule:#28323E; --rule-2:#3A4654;
+  --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
+  --crit:#F0918A; --crit-soft:#33191A;
+  --warn:#E5B369; --warn-soft:#2E2415;
+  --ok:#7BC7A5;  --ok-soft:#12291F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  --bar:rgba(14,19,25,.88);
+}
+
+/* --------------------------------------------------------------- reset --- */
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{
+  -webkit-text-size-adjust:100%;
+  /* Keeps in-page anchor targets clear of the sticky bar. Replaces the
+     JavaScript that measured the old banner's height at every breakpoint. */
+  scroll-padding-top:5rem;
+}
+
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{max-width:100%;height:auto}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+
+/* ------------------------------------------------------------- top bar --- */
+
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--bar);
+  -webkit-backdrop-filter:saturate(1.6) blur(8px);
+  backdrop-filter:saturate(1.6) blur(8px);
+  border-bottom:1px solid var(--rule);
+}
+
+.topbar-inner{
+  max-width:1120px;margin:0 auto;padding:12px 20px;
+  display:flex;flex-wrap:wrap;gap:6px 24px;
+  align-items:baseline;justify-content:space-between;
+}
+
+.brand{
+  font-family:Spectral,Georgia,serif;font-weight:700;font-size:18px;
+  letter-spacing:-.01em;color:var(--ink);text-decoration:none;
+}
+.brand:hover{color:var(--accent)}
+
+.nav{display:flex;flex-wrap:wrap;gap:20px;font-size:14px}
+.nav a{color:var(--ink-3);text-decoration:none}
+.nav a:hover{color:var(--accent);text-decoration:underline}
+.nav a.active{color:var(--ink);font-weight:600}
+
+@media (max-width:36em){
+  .topbar-inner{padding:10px 18px}
+  .nav{gap:14px;font-size:13.5px}
+}
+
+/* -------------------------------------------------------------- layout --- */
+
+.page{max-width:820px;margin:0 auto;padding:0 20px 72px}
+
+.masthead{border-bottom:2px solid var(--ink);margin:34px 0 30px;padding-bottom:14px}
+
+.content > :first-child{margin-top:0}
+
+/* ---------------------------------------------------------- typography --- */
+
+h1{
+  font-family:Spectral,Georgia,serif;font-weight:700;
+  font-size:clamp(30px,4.6vw,44px);line-height:1.08;
+  margin:0;letter-spacing:-.015em;text-wrap:balance;
+}
+
+h2{
+  font-family:Spectral,Georgia,serif;font-weight:700;font-size:26px;
+  line-height:1.2;margin:38px 0 14px;letter-spacing:-.01em;text-wrap:balance;
+}
+
+h3{
+  font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:17px;
+  margin:28px 0 8px;letter-spacing:.005em;text-wrap:balance;
+}
+
+h4{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:600;
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);margin:24px 0 8px;
+}
+
+p,ul,ol{margin:0 0 15px}
+p,li{max-width:68ch}
+ul,ol{padding-left:22px}
+li{margin-bottom:7px}
+strong{font-weight:600;color:var(--ink)}
+
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+
+hr{border:0;border-top:1px solid var(--rule);margin:34px 0}
+
+blockquote{
+  margin:0 0 15px;padding:2px 0 2px 18px;
+  border-left:3px solid var(--accent);color:var(--ink-2);
+}
+
+/* Lede paragraph under a page title. */
+.lede{font-size:18px;line-height:1.55;color:var(--ink-2);max-width:64ch}
+
+/* ---------------------------------------------------------------- code --- */
+
+code{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.88em;
+  background:var(--surface-2);color:var(--ink-2);
+  padding:1px 5px;border-radius:3px;
+}
+
+pre{
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  padding:14px 16px;margin:0 0 15px;overflow-x:auto;font-size:13.5px;line-height:1.5;
+}
+pre code{background:none;padding:0;font-size:inherit;color:var(--ink)}
+
+/* Rouge highlighting, kept to the token palette so it works in both themes. */
+.highlight .c,.highlight .c1,.highlight .cm{color:var(--ink-3);font-style:italic}
+.highlight .k,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{color:var(--accent);font-weight:600}
+.highlight .s,.highlight .s1,.highlight .s2,.highlight .sb{color:var(--ok)}
+.highlight .n,.highlight .nn,.highlight .nx{color:var(--ink)}
+.highlight .nc,.highlight .nf{color:var(--crit)}
+.highlight .m,.highlight .mi,.highlight .mf{color:var(--warn)}
+
+/* -------------------------------------------------------------- tables --- */
+
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 18px}
+
+table{
+  border-collapse:collapse;width:100%;font-size:14.5px;
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+}
+th,td{
+  text-align:left;padding:10px 14px;
+  border-bottom:1px solid var(--rule);vertical-align:top;
+}
+th{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;border-bottom:1px solid var(--rule-2);
+}
+tbody tr:last-child td{border-bottom:0}
+
+/* --------------------------------------------------------------- cards --- */
+
+/* Open-source libraries and talks. Same record shape as the findings on /eol/,
+   so a visitor who arrives from the tool recognises the page as the same site. */
+.project-card{
+  background:var(--surface);
+  border:1px solid var(--rule);border-left:3px solid var(--accent);
+  border-radius:4px;box-shadow:var(--shadow);
+  padding:18px 22px;margin-bottom:16px;
+}
+
+.project-card.is-stable{
+  border-left-color:var(--rule-2);
+  background:var(--surface-2);
+}
+
+.project-card h3{
+  font-family:Spectral,Georgia,serif;font-weight:600;font-size:20px;
+  letter-spacing:-.005em;margin:0 0 6px;
+}
+.project-card h3 a{text-decoration:none}
+.project-card h3 a:hover{text-decoration:underline}
+.project-card p{margin-bottom:10px;color:var(--ink-2);font-size:15px}
+.project-card p:last-child{margin-bottom:0}
+
+.project-meta{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:12px;color:var(--ink-3);
+}
+.project-meta a{color:var(--accent)}
+..project-meta a + a::before{
+  /* inline-block stops the parent link's underline propagating into the
+     separator, which otherwise renders as an underscore. */
+  content:"\00b7";display:inline-block;margin:0 .55rem;color:var(--ink-3);
+}
+
+.project-downloads{
+  display:inline-block;vertical-align:middle;margin-left:.5rem;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  font-variant-numeric:tabular-nums;
+  padding:4px 9px;border-radius:2px;
+  color:var(--warn);background:var(--warn-soft);
+}
+.project-card.is-stable .project-downloads{
+  color:var(--ink-3);background:var(--surface);border:1px solid var(--rule);
+}
+
+/* ---------------------------------------------------------- about page --- */
+
+.about-intro{display:flex;align-items:center;gap:1.75rem;margin-bottom:1.75rem}
+.about-intro p{margin:0}
+
+.about-intro blockquote{
+  margin:0;padding:0;border-left:0;
+  font-family:Spectral,Georgia,serif;font-weight:600;font-size:21px;
+  line-height:1.45;color:var(--ink);max-width:34ch;
+}
+
+.avatar{
+  flex:none;width:8rem;height:8rem;margin:0;border-radius:50%;
+  object-fit:cover;border:3px solid var(--surface);
+  box-shadow:0 0 0 2px var(--accent);
+}
+
+@media (max-width:36em){
+  .about-intro{flex-direction:column;align-items:flex-start;gap:1.25rem}
+  .about-intro blockquote{max-width:none}
+}
+
+/* -------------------------------------------------------- scaffolding --- */
+
+/* Marks a section still needing Reid's input. Deliberately loud so it cannot
+   ship by accident. Delete the whole div once filled in, not just the class. */
+.needs-input{
+  padding:.85rem 1.1rem;margin:1rem 0;
+  border:2px dashed var(--warn);border-radius:4px;
+  background:var(--warn-soft);color:var(--ink-2);font-size:14.5px;
+}
+.needs-input::before{
+  content:"TO FILL IN: ";font-weight:700;color:var(--warn);
+}
+
+/* -------------------------------------------------------------- footer --- */
+
+.site-footer{
+  margin-top:52px;padding-top:20px;border-top:1px solid var(--rule);
+  display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;
+  font-size:13.5px;color:var(--ink-3);
+}
+.site-footer a{color:var(--ink-3)}
+.site-footer a:hover{color:var(--accent)}
+.site-footer-links a + a::before{
+  content:"\00b7";display:inline-block;margin:0 .55rem;color:var(--ink-3);
+}
+
+/* --------------------------------------------------------------- print --- */
+
+@media print{
+  /* Force the light palette: a dark-theme visitor would otherwise print a
+     black page. Same rule as /eol/. */
+  :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
+    --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F7;
+    --ink:#131A22; --ink-2:#3D4854; --ink-3:#55606D;
+    --rule:#C9D1DB; --rule-2:#AEB9C6;
+    --accent:#1B4B7A; --accent-soft:#DCE7F2;
+    --warn:#7A4900; --warn-soft:#FAECD8;
+    --shadow:none;
+  }
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{margin:16mm}
+  body{background:#fff;font-size:11pt}
+  .topbar{display:none}
+  .page{max-width:none;padding:0}
+  .project-card{break-inside:avoid;page-break-inside:avoid;box-shadow:none}
+  a{color:var(--ink);text-decoration:none}
+}

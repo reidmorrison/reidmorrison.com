@@ -1,0 +1,506 @@
+---
+title: Rails EOL Exposure Check
+permalink: /eol/
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rails EOL Exposure Check</title>
+<meta name="description" content="Enter your Rails and Ruby versions. See the days each has gone without vendor security patches, the compliance controls implicated, and the upgrade path the version compatibility rules force you to take.">
+<link rel="canonical" href="{{ '/eol/' | absolute_url }}">
+<link rel="icon" href="{{ '/images/favicon.ico' | relative_url }}">
+<link rel="apple-touch-icon" href="{{ '/images/apple-touch-icon.png' | relative_url }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Reid Morrison Consulting">
+<meta property="og:title" content="Is your Rails application a compliance finding?">
+<meta property="og:description" content="Enter your Rails and Ruby versions. See the days without vendor security patches, the controls implicated, and the upgrade path required.">
+<meta property="og:url" content="{{ '/eol/' | absolute_url }}">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:wght@600;700&display=swap">
+<style>
+:root{
+  --ground:#F2F4F7; --surface:#FFFFFF; --surface-2:#E9EDF2;
+  --ink:#131A22; --ink-2:#3D4854; --ink-3:#6B7684;
+  --rule:#D3DAE3; --rule-2:#BFC8D4;
+  --accent:#1B4B7A; --accent-ink:#FFFFFF; --accent-soft:#DCE7F2;
+  --crit:#9E2A20; --crit-soft:#F7E2E0;
+  --warn:#8A5300; --warn-soft:#FAECD8;
+  --ok:#1A5C43;  --ok-soft:#DCEDE5;
+  --shadow:0 1px 2px rgba(19,26,34,.06),0 8px 24px -12px rgba(19,26,34,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
+    --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
+    --rule:#28323E; --rule-2:#3A4654;
+    --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
+    --crit:#F0918A; --crit-soft:#33191A;
+    --warn:#E5B369; --warn-soft:#2E2415;
+    --ok:#7BC7A5;  --ok-soft:#12291F;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
+  --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
+  --rule:#28323E; --rule-2:#3A4654;
+  --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
+  --crit:#F0918A; --crit-soft:#33191A;
+  --warn:#E5B369; --warn-soft:#2E2415;
+  --ok:#7BC7A5;  --ok-soft:#12291F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 72px}
+
+/* ---- masthead ---- */
+.masthead{border-bottom:2px solid var(--ink);margin-bottom:28px;padding:26px 0 14px}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px
+}
+h1{
+  font-family:Spectral,Georgia,serif;font-weight:700;font-size:clamp(28px,4.4vw,44px);
+  line-height:1.1;margin:0 0 10px;text-wrap:balance;letter-spacing:-.01em
+}
+.standfirst{margin:0;max-width:62ch;color:var(--ink-2);font-size:17px}
+
+/* ---- layout ---- */
+.cols{display:grid;grid-template-columns:320px minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+
+.panel{
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  box-shadow:var(--shadow);padding:20px
+}
+.panel--sticky{position:sticky;top:20px}
+@media (max-width:860px){.panel--sticky{position:static}}
+
+.panel-title{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--rule)
+}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.hint{font-size:12px;color:var(--ink-3);line-height:1.4}
+select,input[type=email],input[type=text]{
+  width:100%;padding:10px 11px;border:1px solid var(--rule-2);border-radius:3px;
+  background:var(--surface);color:var(--ink);font:inherit;font-size:15px
+}
+select{font-family:"IBM Plex Mono",ui-monospace,monospace}
+select:focus-visible,input:focus-visible,button:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px
+}
+button{
+  width:100%;padding:12px;border:0;border-radius:3px;background:var(--accent);
+  color:var(--accent-ink);font:inherit;font-weight:600;font-size:15px;cursor:pointer
+}
+button:hover{filter:brightness(1.08)}
+
+/* ---- findings ---- */
+.stack{display:flex;flex-direction:column;gap:16px}
+.record{
+  background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--rule-2);
+  border-radius:4px;box-shadow:var(--shadow);padding:18px 20px
+}
+.record--crit{border-left-color:var(--crit)}
+.record--warn{border-left-color:var(--warn)}
+.record--ok{border-left-color:var(--ok)}
+
+.rec-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.rec-title{font-family:Spectral,Georgia,serif;font-weight:600;font-size:21px;margin:0;letter-spacing:-.005em}
+.pill{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:2px;white-space:nowrap
+}
+.pill--crit{background:var(--crit-soft);color:var(--crit)}
+.pill--warn{background:var(--warn-soft);color:var(--warn)}
+.pill--ok{background:var(--ok-soft);color:var(--ok)}
+
+.dl{display:grid;grid-template-columns:auto 1fr;gap:7px 18px;margin:0;font-size:14px}
+.dl dt{color:var(--ink-3);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;align-self:center}
+.dl dd{margin:0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.big{font-size:26px;font-weight:600;line-height:1.15}
+.big--crit{color:var(--crit)} .big--ok{color:var(--ok)}
+
+/* ---- trap ladder ---- */
+.trap{background:var(--surface);border:1px solid var(--crit);border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
+.trap-head{background:var(--crit-soft);padding:16px 20px;border-bottom:1px solid var(--crit)}
+.trap-head .rec-title{color:var(--crit)}
+.trap-body{padding:18px 20px}
+.trap p{margin:0 0 14px;max-width:64ch}
+.ladder{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column}
+.rung{display:grid;grid-template-columns:26px 1fr;gap:14px;align-items:start;padding-bottom:14px;position:relative}
+.rung:not(:last-child)::before{
+  content:"";position:absolute;left:12px;top:24px;bottom:0;width:2px;background:var(--rule-2)
+}
+.rung-n{
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:600;
+  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule-2);position:relative;z-index:1
+}
+.rung--rails .rung-n{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.rung--ruby  .rung-n{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
+.rung-body strong{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;display:block}
+.rung-why{font-size:13px;color:var(--ink-3);margin-top:2px}
+
+/* ---- controls table ---- */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;border-bottom:1px solid var(--rule-2)}
+td.ctl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;white-space:nowrap;color:var(--accent)}
+tbody tr:last-child td{border-bottom:0}
+
+/* ---- capture ---- */
+.capture{background:var(--surface-2);border:1px solid var(--rule);border-radius:4px;padding:20px}
+.capture h3{font-family:Spectral,Georgia,serif;font-size:20px;margin:0 0 6px}
+.capture p{margin:0 0 16px;font-size:14px;color:var(--ink-2);max-width:58ch}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.row2{grid-template-columns:1fr}}
+.done{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok);border-radius:3px;padding:14px;font-size:14px;font-weight:500}
+
+.placeholder{color:var(--ink-3);font-size:15px;padding:36px 20px;text-align:center;border:1px dashed var(--rule-2);border-radius:4px}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3);max-width:76ch}
+footer a{color:var(--accent)}
+.hidden{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .record,.trap{animation:rise .32s ease-out both}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+
+/* ---- site bar ---- */
+.sitebar{
+  display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;
+  justify-content:space-between;padding:16px 0 0
+}
+.sitebar a{text-decoration:none}
+.sitebar-brand{
+  font-family:Spectral,Georgia,serif;font-weight:700;font-size:17px;
+  letter-spacing:-.01em;color:var(--ink)
+}
+.sitebar-links{display:flex;gap:18px;font-size:13.5px}
+.sitebar-links a{color:var(--ink-3)}
+.sitebar a:hover{color:var(--accent);text-decoration:underline}
+
+/* ---- capture actions ---- */
+.capture + .capture{margin-top:-2px}
+.capture .hint{margin:0 0 14px}
+.note{margin:12px 0 0;font-size:13.5px;color:var(--ink-3)}
+.note--err{color:var(--crit)}
+.btn-quiet{background:transparent;color:var(--accent);border:1px solid var(--rule-2)}
+.btn-quiet:hover{filter:none;background:var(--accent-soft)}
+
+/* ---- print: the finding becomes the one-page document ---- */
+.printhead{display:none}
+
+@media print{
+  /* Force the light palette. A dark-theme viewer would otherwise print a
+     black page, and this document is meant to go to an auditor. */
+  :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
+    --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F7;
+    --ink:#131A22; --ink-2:#3D4854; --ink-3:#55606D;
+    --rule:#C9D1DB; --rule-2:#AEB9C6;
+    --accent:#1B4B7A; --accent-soft:#DCE7F2;
+    --crit:#9E2A20; --crit-soft:#F7E2E0;
+    --warn:#7A4900; --warn-soft:#FAECD8;
+    --ok:#1A5C43;  --ok-soft:#DCEDE5;
+    --shadow:none;
+  }
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{margin:16mm}
+  body{background:#fff;font-size:11pt;line-height:1.45}
+  .wrap{max-width:none;padding:0}
+  .sitebar,.masthead,.panel,.capture,.placeholder{display:none !important}
+  .printhead{
+    display:block;border-bottom:2px solid var(--ink);
+    padding-bottom:10px;margin-bottom:18px
+  }
+  .ph-brand{
+    font-family:Spectral,Georgia,serif;font-weight:700;font-size:16pt;
+    margin:0;letter-spacing:-.01em
+  }
+  .ph-sub{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8pt;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:5px 0 0
+  }
+  .cols{display:block}
+  .stack{gap:12px}
+  .record,.trap{border:1px solid var(--rule);box-shadow:none;animation:none;break-inside:avoid;page-break-inside:avoid}
+  .rec-title{font-size:15pt}
+  .big{font-size:19pt}
+  .scroll{overflow:visible}
+  table{min-width:0;font-size:9.5pt}
+  th,td{padding:6px 8px}
+  a{color:var(--ink);text-decoration:none}
+  footer{margin-top:18px;font-size:8pt}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="sitebar">
+  <a class="sitebar-brand" href="{{ '/' | relative_url }}">Reid Morrison Consulting</a>
+  <span class="sitebar-links">
+    <a href="{{ '/about.html' | relative_url }}">About Reid</a>
+    <a href="{{ '/index.html' | relative_url }}">Open source</a>
+  </span>
+</nav>
+
+<div class="printhead">
+  <p class="ph-brand">Reid Morrison Consulting</p>
+  <p class="ph-sub">Rails and Ruby end-of-life finding &middot; <span id="phctx"></span> &middot; <span id="phdate"></span></p>
+</div>
+
+<header class="masthead">
+  <p class="eyebrow">Reid Morrison Consulting &middot; EOL Exposure Check</p>
+  <h1>Is your Rails application a compliance finding?</h1>
+  <p class="standfirst">Enter the two version numbers from your <code>Gemfile.lock</code>. This returns the days each version has been without vendor security patches, the specific controls that puts you against, and the upgrade path the version compatibility rules force you to take.</p>
+</header>
+
+<div class="cols">
+
+  <form class="panel panel--sticky" id="calc" autocomplete="off">
+    <p class="panel-title">Your versions</p>
+    <div class="field">
+      <label for="rails">Rails version</label>
+      <select id="rails"></select>
+    </div>
+    <div class="field">
+      <label for="ruby">Ruby version</label>
+      <select id="ruby"></select>
+      <p class="hint">Both are on the last lines of your <code>Gemfile.lock</code>, under <code>RUBY VERSION</code> and next to <code>rails</code>.</p>
+    </div>
+    <button type="submit">Check exposure</button>
+  </form>
+
+  <main id="out" aria-live="polite">
+    <p class="placeholder">Select your versions to generate the finding.</p>
+  </main>
+</div>
+
+<footer>
+  <p><strong>Sources.</strong> End-of-life dates from the Rails and Ruby maintenance policies via <a href="https://endoflife.date/rails">endoflife.date</a>, verified {{ site.data.eol.verified | date: "%-d %B %Y" }}. Version compatibility from the <a href="https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html">FastRuby compatibility table</a>. Control references are to PCI DSS v4.0.1, the SOC 2 Trust Services Criteria, 45 CFR Part 164, and ISO/IEC 27001:2022.</p>
+  <p>This tool reports whether your versions receive vendor security patches and which controls reference that condition. It is not a vulnerability scan, does not enumerate CVEs, and is not a compliance opinion. Whether a given control is met depends on your compensating controls and your assessor.</p>
+</footer>
+</div>
+
+<script>
+/* ---------- data: rendered from _data/eol.yml, verified {{ site.data.eol.verified }} ---------- */
+const RAILS={{ site.data.eol.rails | jsonify }};
+const RUBY={{ site.data.eol.ruby | jsonify }};
+const TARGET_RAILS={{ site.data.eol.target_rails | jsonify }}, TARGET_RUBY={{ site.data.eol.target_ruby | jsonify }};
+
+const CONTROLS={{ site.data.eol.controls | jsonify }};
+
+const cmp=(a,b)=>{const x=a.split(".").map(Number),y=b.split(".").map(Number);
+  for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1}return 0};
+const railsRec=v=>RAILS.find(r=>r.v===v);
+const days=iso=>Math.floor((Date.now()-new Date(iso+"T00:00:00Z").getTime())/864e5);
+const fmtDate=iso=>new Date(iso+"T00:00:00Z").toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric",timeZone:"UTC"});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* build the alternating upgrade ladder */
+function ladder(rails,ruby){
+  const steps=[]; let cr=rails, cu=ruby, guard=0;
+  while(cmp(cr,TARGET_RAILS)<0 && guard++<40){
+    const i=RAILS.findIndex(r=>r.v===cr), next=RAILS[i+1];
+    if(cmp(cu,next.min)<0){
+      const ceiling=railsRec(cr).max;
+      const to=cmp(ceiling,TARGET_RUBY)>0?TARGET_RUBY:ceiling;
+      steps.push({kind:"ruby",from:cu,to,
+        why:`Rails ${next.v} requires Ruby ${next.min} or later. Rails ${cr} supports Ruby up to ${ceiling}.`});
+      cu=to;
+    }else{
+      steps.push({kind:"rails",from:cr,to:next.v,
+        why:`Single-version hop. Deploy and soak before the next.`});
+      cr=next.v;
+    }
+  }
+  if(cmp(cu,TARGET_RUBY)<0){
+    steps.push({kind:"ruby",from:cu,to:TARGET_RUBY,why:`Moves onto a Ruby series in normal maintenance.`});
+  }
+  return steps;
+}
+
+/* ---------- render ---------- */
+const railsSel=document.getElementById("rails"), rubySel=document.getElementById("ruby");
+RAILS.slice().reverse().forEach(r=>railsSel.add(new Option(`Rails ${r.v}`,r.v)));
+RUBY.slice().reverse().forEach(r=>rubySel.add(new Option(`Ruby ${r.v}`,r.v)));
+railsSel.value="6.1"; rubySel.value="3.0";
+
+function statusOf(eol){
+  const d=days(eol);
+  if(d>0) return {cls:"crit",pill:"Unsupported",d};
+  if(d>-90) return {cls:"warn",pill:"Expiring",d};
+  return {cls:"ok",pill:"Supported",d};
+}
+
+function versionRecord(kind,v,eol){
+  const s=statusOf(eol), past=s.d>0;
+  return `<article class="record record--${s.cls}">
+    <div class="rec-head">
+      <h2 class="rec-title">${kind} ${esc(v)}</h2>
+      <span class="pill pill--${s.cls}">${s.pill}</span>
+    </div>
+    <dl class="dl">
+      <dt>${past?"Days unpatched":"Days remaining"}</dt>
+      <dd class="big big--${past?"crit":"ok"}">${Math.abs(s.d).toLocaleString()}</dd>
+      <dt>End of life</dt><dd>${fmtDate(eol)}</dd>
+      <dt>Security fixes</dt><dd>${past?"None. Vendor support ended.":"Active."}</dd>
+    </dl>
+  </article>`;
+}
+
+function render(rv,uv){
+  const rr=railsRec(rv), ur=RUBY.find(r=>r.v===uv);
+  const anyEol = days(rr.eol)>0 || days(ur.eol)>0;
+  const steps=ladder(rv,uv);
+  const ceiling=rr.max, trapped=cmp(ceiling,"3.2")<0;
+  let h="";
+
+  h+=`<div class="stack">`;
+  h+=versionRecord("Rails",rv,rr.eol);
+  h+=versionRecord("Ruby",uv,ur.eol);
+
+  if(trapped){
+    h+=`<section class="trap">
+      <div class="trap-head"><h2 class="rec-title">Structurally trapped</h2></div>
+      <div class="trap-body">
+        <p><strong>Rails ${rv} cannot run Ruby newer than ${ceiling}. Every supported Rails release requires Ruby 3.2 or later.</strong> Neither version can move until the other moves first, so no single upgrade resolves this and the gap widens on both axes at once.</p>
+        <p>The way out alternates: raise Rails to lift the Ruby ceiling, raise Ruby to meet the next Rails floor, and repeat.</p>
+      </div>
+    </section>`;
+  }
+
+  if(!steps.length){
+    h+=`<article class="record record--ok">
+      <div class="rec-head"><h2 class="rec-title">No upgrade required</h2>
+      <span class="pill pill--ok">Current</span></div>
+      <p style="margin:0;color:var(--ink-2);font-size:14px;max-width:64ch">You are on the only Rails and Ruby combination still in normal maintenance. Re-check when Rails ${TARGET_RAILS} approaches its end of life on ${fmtDate(railsRec(TARGET_RAILS).eol)}.</p>
+    </article>`;
+  } else {
+  h+=`<article class="record record--${anyEol?"crit":"ok"}">
+    <div class="rec-head"><h2 class="rec-title">Required upgrade path</h2>
+    <span class="pill pill--${steps.length>6?"crit":"warn"}">${steps.length} version hop${steps.length===1?"":"s"}</span></div>
+    <p style="margin:0 0 4px;color:var(--ink-2);font-size:14px;max-width:64ch">To Rails ${TARGET_RAILS} on Ruby ${TARGET_RUBY}, the only combination in normal maintenance. Each hop ships and soaks in production before the next begins.</p>
+    <ol class="ladder">${steps.map((s,i)=>`
+      <li class="rung rung--${s.kind}">
+        <span class="rung-n">${i+1}</span>
+        <div class="rung-body">
+          <strong>${s.kind==="rails"?"Rails":"Ruby"} ${s.from} &rarr; ${s.to}</strong>
+          <div class="rung-why">${esc(s.why)}</div>
+        </div>
+      </li>`).join("")}</ol>
+  </article>`;
+  }
+
+  if(anyEol){
+    h+=`<article class="record record--crit">
+      <div class="rec-head"><h2 class="rec-title">Controls implicated</h2>
+      <span class="pill pill--crit">${CONTROLS.length} references</span></div>
+      <p style="margin:0 0 14px;color:var(--ink-2);font-size:14px;max-width:64ch">These controls reference unsupported software directly. Which apply depends on the frameworks you are assessed against.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Framework</th><th>Control</th><th>What it requires</th></tr></thead>
+        <tbody>${CONTROLS.map(c=>`<tr><td>${esc(c.framework)}</td><td class="ctl">${esc(c.control)}</td><td>${esc(c.requires)}</td></tr>`).join("")}</tbody>
+      </table></div>
+    </article>`;
+  }
+
+  h+=`<section class="capture">
+    <h3>Take this finding with you</h3>
+    <p>This page prints as a clean document for your auditor and your executive sponsor: the versions, the dates, the controls implicated, and the upgrade path required. Nothing you enter is uploaded, and nothing is stored.</p>
+    <button type="button" id="printbtn">Print this finding</button>
+  </section>`;
+
+{% if site.web3forms_key and site.web3forms_key != "" %}
+  h+=`<section class="capture">
+    <h3>Or talk it through</h3>
+    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
+    <form id="lead">
+      <div class="row2">
+        <div class="field"><label for="nm">Name</label><input id="nm" name="name" type="text" required></div>
+        <div class="field"><label for="em">Work email</label><input id="em" name="email" type="email" required></div>
+      </div>
+      <div class="field"><label for="co">Company</label><input id="co" name="company" type="text" required></div>
+      <div class="field">
+        <label for="msg">Anything useful to know?</label>
+        <input id="msg" name="message" type="text">
+        <p class="hint">An audit date, a blocked deal, or a finding already on paper all change the answer.</p>
+      </div>
+      <input type="hidden" name="access_key" value="{{ site.web3forms_key }}">
+      <input type="hidden" name="from_name" value="reidmorrison.com EOL check">
+      <input type="hidden" name="versions" id="ctx" value="Rails ${rv} / Ruby ${uv}">
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
+      <button type="submit">Send</button>
+      <p class="note" id="leadstatus" role="status"></p>
+    </form>
+    <div id="thanks" class="done hidden">Sent, with <strong>Rails ${rv} / Ruby ${uv}</strong> attached. You will hear back from me, not from a sequence.</div>
+  </section>`;
+{% else %}
+  h+=`<section class="capture">
+    <h3>Or talk it through</h3>
+    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
+    <p class="hint">Reach me on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a> to start a conversation.</p>
+  </section>`;
+{% endif %}
+
+  h+=`</div>`;
+  document.getElementById("out").innerHTML=h;
+
+  /* Letterhead is print-only, so the printed document names the versions and
+     the date it was produced. */
+  document.getElementById("phctx").textContent=`Rails ${rv} / Ruby ${uv}`;
+  document.getElementById("phdate").textContent=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+
+  document.getElementById("printbtn").addEventListener("click",()=>window.print());
+
+  /* The form is only rendered when an access key is configured. A form that
+     silently discards submissions is worse than no form at all. */
+  const lead=document.getElementById("lead");
+  if(!lead) return;
+  const status=document.getElementById("leadstatus");
+  lead.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const btn=lead.querySelector("button[type=submit]");
+    btn.disabled=true;
+    status.className="note";
+    status.textContent="Sending...";
+    const data=Object.fromEntries(new FormData(lead));
+    data.subject=`EOL check: ${data.company||"unknown company"} on Rails ${rv} / Ruby ${uv}`;
+    try{
+      const res=await fetch("https://api.web3forms.com/submit",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify(data)
+      });
+      const out=await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(out.message||"Submission failed");
+      lead.classList.add("hidden");
+      document.getElementById("thanks").classList.remove("hidden");
+    }catch(err){
+      btn.disabled=false;
+      status.className="note note--err";
+      status.innerHTML='That did not send. Try again, or reach me on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a>.';
+    }
+  });
+}
+
+document.getElementById("calc").addEventListener("submit",e=>{
+  e.preventDefault(); render(railsSel.value,rubySel.value);
+});
+render(railsSel.value,rubySel.value);
+</script>
+</body>
+</html>

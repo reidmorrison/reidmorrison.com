@@ -1,7 +1,13 @@
 # reidmorrison.com
 
-Source for [reidmorrison.com](https://reidmorrison.com), my personal site. Jekyll,
-served by GitHub Pages.
+Source for [reidmorrison.com](https://reidmorrison.com), the site for Reid
+Morrison Consulting. Jekyll, served by GitHub Pages.
+
+The **Rails EOL exposure check** lives at [`/eol/`](https://reidmorrison.com/eol/).
+Enter a Rails and Ruby version, get the days each has gone without vendor
+security patches, the compliance controls that implicates, and the upgrade path
+the version compatibility rules force. The dates behind it are in
+[`_data/eol.yml`](_data/eol.yml).
 
 The styling is shared with the project documentation sites
 ([Semantic Logger](https://logger.reidmorrison.com),

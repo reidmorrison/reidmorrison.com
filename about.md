@@ -7,8 +7,6 @@ description: >-
   downloads.
 ---
 
-## About
-
 <div class="about-intro" markdown="1">
 ![Reid Morrison]({{ '/images/reid-morrison.jpg' | relative_url }}){: class="avatar" }
 

@@ -20,6 +20,19 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Web3Forms access key for the lead form on /eol/. Public by design; it only
+# identifies the destination inbox, it does not grant access to anything.
+#
+# CREATE IT WITH sales@reidmorrison.com AT https://web3forms.com/ - submissions
+# are delivered to whichever address the key was created with, and that address
+# is the one that should receive them.
+#
+# While this is empty the form is NOT rendered and /eol/ points people at
+# LinkedIn instead. That is deliberate: a form that discards submissions is
+# worse than no form. Paste the key here and the form appears.
+web3forms_key: "018411c9-90f9-4b0f-aa92-b3c080d2c362"
 
 feed:
   path: feed.xml
