@@ -10,29 +10,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:wght@600;700&display=swap">
   <link rel="stylesheet" href="{{ '/stylesheets/site.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/stylesheets/topbar.css' | relative_url }}">
   {% seo %}
   {% feed_meta %}
 </head>
 
 <body>
-  {% comment %}
-    Nav is a single comma-separated string, the pattern the site has always
-    used. `active` compares the current page's output name against the href,
-    so /eol/ never matches here: that page carries its own shell.
-  {% endcomment %}
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="{{ '/index.html' | relative_url }}">Reid Morrison Consulting</a>
-      {% assign current_page = page.name | replace: '.md', '.html' %}
-      {% assign nav_items = "index.html=Home,/eol/=EOL Check,assessment.html=Assessment,open-source.html=Open Source,about.html=About" | split: ',' %}
-      <nav class="nav">
-        {% for item in nav_items %}{% assign pair = item | split: '=' %}
-        <a href="{{ pair[0] | relative_url }}"{% if pair[0] == current_page %} class="active" aria-current="page"{% endif %}>{{ pair[1] }}</a>
-        {% endfor %}
-        <a href="{{ '/contact.html' | relative_url }}" class="nav-cta{% if current_page == 'contact.html' %} active{% endif %}">Contact</a>
-      </nav>
-    </div>
-  </header>
+  {% include topbar.html %}
 
   <div class="page">
     {% comment %}

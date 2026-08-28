@@ -1,7 +1,6 @@
 ---
 layout: default
 title: EOL Risk Assessment
-eyebrow: Reid Morrison Consulting
 heading: The remediation plan your assessor is asking for
 standfirst: >-
   $12,500 fixed. Two weeks. It produces the document PCI DSS 12.3.4 obliges you

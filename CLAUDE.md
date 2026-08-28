@@ -145,7 +145,10 @@ about.md               Professional bio. See the prose constraint below.
 talks.md               Conference talks. Not in the nav; linked from About and
                        from open-source.md.
 404.html               Links back to the doc sites.
-stylesheets/site.css   THE stylesheet. The only one. See "Styling".
+_includes/topbar.html  The top bar and wordmark markup. Included by the
+                       shared layout AND by eol.html, so the nav has one home.
+stylesheets/site.css   The site stylesheet. See "Styling".
+stylesheets/topbar.css The top bar, in its own file because two shells use it.
 images/                favicon.ico, apple-touch-icon.png, reid-morrison.jpg.
                        header-banner.jpg is unused since the retheme.
 ```
@@ -177,6 +180,37 @@ for a dark photographic banner that no longer exists, and `/eol/` had already
 set the plain Spectral wordmark. This was a change from the rebuild plan, which
 had suggested keeping the wordmark for continuity; the doc sites keep it, and
 this site does not.
+
+### The wordmark
+
+Typographic, no logo file, no monogram. "Reid Morrison" in Spectral 700, "EOL
+Remediation" in letterspaced mono in the accent colour, over a **2px rule**.
+
+That rule is the point. It is the same device that sits under every page title,
+so the mark reads as part of this site rather than something dropped onto it. A
+monogram block and a boxed "stamp" treatment were both tried and rejected as
+generic. **If you change the masthead rule, change the wordmark rule with it**,
+or the rhyme breaks and the mark starts looking arbitrary.
+
+Honest limitation, recorded so nobody mistakes it for a moat: nothing here is
+proprietary. Three Google Fonts, about twenty hex values, and public CSS. It is
+reproducible from view-source in an hour. What would actually make it defensible
+is a licensed display face and a drawn mark, neither of which exists yet.
+
+**The favicon has not caught up.** `favicon.ico` and `apple-touch-icon.png` were
+copied from the documentation sites before the retheme and no longer match
+anything. A typographic wordmark yields no icon, so this needs its own solution.
+
+### The elapsed counter is the signature element
+
+On `/eol/`, days without vendor security patches is set as the headline of each
+version record: mono, tabular figures, up to 66px, in the critical colour. It
+was a 26px row in a definition list.
+
+This is deliberate and worth protecting. That number is the entire argument of
+the page, it is the thing someone screenshots into their own internal thread,
+and it survives into the printed finding at 34pt. Do not quietly demote it back
+into a table row.
 
 ### Rules for this stylesheet
 

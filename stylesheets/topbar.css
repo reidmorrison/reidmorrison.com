@@ -1,0 +1,58 @@
+/* ===========================================================================
+   The top bar and the wordmark.
+
+   Its own file because two shells use it: the shared layout, and eol.html,
+   which is self-contained. Both link this, so the bar cannot drift between
+   them. It styles nothing else and relies on tokens both shells define.
+   =========================================================================== */
+
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--bar);
+  -webkit-backdrop-filter:saturate(1.6) blur(8px);
+  backdrop-filter:saturate(1.6) blur(8px);
+  border-bottom:1px solid var(--rule);
+}
+
+.topbar-inner{
+  max-width:1120px;margin:0 auto;padding:11px 20px 12px;
+  display:flex;flex-wrap:wrap;gap:8px 24px;
+  align-items:center;justify-content:space-between;
+}
+
+/* Wordmark. The 2px rule repeats the masthead rule under every page title. */
+.brand{
+  display:inline-block;line-height:1;text-decoration:none;
+  border-bottom:2px solid var(--ink);padding-bottom:5px;
+}
+.brand:hover{text-decoration:none;border-bottom-color:var(--accent)}
+.brand-name{
+  font-family:Spectral,Georgia,serif;font-weight:700;font-size:19px;
+  letter-spacing:-.015em;color:var(--ink);
+}
+.brand-sub{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-left:9px;
+}
+.brand:hover .brand-name{color:var(--ink)}
+
+.nav{display:flex;flex-wrap:wrap;align-items:center;gap:20px;font-size:14px}
+.nav a{color:var(--ink-3);text-decoration:none}
+.nav a:hover{color:var(--accent);text-decoration:underline}
+.nav a.active{color:var(--ink);font-weight:600}
+
+.nav a.nav-cta{
+  color:var(--accent);font-weight:600;text-decoration:none;
+  border:1px solid var(--accent);border-radius:3px;padding:3px 11px;
+}
+.nav a.nav-cta:hover{background:var(--accent-soft);text-decoration:none}
+
+@media (max-width:44em){
+  .topbar-inner{padding:10px 18px}
+  .brand-name{font-size:17px}
+  .brand-sub{display:none}
+  .nav{gap:14px;font-size:13.5px}
+}
+
+@media print{ .topbar{display:none} }

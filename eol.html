@@ -21,6 +21,7 @@ permalink: /eol/
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:wght@600;700&display=swap">
+<link rel="stylesheet" href="{{ '/stylesheets/topbar.css' | relative_url }}">
 <style>
 :root{
   --ground:#F2F4F7; --surface:#FFFFFF; --surface-2:#E9EDF2;
@@ -31,6 +32,7 @@ permalink: /eol/
   --warn:#8A5300; --warn-soft:#FAECD8;
   --ok:#1A5C43;  --ok-soft:#DCEDE5;
   --shadow:0 1px 2px rgba(19,26,34,.06),0 8px 24px -12px rgba(19,26,34,.18);
+  --bar:rgba(242,244,247,.88);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
@@ -42,6 +44,7 @@ permalink: /eol/
     --warn:#E5B369; --warn-soft:#2E2415;
     --ok:#7BC7A5;  --ok-soft:#12291F;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+    --bar:rgba(14,19,25,.88);
   }
 }
 :root[data-theme="dark"]{
@@ -53,6 +56,7 @@ permalink: /eol/
   --warn:#E5B369; --warn-soft:#2E2415;
   --ok:#7BC7A5;  --ok-soft:#12291F;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  --bar:rgba(14,19,25,.88);
 }
 *{box-sizing:border-box}
 body{
@@ -130,8 +134,25 @@ button:hover{filter:brightness(1.08)}
 .dl{display:grid;grid-template-columns:auto 1fr;gap:7px 18px;margin:0;font-size:14px}
 .dl dt{color:var(--ink-3);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;align-self:center}
 .dl dd{margin:0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
-.big{font-size:26px;font-weight:600;line-height:1.15}
-.big--crit{color:var(--crit)} .big--ok{color:var(--ok)}
+/* ---- elapsed counter ---- */
+/* The number of days without patches is the whole argument of this page, so
+   it is set as the headline of each record rather than as a table row. */
+.counter{
+  display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;
+  margin:2px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--rule)
+}
+.counter-n{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:clamp(44px,8.5vw,66px);font-weight:600;line-height:.88;
+  letter-spacing:-.035em;font-variant-numeric:tabular-nums
+}
+.counter--crit .counter-n{color:var(--crit)}
+.counter--ok   .counter-n{color:var(--ok)}
+.counter-l{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);line-height:1.5;max-width:23ch;padding-bottom:6px
+}
 
 /* ---- trap ladder ---- */
 .trap{background:var(--surface);border:1px solid var(--crit);border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
@@ -179,20 +200,6 @@ footer a{color:var(--accent)}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 }
 
-/* ---- site bar ---- */
-.sitebar{
-  display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;
-  justify-content:space-between;padding:16px 0 0
-}
-.sitebar a{text-decoration:none}
-.sitebar-brand{
-  font-family:Spectral,Georgia,serif;font-weight:700;font-size:17px;
-  letter-spacing:-.01em;color:var(--ink)
-}
-.sitebar-links{display:flex;gap:18px;font-size:13.5px}
-.sitebar-links a{color:var(--ink-3)}
-.sitebar a:hover{color:var(--accent);text-decoration:underline}
-
 /* ---- capture actions ---- */
 .capture + .capture{margin-top:-2px}
 .capture .hint{margin:0 0 14px}
@@ -221,7 +228,7 @@ footer a{color:var(--accent)}
   @page{margin:16mm}
   body{background:#fff;font-size:11pt;line-height:1.45}
   .wrap{max-width:none;padding:0}
-  .sitebar,.masthead,.panel,.capture,.placeholder{display:none !important}
+  .masthead,.panel,.capture,.placeholder{display:none !important}
   .printhead{
     display:block;border-bottom:2px solid var(--ink);
     padding-bottom:10px;margin-bottom:18px
@@ -238,7 +245,9 @@ footer a{color:var(--accent)}
   .stack{gap:12px}
   .record,.trap{border:1px solid var(--rule);box-shadow:none;animation:none;break-inside:avoid;page-break-inside:avoid}
   .rec-title{font-size:15pt}
-  .big{font-size:19pt}
+  .counter{margin-bottom:12px;padding-bottom:12px}
+  .counter-n{font-size:34pt}
+  .counter-l{font-size:7.5pt}
   .scroll{overflow:visible}
   table{min-width:0;font-size:9.5pt}
   th,td{padding:6px 8px}
@@ -248,15 +257,9 @@ footer a{color:var(--accent)}
 </style>
 </head>
 <body>
-<div class="wrap">
+{% include topbar.html %}
 
-<nav class="sitebar">
-  <a class="sitebar-brand" href="{{ '/' | relative_url }}">Reid Morrison Consulting</a>
-  <span class="sitebar-links">
-    <a href="{{ '/about.html' | relative_url }}">About Reid</a>
-    <a href="{{ '/index.html' | relative_url }}">Open source</a>
-  </span>
-</nav>
+<div class="wrap">
 
 <div class="printhead">
   <p class="ph-brand">Reid Morrison Consulting</p>
@@ -264,7 +267,7 @@ footer a{color:var(--accent)}
 </div>
 
 <header class="masthead">
-  <p class="eyebrow">Reid Morrison Consulting &middot; EOL Exposure Check</p>
+  <p class="eyebrow">EOL Exposure Check</p>
   <h1>Is your Rails application a compliance finding?</h1>
   <p class="standfirst">Enter the two version numbers from your <code>Gemfile.lock</code>. This returns the days each version has been without vendor security patches, the specific controls that puts you against, and the upgrade path the version compatibility rules force you to take.</p>
 </header>
@@ -354,9 +357,11 @@ function versionRecord(kind,v,eol){
       <h2 class="rec-title">${kind} ${esc(v)}</h2>
       <span class="pill pill--${s.cls}">${s.pill}</span>
     </div>
+    <div class="counter counter--${past?"crit":"ok"}">
+      <div class="counter-n">${Math.abs(s.d).toLocaleString()}</div>
+      <div class="counter-l">${past?"Days without vendor security patches":"Days of vendor support remaining"}</div>
+    </div>
     <dl class="dl">
-      <dt>${past?"Days unpatched":"Days remaining"}</dt>
-      <dd class="big big--${past?"crit":"ok"}">${Math.abs(s.d).toLocaleString()}</dd>
       <dt>End of life</dt><dd>${fmtDate(eol)}</dd>
       <dt>Security fixes</dt><dd>${past?"None. Vendor support ended.":"Active."}</dd>
     </dl>
