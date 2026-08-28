@@ -197,9 +197,31 @@ proprietary. Three Google Fonts, about twenty hex values, and public CSS. It is
 reproducible from view-source in an hour. What would actually make it defensible
 is a licensed display face and a drawn mark, neither of which exists yet.
 
-**The favicon has not caught up.** `favicon.ico` and `apple-touch-icon.png` were
-copied from the documentation sites before the retheme and no longer match
-anything. A typographic wordmark yields no icon, so this needs its own solution.
+### The icons
+
+**Replaced 2026-08-28.** The previous `favicon.ico` and `apple-touch-icon.png`
+were copied from the documentation sites and were **the Rocket Job rocket ship**.
+A cartoon rocket was the tab icon a compliance buyer saw.
+
+They are now a white Spectral **R** on the accent navy, with the wordmark's rule
+returning at larger sizes.
+
+- `favicon.ico` carries 16, 32 and 48px. `favicon-32.png` serves browsers that
+  prefer PNG. `apple-touch-icon.png` is 180px, square and unrounded, because iOS
+  applies its own mask.
+- **The artwork differs by size on purpose.** 16 and 32px are the letterform
+  alone; the accent rule only appears from 48px up, where it can be seen. Do not
+  "simplify" this into one scaled image, and do not add the rule at 16px, where
+  it becomes a smudge.
+- **The ground is navy, not ink.** Ink was tried first and disappears into a dark
+  browser tab strip. Navy separates in both light and dark tabs and carries the
+  brand colour. Verified against real Google and GitHub favicons in a simulated
+  tab strip.
+- An "RM" monogram and an abstract two-bar mark were both tried and rejected:
+  "RM" is illegible at 16px and the bars read as a hamburger menu.
+
+Regenerate with the scratch renderer if the accent ever changes; the letterform
+is live text in Spectral, not a path, so it needs a browser to rasterise.
 
 ### The elapsed counter is the signature element
 
