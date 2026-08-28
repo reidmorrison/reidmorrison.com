@@ -284,6 +284,24 @@ There is no longer any JavaScript in the layout. The old script measured the
 banner's height to set `scroll-padding-top`; the slim bar has a fixed height, so
 CSS handles it.
 
+### The footer carries no RSS link
+
+`jekyll-feed` stays enabled and `{% feed_meta %}` stays in the head, so
+`/feed.xml` exists at a stable URL and a feed reader can still discover it.
+**The visible "RSS" link was removed from the footer on 2026-08-28** and should
+not come back there.
+
+The reason is what it pointed at. `_posts/` is empty, so the feed is a valid
+Atom document with no entries: a buyer who clicks RSS gets a blank XML file, on
+the page set whose whole job is establishing that this vendor can be trusted
+with production access. A footer RSS link is also a personal-blog convention, in
+the same category as the doc-site stylesheet and the rocket favicon, and a
+leftover from the same era. `/eol/` has its own footer and never carried one.
+
+When the first post ships and `/writing/` gets an index page, the RSS link
+belongs on that index, where the reader is already looking for a feed. Not in
+the global footer.
+
 ## The EOL exposure check at `/eol/`
 
 The lead magnet, and the highest-value page here. Moved into this repo
