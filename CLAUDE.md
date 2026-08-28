@@ -1,16 +1,27 @@
 # reidmorrison.com
 
-Personal site for Reid Morrison, served by GitHub Pages at the apex domain
-`reidmorrison.com`. Jekyll, markdown pages, no build step beyond what GitHub
-Pages runs itself.
+The website for **Reid Morrison Consulting**, served by GitHub Pages at the apex
+domain `reidmorrison.com`. Jekyll, markdown pages, no build step beyond what
+GitHub Pages runs itself.
 
 ## What this site is for
 
-**Changed 2026-08-27.** This is now the front door for **Reid Morrison
-Consulting**, an EOL remediation practice selling to regulated mid-market
-companies. It is no longer a personal site. The business runs out of
-`~/Documents/Business/eol_remediation`; that folder holds the strategy and the
-commercial constraints, and this repo must not duplicate any of it.
+**This is a commercial site. It is not a personal site and it is not a portfolio.**
+
+It was Reid's personal site until August 2026, built to support a job search:
+the home page opened with a bio, the About page was adapted from his LinkedIn
+profile, and the whole thing was aimed at a hiring manager. **That purpose is
+gone.** The site now exists to generate and qualify leads for an EOL remediation
+practice selling to regulated mid-market companies.
+
+If you find copy that reads like it is addressed to someone deciding whether to
+employ Reid, it is a leftover. Fix it. The reader is now a CTO, CISO or VP
+Compliance deciding whether to give a vendor production access to a system under
+audit.
+
+The business runs out of `~/Documents/Business/eol_remediation`; that folder
+holds the strategy and the commercial constraints, and this repo must not
+duplicate any of it.
 
 Jobs, in priority order:
 
@@ -19,13 +30,23 @@ Jobs, in priority order:
 2. **Sell the assessment.** $12,500, two weeks. See "Commercial rules" below for
    what may and may not be published.
 3. **Establish credibility.** The open-source libraries are the proof, not the
-   product: 11 gems, 77M+ downloads, auditable by anyone before hiring.
+   product: 11 gems, 77M+ downloads, and public commits a prospect can audit
+   before signing anything. Frame them as evidence of how Reid works, never as a
+   portfolio of things he has made.
 4. **Hold a place for future writing.** The blog is scaffolded but empty, and
    there is no writing index page. Do not invent posts for it.
 
 **The buyer is a CTO, CISO or VP Compliance, not a VP Engineering.** The site
 sells the removal of a named compliance finding, not "technical debt". The
 engineer is the internal advocate who forwards the finding, not the signer.
+
+### Site identity lives in `_config.yml`
+
+`title`, `tagline` and `description` there are read by `jekyll-seo-tag` for
+every page, so they decide how the whole site appears in search results and link
+previews. They carried the job-search positioning until 2026-08-28. If they ever
+describe a person looking for work rather than a practice selling a service,
+that is a bug.
 
 ### Rebuild in progress
 
@@ -180,14 +201,22 @@ this site does not.
 - `eyebrow` renders a small mono label above the `h1`.
 - `standfirst` renders the lead paragraph under it.
 
-### The About page prose is constrained
+### The About page was rewritten, and the old constraint is lifted
 
-`about.md` body text is adapted closely from Reid's LinkedIn About section on
-purpose, so the voice matches across both. **Do not rewrite it into different
-phrasing without asking.** Step 5 therefore changed only its front matter
-framing and one link that had gone stale when the library list moved off the
-home page. A fuller rewrite aimed at a compliance buyer is still an open
-question for Reid.
+`about.md` used to be adapted closely from Reid's LinkedIn About section so the
+two voices matched, and this file previously said not to rewrite it without
+asking. **Reid asked for the rewrite on 2026-08-28 and that constraint no longer
+applies.**
+
+What it argues now, so a future edit does not undo the point: the page sells
+judgement rather than capacity. An upgrade under audit is a risk purchase, the
+market is full of people with the same tooling and no scar tissue, and the
+public gem commits let a prospect audit how Reid works before signing. The
+regulated-systems history is framed as evidence for that argument, not as a
+career summary.
+
+It no longer carries a "Find me" list of profile links. GitHub and LinkedIn are
+in the footer of every page, and the page ends on a call to action instead.
 
 ### The layout renders the page title
 
@@ -256,8 +285,9 @@ the two claims contradict each other.
 
 ## The project list
 
-`_data/projects.yml` drives both `index.md` and `404.html`. Never hardcode a
-project into a page.
+`_data/projects.yml` drives `open-source.md` and `404.html`, and `about.md`
+pulls two download figures from it with `where`. Never hardcode a project, a
+download count, or a documentation URL into a page.
 
 `jruby-jms` and `sync_attr` are in the list because they are needed to reach 11
 and are genuinely widely downloaded, but both are archived or long-finished.
@@ -265,14 +295,16 @@ They carry `status: stable`, which renders a muted card and describes them as
 complete rather than actively developed. Do not present them as active work.
 
 Deliberately excluded, and listed instead in the "Elsewhere" section of
-`index.md`: `rocketjob_mission_control`, `opinionated_http`,
+`open-source.md`: `rocketjob_mission_control`, `opinionated_http`,
 `symmetric_encryption.ex`. Also excluded: `mongo_ha`, `rubywmq`, `jruby-hornetq`,
 `us_address_*` (archived or deprecated), and non-library repos.
 
 ### Refreshing download counts
 
 Counts are hand-maintained and stamped with a verification date in both
-`_data/projects.yml` and the note under the cards on `index.md`. To refresh:
+`_data/projects.yml` and the note under the cards on `open-source.md`. They are
+currently stamped 2026-08-06 and should be refreshed before the site is pushed
+at buyers. To refresh:
 
 ```sh
 for g in semantic_logger rails_semantic_logger symmetric-encryption jruby-jms \
@@ -283,8 +315,10 @@ for g in semantic_logger rails_semantic_logger symmetric-encryption jruby-jms \
 done
 ```
 
-Update the badge values, the total in `index.md` and `about.md`, and the date in
-both places.
+Update the badge values in `_data/projects.yml` and the date in the note on
+`open-source.md`. The two figures quoted on `about.md` render from the data file,
+so they follow automatically. The 77M total is written out in prose in several
+places and does have to be changed by hand.
 
 ## Content rules
 
@@ -292,9 +326,10 @@ both places.
   sentences. This applies to every page.
 - **Do not invent facts.** Talk titles, dates, metrics, and links must come from
   Reid. Unknowns get a `.needs-input` block, not a plausible guess.
-- The About page text is adapted closely from Reid's LinkedIn About section on
-  purpose, so the voice matches across both. Do not rewrite it into different
-  phrasing without asking.
+- **Write for the buyer, not for a hiring manager.** Every page answers "why
+  should I trust this vendor with a system under audit", not "why should I hire
+  this person". Job-search phrasing is the most likely leftover in anything
+  written before September 2026.
 
 ## `.needs-input` blocks are scaffolding and must not ship
 
