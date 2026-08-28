@@ -16,9 +16,14 @@
      @media (prefers-color-scheme:dark)       dark, unless light was chosen
      :root[data-theme="dark"]                 explicit dark wins either way
    Never declare a colour only inside a media block.
+
+   color-scheme rides along with each palette. Tokens only reach what this
+   stylesheet paints; the select popup, scrollbars, autofill and the caret are
+   drawn by the browser and follow color-scheme instead. Print forces light.
    =========================================================================== */
 
 :root{
+  color-scheme:light;
   --ground:#F2F4F7; --surface:#FFFFFF; --surface-2:#E9EDF2;
   --ink:#131A22; --ink-2:#3D4854; --ink-3:#6B7684;
   --rule:#D3DAE3; --rule-2:#BFC8D4;
@@ -32,6 +37,7 @@
 
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
+    color-scheme:dark;
     --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
     --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
     --rule:#28323E; --rule-2:#3A4654;
@@ -45,6 +51,7 @@
 }
 
 :root[data-theme="dark"]{
+  color-scheme:dark;
   --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
   --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
   --rule:#28323E; --rule-2:#3A4654;
@@ -393,6 +400,7 @@ tbody tr:last-child td{border-bottom:0}
   /* Force the light palette: a dark-theme visitor would otherwise print a
      black page. Same rule as /eol/. */
   :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
+    color-scheme:light;
     --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F7;
     --ink:#131A22; --ink-2:#3D4854; --ink-3:#55606D;
     --rule:#C9D1DB; --rule-2:#AEB9C6;

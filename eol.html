@@ -7,6 +7,8 @@ permalink: /eol/
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F2F4F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1319" media="(prefers-color-scheme: dark)">
 <title>Rails EOL Exposure Check</title>
 <meta name="description" content="Enter your Rails and Ruby versions. See the days each has gone without vendor security patches, the compliance controls implicated, and the upgrade path the version compatibility rules force you to take.">
 <link rel="canonical" href="{{ '/eol/' | absolute_url }}">
@@ -25,6 +27,7 @@ permalink: /eol/
 <link rel="stylesheet" href="{{ '/stylesheets/topbar.css' | relative_url }}">
 <style>
 :root{
+  color-scheme:light;
   --ground:#F2F4F7; --surface:#FFFFFF; --surface-2:#E9EDF2;
   --ink:#131A22; --ink-2:#3D4854; --ink-3:#6B7684;
   --rule:#D3DAE3; --rule-2:#BFC8D4;
@@ -37,6 +40,7 @@ permalink: /eol/
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
+    color-scheme:dark;
     --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
     --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
     --rule:#28323E; --rule-2:#3A4654;
@@ -49,6 +53,7 @@ permalink: /eol/
   }
 }
 :root[data-theme="dark"]{
+  color-scheme:dark;
   --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
   --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
   --rule:#28323E; --rule-2:#3A4654;
@@ -216,6 +221,7 @@ footer a{color:var(--accent)}
   /* Force the light palette. A dark-theme viewer would otherwise print a
      black page, and this document is meant to go to an auditor. */
   :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
+    color-scheme:light;
     --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F7;
     --ink:#131A22; --ink-2:#3D4854; --ink-3:#55606D;
     --rule:#C9D1DB; --rule-2:#AEB9C6;
