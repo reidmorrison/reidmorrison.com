@@ -6,9 +6,6 @@ description: >-
   contributions.
 ---
 
-## Talks
-{:.no_toc}
-
 I speak at ElixirConf and RailsConf, mostly about the open-source libraries I
 maintain. The best place to start is *Supercharging Kafka Processing with
 Broadway* from ElixirConf 2024, the most recent talk and the only one with video.

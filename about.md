@@ -1,62 +1,112 @@
 ---
 layout: default
 title: About
+heading: You are buying judgement, not capacity
+standfirst: >-
+  Anyone can point a coding agent at a Rails upgrade. The reason to hire me is
+  twenty years of knowing what breaks, on systems where being wrong was
+  expensive.
 description: >-
-  Reid Morrison, Principal Software Engineer. Distributed systems, real-time data
-  platforms, AI agents in production, and 11 open-source libraries with 77M+
-  downloads.
+  Reid Morrison. Twenty years building regulated production systems: credit
+  bureau, healthcare, payments. Author of 11 open-source Ruby libraries with
+  77M+ downloads. Now doing end-of-life remediation full time.
 ---
 
-## About
+{% assign logger = site.data.projects | where: "name", "Semantic Logger" | first %}
+{% assign crypto = site.data.projects | where: "name", "Symmetric Encryption" | first %}
 
 <div class="about-intro" markdown="1">
 ![Reid Morrison]({{ '/images/reid-morrison.jpg' | relative_url }}){: class="avatar" }
 
-> Principal Software Engineer. Author of 11 Ruby libraries, 77M+ downloads. Building AI
-> agents and distributed systems that run in production.
+> I remove end-of-life findings from production Rails applications at regulated
+> companies. Fixed price, delivered in weeks, by the engineer who does the work.
 </div>
 
-## What I do
+## Why a buyer should care about experience here
 
-I design, build, and own production systems end to end: distributed platforms, real-time
-data systems, and AI agents doing real work in production.
+An upgrade under audit is not a technical purchase. You are handing someone
+write access to a system that regulators, customers, or an acquirer are
+currently looking at, and asking them not to break it.
 
-## Selected work
+That makes experience the thing you are actually paying for. The market is full
+of people with the same AI tooling I have and none of the scar tissue. The
+failure mode with these tools is not that they are too slow. It is that they
+are too fast: they will happily rewrite four things at once, pass a thin test
+suite, and hand you a deploy nobody can bisect. Knowing which step goes first,
+and how little to change in any one iteration, is the entire skill, and it does
+not come from the tooling.
 
-Over 20+ years, that has looked like:
+## Twenty years of systems where mistakes were expensive
 
-- A **real-time credit bureau** processing 100,000+ inquiries per day at 99.99% availability
-  with sub-second latency, which contributed directly to Clarity Services' $100M acquisition
-  by Experian.
-- An **event-driven rules engine** on Elixir, Phoenix, and Kafka that pivoted Salesloft from
-  a static sales funnel to a real-time revenue workflow.
-- Most recently, **AI agents built into a production CI/CD pipeline** that review every pull
-  request for regulatory compliance, credit-bureau reporting (Metro 2), and security
-  violations.
+- A **real-time credit bureau** processing 100,000+ inquiries per day at 99.99%
+  availability with sub-second latency, which contributed directly to Clarity
+  Services' $100M acquisition by Experian. Credit bureau work means Metro 2,
+  dispute handling, and audit trails that have to survive an examiner.
+- **Healthcare and payments systems**, where PCI and HIPAA obligations are not a
+  compliance team's problem but a constraint on every design decision. Encryption
+  in flight and at rest, key rotation, and credential handling are things I have
+  implemented rather than reviewed.
+- An **event-driven rules engine** on Elixir, Phoenix and Kafka that moved
+  Salesloft from a static sales funnel to a real-time revenue workflow.
+- **AI agents built into a production CI/CD pipeline** that review every pull
+  request for regulatory compliance, credit-bureau reporting, and security
+  violations. I built the methodology behind that: precisely structured
+  requirements that frontier models turn into production-ready code. It roughly
+  doubled per-engineer productivity **with zero major compliance incidents**,
+  which is the half of that sentence that matters for this work.
 
-## Open source
+## Proof you can audit before you hire me
 
-I'm the author of 11 open-source libraries with over 77 million combined downloads,
-including [Semantic Logger](https://logger.reidmorrison.com) (35M) and
-[Symmetric Encryption](https://encryption.reidmorrison.com) (6M), in daily production use
-worldwide. Still actively shipping: I released new versions of four of them in July 2026
-using AI-agentic workflows, delivering in days what previously took weeks.
+Consulting references are selected and rehearsed. Source code is not.
 
-The full list, with write-ups, is on the [home page](index.html).
+I maintain **11 open-source Ruby libraries with over 77 million combined
+downloads**, including [Semantic Logger]({{ logger.docs }}) at
+{{ logger.downloads }} and [Symmetric Encryption]({{ crypto.docs }}) at
+{{ crypto.downloads }}, in daily production use worldwide.
 
-## AI as a working multiplier
+**I shipped new versions of four of them in July 2026 using agentic workflows.**
+Those commits are public. Before signing anything, you can read them and judge
+the increment size, the ordering, and the test discipline for yourself. That is
+a far better basis for a decision than a case study I wrote about myself.
+[See the libraries](open-source.html).
 
-That's the thread in my recent work: AI as a working engineering multiplier, not a slide.
-I created an "AI Skills" methodology, precisely structured business
-requirements that frontier models turn into production-ready code, that roughly doubled
-per-engineer productivity, with zero major compliance incidents.
+Symmetric Encryption exists because PCI scope requires encryption in flight and
+at rest, including credentials in configuration files. A fair number of
+PCI-scope Rails applications depend on it, which is a reasonable indication of
+how long I have been working on this particular problem.
+
+## You get me
+
+This practice is deliberately one person. There is no bench, no account manager,
+and no junior who does the work after the senior wins it. I take two engagements
+at a time so that neither is being fitted around the other.
+
+The trade is honest: I am not the right call for a twelve-team platform
+migration. For one business-critical application that has fallen off supported
+versions and now has a date attached to it, being solo is the feature.
+
+## How I work
+
+Fixed price per milestone, never hourly, so you carry no risk on how long it
+takes. Phased single-version hops, each shipped to production and soaked before
+the next begins, so any problem traces to one change. If your security policy
+requires the work to stay inside your environment, it can: tooling runs there and
+no client code reaches services outside your control, at the cost of some
+schedule.
+
+Ask for that and it goes into the agreement rather than being promised in a
+meeting, along with liability capped at fees paid and a review clause that pauses
+the clock instead of quietly eating the schedule when your reviewer is
+unavailable.
+
+[How the assessment works](assessment.html)
 
 ## Speaking
 
-I speak at ElixirConf and RailsConf, and contributed a fix adopted by the Rails core team.
-See [Talks](talks.html).
+I have spoken at ElixirConf and RailsConf, and contributed a fix adopted by the
+Rails core team. See [Talks](talks.html).
 
-## Find me
-
-- **GitHub**: [github.com/reidmorrison](https://github.com/reidmorrison)
-- **LinkedIn**: [linkedin.com/in/reidmorrison](https://www.linkedin.com/in/reidmorrison)
+<div class="cta-row" markdown="0">
+  <a class="btn btn-primary" href="{{ '/contact.html' | relative_url }}">Start a conversation</a>
+  <a class="btn btn-secondary" href="{{ '/eol/' | relative_url }}">Check your exposure</a>
+</div>

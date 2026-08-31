@@ -4,65 +4,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="{{ '/images/favicon.ico' | relative_url }}">
+  <meta name="theme-color" content="#F2F4F7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E1319" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="{{ '/images/favicon.ico' | relative_url }}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/images/favicon-32.png' | relative_url }}">
   <link rel="apple-touch-icon" href="{{ '/images/apple-touch-icon.png' | relative_url }}">
-  <link rel="stylesheet" type="text/css" href="{{ '/stylesheets/normalize.css' | relative_url }}" media="screen">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="{{ '/stylesheets/stylesheet.css' | relative_url }}" media="screen">
-  <link rel="stylesheet" type="text/css" href="{{ '/stylesheets/github-light.css' | relative_url }}" media="screen">
-  <link rel="stylesheet" type="text/css" href="{{ '/stylesheets/pygment_trac.css' | relative_url }}" media="screen" />
-  <link rel="stylesheet" type="text/css" href="{{ '/stylesheets/print.css' | relative_url }}" media="print" />
-  <link rel="stylesheet" type="text/css" href="{{ '/stylesheets/table.css' | relative_url }}" media="print" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:wght@600;700&display=swap">
+  <link rel="stylesheet" href="{{ '/stylesheets/site.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/stylesheets/topbar.css' | relative_url }}">
   {% seo %}
   {% feed_meta %}
 </head>
 
 <body>
-  <section class="page-header">
+  {% include topbar.html %}
+
+  <div class="page">
     {% comment %}
-      Nav is a single comma-separated string, matching the pattern used by the
-      project doc sites. `active` is decided by comparing the current page's
-      output name against the href.
+      `heading` overrides the h1 when the browser title and the display
+      headline should differ, which is normal on a selling page: a short title
+      for the tab and search results, a full sentence on the page.
     {% endcomment %}
-    {% assign current_page = page.name | replace: '.md', '.html' %}
-    {% assign nav_items = "index.html=Home,talks.html=Talks,about.html=About" | split: ',' %}
-    {% for item in nav_items %}{% assign pair = item | split: '=' %}
-    <a href="{{ pair[0] | relative_url }}" class="btn{% if pair[0] == current_page %} active{% endif %}">{{ pair[1] }}</a>{% endfor %}
-    <a href="https://github.com/{{ site.github_username }}" class="btn">GitHub</a>
-    <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}" class="btn">LinkedIn</a>
+    <div class="masthead">
+      {% if page.eyebrow %}<p class="eyebrow">{{ page.eyebrow }}</p>{% endif %}
+      <h1>{% if page.heading %}{{ page.heading }}{% else %}{{ page.title }}{% endif %}</h1>
+      {% if page.standfirst %}<p class="standfirst">{{ page.standfirst }}</p>{% endif %}
+    </div>
 
-    <h1 class="project-name"><span class="brand-reid">Reid</span> <span class="brand-morrison">Morrison</span></h1>
-    <h2 class="project-tagline">Principal Software Engineer. Distributed systems, AI agents,
-      and 11 open-source libraries in daily production use.</h2>
-  </section>
-
-  <section class="main-content">
-    {{content}}
+    <main class="content">
+      {{ content }}
+    </main>
 
     <footer class="site-footer">
-      <span class="site-footer-owner">
-        <a href="https://github.com/{{ site.github_username }}">GitHub</a> &middot;
-        <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}">LinkedIn</a> &middot;
-        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      <span class="site-footer-links">
+        <a href="https://github.com/{{ site.github_username }}">GitHub</a>
+        <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}">LinkedIn</a>
       </span>
-      <span class="site-footer-credits">&copy; {{ site.time | date: '%Y' }} Reid Morrison.</span>
+      <span>&copy; {{ site.time | date: '%Y' }} Reid Morrison.</span>
     </footer>
-  </section>
-
-  <script>
-    // Keep anchor / TOC jumps clear of the sticky header by matching
-    // scroll-padding-top to the header's actual height (it varies by breakpoint).
-    (function () {
-      var header = document.querySelector(".page-header");
-      if (!header) return;
-      function setOffset() {
-        document.documentElement.style.scrollPaddingTop = header.offsetHeight + "px";
-      }
-      setOffset();
-      window.addEventListener("resize", setOffset);
-      window.addEventListener("load", setOffset);
-    })();
-  </script>
+  </div>
 </body>
 
 </html>
