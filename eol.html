@@ -103,12 +103,13 @@ h1{
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
 label{font-size:13px;font-weight:600;color:var(--ink-2)}
 .hint{font-size:12px;color:var(--ink-3);line-height:1.4}
-select,input[type=email],input[type=text]{
+select,textarea,input[type=email],input[type=text]{
   width:100%;padding:10px 11px;border:1px solid var(--rule-2);border-radius:3px;
   background:var(--surface);color:var(--ink);font:inherit;font-size:15px
 }
 select{font-family:"IBM Plex Mono",ui-monospace,monospace}
-select:focus-visible,input:focus-visible,button:focus-visible{
+textarea{min-height:88px;resize:vertical;font-family:inherit}
+select:focus-visible,textarea:focus-visible,input:focus-visible,button:focus-visible{
   outline:2px solid var(--accent);outline-offset:2px
 }
 button{
@@ -209,6 +210,13 @@ footer a{color:var(--accent)}
 /* ---- capture actions ---- */
 .capture + .capture{margin-top:-2px}
 .capture .hint{margin:0 0 14px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 14px}
+.btn{
+  display:inline-block;width:auto;padding:11px 20px;border-radius:3px;
+  border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);
+  font:inherit;font-weight:600;font-size:15px;text-decoration:none;text-align:center
+}
+.btn:hover{filter:brightness(1.08)}
 .note{margin:12px 0 0;font-size:13.5px;color:var(--ink-3)}
 .note--err{color:var(--crit)}
 .btn-quiet{background:transparent;color:var(--accent);border:1px solid var(--rule-2)}
@@ -442,6 +450,10 @@ function render(rv,uv){
   h+=`<section class="capture">
     <h3>Or talk it through</h3>
     <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
+{% if site.booking_url and site.booking_url != "" %}
+    <div class="cta-row"><a class="btn" href="{{ site.booking_url }}">Book a video call</a></div>
+    <p class="hint">Or send the details below, with your versions attached, and I will come back to you.</p>
+{% endif %}
     <form id="lead">
       <div class="row2">
         <div class="field"><label for="nm">Name</label><input id="nm" name="name" type="text" required></div>
@@ -449,9 +461,21 @@ function render(rv,uv){
       </div>
       <div class="field"><label for="co">Company</label><input id="co" name="company" type="text" required></div>
       <div class="field">
-        <label for="msg">Anything useful to know?</label>
-        <input id="msg" name="message" type="text">
-        <p class="hint">An audit date, a blocked deal, or a finding already on paper all change the answer.</p>
+        <label for="forcing">What is forcing the timeline?</label>
+        <select id="forcing" name="forcing_event">
+          <option value="">Select or skip</option>
+          <option value="An audit or assessment date">An audit or assessment date</option>
+          <option value="An enterprise deal blocked on security review">An enterprise deal blocked on security review</option>
+          <option value="A penetration test finding">A penetration test finding</option>
+          <option value="A specific unpatched CVE">A specific unpatched CVE</option>
+          <option value="A transaction or diligence process">A transaction or diligence process</option>
+          <option value="Nothing specific yet">Nothing specific yet</option>
+        </select>
+        <p class="hint">This changes the answer more than the version does.</p>
+      </div>
+      <div class="field">
+        <label for="msg">Anything else worth knowing</label>
+        <textarea id="msg" name="message"></textarea>
       </div>
       <input type="hidden" name="access_key" value="{{ site.web3forms_key }}">
       <input type="hidden" name="from_name" value="reidmorrison.com EOL check">
@@ -466,6 +490,9 @@ function render(rv,uv){
   h+=`<section class="capture">
     <h3>Or talk it through</h3>
     <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
+{% if site.booking_url and site.booking_url != "" %}
+    <div class="cta-row"><a class="btn" href="{{ site.booking_url }}">Book a video call</a></div>
+{% endif %}
     <p class="hint">Reach me on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a> to start a conversation.</p>
   </section>`;
 {% endif %}

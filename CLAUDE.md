@@ -60,9 +60,6 @@ Still to do:
 - **A security posture page.** How client code is handled, where it lives, what
   is retained, laptop encryption, credential handling. The plan calls having
   this unprompted a differentiator, and the question always comes.
-- **Set `booking_url`.** Every page pushes toward a video call, but no booking
-  link exists yet, so the contact form is currently the only route. Nothing
-  renders a booking button until this is set.
 - **A social share image.** Link unfurls for `/eol/` are text-only.
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
   only reproduced.
@@ -152,6 +149,8 @@ assessment.md          The $12,500 product page. Renders the control table
                        from _data/eol.yml, so citations have one home.
 contact.md             Qualifying form plus optional booking link. The Rails
                        version dropdown is generated from _data/eol.yml.
+                       Its fields and the /eol/ form are kept in step; see
+                       "The two lead forms" below.
 open-source.md         The library list, generated from _data/projects.yml.
 about.md               Professional bio. See the prose constraint below.
 talks.md               Conference talks. Not in the nav; linked from About and
@@ -472,6 +471,27 @@ and grants nothing.
 
 The form asks for company and makes it required, so a prospect row can be opened
 and screened against the non-compete before anyone replies.
+
+### The two lead forms
+
+`/eol/` and `/contact` each carry a lead form, and they are **deliberately not
+identical**. Both open with the booking link, because a booked call converts
+better than a form fill and every page pushes toward a video call; both then
+offer the form as the alternative. Both are gated on `web3forms_key` and fall
+back to LinkedIn, and both ask name, work email, company (required), what is
+forcing the timeline, and a free-text field.
+
+The one real difference is the Rails version. `/contact` has to ask, so it
+renders a dropdown from `_data/eol.yml`. `/eol/` already knows, because the
+visitor just picked it, so it attaches `Rails x / Ruby y` as a hidden `versions`
+field and puts it in the subject line instead. **Do not add a version dropdown
+to `/eol/`**, which would ask a question the page has already answered.
+
+The forcing-event options were brought over from `/contact` on 2026-08-31 and
+must stay worded identically in both, because the replies land in one inbox and
+are read as one list. `/eol/` lost a hint under its free-text field in the same
+change: it named an audit date and a blocked deal, which the dropdown now asks
+for directly.
 
 ### Printing is the delivery mechanism
 
