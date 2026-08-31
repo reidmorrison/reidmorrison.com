@@ -65,3 +65,7 @@ exclude:
   - CLAUDE.md
   - README.md
   - vendor
+  # The logo master is untracked, so it is absent from a fresh clone and from
+  # the Pages build. Excluding it keeps a local build byte-identical to
+  # production for whoever has a copy sitting in images/. See CLAUDE.md.
+  - images/reid-morrison-consulting.png
