@@ -327,6 +327,10 @@ const CONTROLS={{ site.data.eol.controls | jsonify }};
 const cmp=(a,b)=>{const x=a.split(".").map(Number),y=b.split(".").map(Number);
   for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1}return 0};
 const railsRec=v=>RAILS.find(r=>r.v===v);
+/* Ruby required by the newest Rails series. Derived, not hardcoded: this used
+   to read "3.2" in two places, which would silently rot the day Rails raises
+   its floor. */
+const RUBY_FLOOR=railsRec(TARGET_RAILS).min;
 const days=iso=>Math.floor((Date.now()-new Date(iso+"T00:00:00Z").getTime())/864e5);
 const fmtDate=iso=>new Date(iso+"T00:00:00Z").toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric",timeZone:"UTC"});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -388,25 +392,42 @@ function versionRecord(kind,v,eol){
 function render(rv,uv){
   const rr=railsRec(rv), ur=RUBY.find(r=>r.v===uv);
   const anyEol = days(rr.eol)>0 || days(ur.eol)>0;
-  const steps=ladder(rv,uv);
-  const ceiling=rr.max, trapped=cmp(ceiling,"3.2")<0;
+  const belowMin=cmp(uv,rr.min)<0, aboveMax=cmp(uv,rr.max)>0, mismatch=belowMin||aboveMax;
+  const steps=mismatch?[]:ladder(rv,uv);
+  const ceiling=rr.max, trapped=cmp(ceiling,RUBY_FLOOR)<0;
   let h="";
 
   h+=`<div class="stack">`;
   h+=versionRecord("Rails",rv,rr.eol);
   h+=versionRecord("Ruby",uv,ur.eol);
 
-  if(trapped){
+  if(mismatch){
+    h+=`<article class="record record--warn">
+      <div class="rec-head"><h2 class="rec-title">Those two versions do not run together</h2>
+      <span class="pill pill--warn">Check the input</span></div>
+      <p style="margin:0 0 10px;color:var(--ink-2);font-size:14px;max-width:64ch">${
+        belowMin
+          ? `Rails ${rv} requires at least Ruby ${rr.min}, and you selected Ruby ${uv}.`
+          : `Rails ${rv} is not supported above Ruby ${rr.max}, and you selected Ruby ${uv}.`
+      } Rails ${rv} runs on Ruby ${rr.min} to ${rr.max}.</p>
+      <p style="margin:0;color:var(--ink-2);font-size:14px;max-width:64ch">The end-of-life dates above are still correct for each version on its own, but no upgrade path is shown, because the starting point cannot exist. Both numbers are on the last lines of your <code>Gemfile.lock</code>, under <code>RUBY VERSION</code> and next to <code>rails</code>.</p>
+    </article>`;
+  }
+
+  if(trapped && !mismatch){
     h+=`<section class="trap">
       <div class="trap-head"><h2 class="rec-title">Structurally trapped</h2></div>
       <div class="trap-body">
-        <p><strong>Rails ${rv} cannot run Ruby newer than ${ceiling}. Every supported Rails release requires Ruby 3.2 or later.</strong> Neither version can move until the other moves first, so no single upgrade resolves this and the gap widens on both axes at once.</p>
+        <p><strong>Rails ${rv} cannot run Ruby newer than ${ceiling}. Every supported Rails release requires Ruby ${RUBY_FLOOR} or later.</strong> Neither version can move until the other moves first, so no single upgrade resolves this and the gap widens on both axes at once.</p>
         <p>The way out alternates: raise Rails to lift the Ruby ceiling, raise Ruby to meet the next Rails floor, and repeat.</p>
       </div>
     </section>`;
   }
 
-  if(!steps.length){
+  if(mismatch){
+    /* No path, and no "no upgrade required" either: the starting point cannot
+       exist, so any ladder drawn from it would be invented. */
+  } else if(!steps.length){
     h+=`<article class="record record--ok">
       <div class="rec-head"><h2 class="rec-title">No upgrade required</h2>
       <span class="pill pill--ok">Current</span></div>

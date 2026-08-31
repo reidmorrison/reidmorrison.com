@@ -20,10 +20,18 @@
 #   v     Version series.
 #   eol   End-of-life date, ISO. Quoted so YAML keeps it a string.
 #   min   Minimum Ruby this Rails series supports.
-#   max   MAXIMUM Ruby this Rails series supports. This is the field that makes
-#         the tool worth using: old Rails caps Ruby, which is what traps people.
+#   max   Highest Ruby this Rails series is known good with. This is the field
+#         that makes the tool worth using: old Rails caps Ruby, which is what
+#         traps people. Two different things feed it, deliberately:
+#           - Where the gemspec sets required_ruby_version with an upper bound,
+#             max is that HARD cap minus one series (5.0 <2.5, 5.1 <2.6,
+#             5.2 <2.7, 6.0 <3.0). You physically cannot install higher.
+#           - From 6.1 up there is NO hard cap, so max is the highest version
+#             FastRuby lists as recommended. Exceeding it is untested, not
+#             impossible. Keep these matching the cited table: two rows were
+#             wrong until 2026-08-31 (6.1 read 3.1, 7.1 read 3.3).
 
-verified: "2026-08-27"
+verified: "2026-08-31"
 
 target_rails: "8.1"
 target_ruby: "3.4"
@@ -34,9 +42,9 @@ rails:
   - { v: "5.1", eol: "2019-08-25", min: "2.2", max: "2.5" }
   - { v: "5.2", eol: "2022-06-01", min: "2.2", max: "2.6" }
   - { v: "6.0", eol: "2023-06-01", min: "2.5", max: "2.7" }
-  - { v: "6.1", eol: "2024-10-01", min: "2.5", max: "3.1" }
+  - { v: "6.1", eol: "2024-10-01", min: "2.5", max: "3.0" }
   - { v: "7.0", eol: "2025-04-01", min: "2.7", max: "3.3" }
-  - { v: "7.1", eol: "2025-10-01", min: "2.7", max: "3.3" }
+  - { v: "7.1", eol: "2025-10-01", min: "2.7", max: "3.4" }
   - { v: "7.2", eol: "2026-08-09", min: "3.1", max: "3.4" }
   - { v: "8.0", eol: "2026-11-07", min: "3.2", max: "3.4" }
   - { v: "8.1", eol: "2027-10-10", min: "3.2", max: "3.4" }
@@ -51,6 +59,7 @@ ruby:
   - { v: "3.2", eol: "2026-03-31" }
   - { v: "3.3", eol: "2027-03-31" }
   - { v: "3.4", eol: "2028-03-31" }
+  - { v: "4.0", eol: "2029-03-31" }
 
 controls:
   - framework: PCI DSS 4.0.1
