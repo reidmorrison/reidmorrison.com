@@ -145,7 +145,3 @@ Which frameworks you are assessed against. What is forcing the date, and how
 firm it is. Who signs, and what they need to see. Whether the application has a
 staging environment, continuous integration, and a test suite you would trust to
 catch a regression.
-
-I also screen every prospect against a prior contractual restriction before
-taking work. If it turns out I cannot serve you, I will say so early rather than
-let a sales process run.

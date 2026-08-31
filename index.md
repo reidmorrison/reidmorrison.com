@@ -105,9 +105,11 @@ slow. It is that it is too fast. The value is knowing which step happens first
 and how little to change in any one iteration, and that comes from having done
 this before on systems where a bad deploy had consequences.
 
-All tooling runs inside your own environment. No client code is transmitted to
-services outside your control, and that is written into the agreement rather
-than promised in a meeting.
+If your security policy requires it, the work can stay inside your environment:
+tooling runs there and no client code reaches services outside your control. Ask
+for that and it goes into the agreement rather than being promised in a meeting.
+It is an extra step in every phase, so it buys the assurance at the cost of some
+schedule.
 
 ## Who this is for
 

@@ -109,10 +109,15 @@ Phased single-version hops. Each one ships to production and soaks before the
 next begins, so a problem is always traceable to one change rather than to a
 six-month merge.
 
-All tooling runs inside your own environment. No client code is transmitted to
-services outside your control. That is written into the agreement, along with
-liability capped at fees paid and a review clause that pauses the delivery clock
-if your reviewer is unavailable, rather than quietly consuming the schedule.
+If your security policy requires it, the work can stay inside your environment:
+tooling runs there and no client code reaches services outside your control. Ask
+for that and it goes into the agreement rather than being promised in a meeting.
+It is an extra step in every phase, so it buys the assurance at the cost of some
+schedule, and whether that trade is worth making is your call.
+
+The agreement also caps liability at fees paid and carries a review clause that
+pauses the delivery clock if your reviewer is unavailable, rather than letting it
+quietly consume the schedule.
 
 <div class="cta-row" markdown="0">
   <a class="btn btn-primary" href="{{ '/contact.html' | relative_url }}">Start a conversation</a>

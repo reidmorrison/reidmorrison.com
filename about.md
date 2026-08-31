@@ -89,12 +89,15 @@ versions and now has a date attached to it, being solo is the feature.
 
 Fixed price per milestone, never hourly, so you carry no risk on how long it
 takes. Phased single-version hops, each shipped to production and soaked before
-the next begins, so any problem traces to one change. All tooling runs inside
-your own environment, and no client code goes to services outside your control.
+the next begins, so any problem traces to one change. If your security policy
+requires the work to stay inside your environment, it can: tooling runs there and
+no client code reaches services outside your control, at the cost of some
+schedule.
 
-That last point is in the agreement rather than promised in a meeting, along
-with liability capped at fees paid and a review clause that pauses the clock
-instead of quietly eating the schedule when your reviewer is unavailable.
+Ask for that and it goes into the agreement rather than being promised in a
+meeting, along with liability capped at fees paid and a review clause that pauses
+the clock instead of quietly eating the schedule when your reviewer is
+unavailable.
 
 [How the assessment works](assessment.html)
 
