@@ -112,11 +112,15 @@ Reid's own address stays private. Mail runs through iCloud custom domain, which
 allows three sending addresses per domain plus an "Allow All Incoming Messages"
 catch-all for receiving at any address.
 
-- **`sales@reidmorrison.com` is the destination for everything public.** It is
-  where form submissions land.
+- **A dedicated public-facing alias is the destination for everything public.**
+  It is where form submissions land. **That address is not written down in this
+  repository**, because the repository is public: ask Reid for it. The Web3Forms
+  key already encodes the destination, so nothing here needs to name it.
 - **No address appears in the markup**, ever. No `mailto:`, no obfuscation
   trick. Every route to Reid is a form or a booking link. If a form backend is
   unavailable, link LinkedIn rather than printing an address.
+- **Do not reintroduce an address anywhere in this repo**, including comments,
+  commit messages, and this file. Refer to "the public alias" instead.
 
 ## Repository facts
 
@@ -461,9 +465,10 @@ submissions to the browser console and lost them while telling the visitor they
 were on their way.
 
 If the key ever needs replacing, create it at <https://web3forms.com/> **using
-`sales@reidmorrison.com`**, because submissions are delivered to whichever
-address created the key. The key is public by design; it identifies a
-destination inbox and grants nothing.
+the public alias** (see "Email addresses are never published on this site";
+ask Reid for it), because submissions are delivered to whichever address
+created the key. The key is public by design; it identifies a destination inbox
+and grants nothing.
 
 The form asks for company and makes it required, so a prospect row can be opened
 and screened against the non-compete before anyone replies.

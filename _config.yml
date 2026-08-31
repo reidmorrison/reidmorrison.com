@@ -28,9 +28,10 @@ plugins:
 # Web3Forms access key for the lead form on /eol/. Public by design; it only
 # identifies the destination inbox, it does not grant access to anything.
 #
-# CREATE IT WITH sales@reidmorrison.com AT https://web3forms.com/ - submissions
+# CREATE IT WITH THE PUBLIC SALES ALIAS AT https://web3forms.com/ - submissions
 # are delivered to whichever address the key was created with, and that address
-# is the one that should receive them.
+# is the one that should receive them. The alias is deliberately not written
+# down in this repo, which is public; see CLAUDE.md.
 #
 # While this is empty the form is NOT rendered and /eol/ points people at
 # LinkedIn instead. That is deliberate: a form that discards submissions is
