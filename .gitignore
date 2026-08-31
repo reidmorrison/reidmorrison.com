@@ -5,3 +5,6 @@
 Gemfile.lock
 _site
 vendor
+
+# Logo master artwork. Deliberately untracked: see CLAUDE.md, "The logo".
+images/reid-morrison-consulting.png

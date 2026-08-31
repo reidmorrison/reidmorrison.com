@@ -90,6 +90,14 @@ one costs real money.
   ceilings come from. Citing a source you rely on is not positioning against
   someone, and stripping the credit while keeping their data would be worse. Do
   not "fix" this in either direction without a reason.
+- **Working entirely inside the client's environment is optional, not the
+  default.** It is achievable, and it goes into the agreement when a client asks
+  for it, but it adds a step to every phase and costs schedule. `index.md`,
+  `assessment.md` and `about.md` each stated it as an unconditional guarantee
+  until 2026-08-31; all three now offer it conditionally and name the schedule
+  cost. Do not restore the absolute phrasing ("all tooling runs inside your own
+  environment", "no client code is transmitted to services outside your
+  control"), which promises something delivery does not always do.
 - **Verified citations only.** PCI DSS **4.0.1**, never 4.0 (retired
   2024-12-31). HIPAA **164.308(a)(1)(ii)(A)-(B)**, never 164.312. SOC 2
   **CC7.1 with CC6.8**, never CC6.1. These specific errors regenerate; check
@@ -150,7 +158,11 @@ _includes/topbar.html  The top bar and wordmark markup. Included by the
 stylesheets/site.css   The site stylesheet. See "Styling".
 stylesheets/topbar.css The top bar, in its own file because two shells use it.
 images/                favicon.ico, apple-touch-icon.png, reid-morrison.jpg.
+                       logo-lockup.png is the /eol/ print letterhead. The topbar
+                       shield is vector and lives in _includes/. The logo master
+                       is deliberately NOT here; see "The logo".
                        header-banner.jpg is unused since the retheme.
+_includes/logo-mark.svg  The shield, inline so its fills are CSS variables.
 ```
 
 ## Styling
@@ -183,8 +195,10 @@ this site does not.
 
 ### The wordmark
 
-Typographic, no logo file, no monogram. "Reid Morrison" in Spectral 700, "EOL
-Remediation" in letterspaced mono in the accent colour, over a **2px rule**.
+Typographic: "Reid Morrison" in Spectral 700, "EOL Remediation" in letterspaced
+mono in the accent colour, over a **2px rule**. A **shield mark sits to its
+left** (added 2026-08-31, see "The logo" below); the type itself is still set,
+not an image.
 
 That rule is the point. It is the same device that sits under every page title,
 so the mark reads as part of this site rather than something dropped onto it. A
@@ -192,10 +206,123 @@ monogram block and a boxed "stamp" treatment were both tried and rejected as
 generic. **If you change the masthead rule, change the wordmark rule with it**,
 or the rhyme breaks and the mark starts looking arbitrary.
 
-Honest limitation, recorded so nobody mistakes it for a moat: nothing here is
-proprietary. Three Google Fonts, about twenty hex values, and public CSS. It is
-reproducible from view-source in an hour. What would actually make it defensible
-is a licensed display face and a drawn mark, neither of which exists yet.
+Honest limitation, recorded so nobody mistakes it for a moat: the type is not
+proprietary. Three Google Fonts, about twenty hex values, and public CSS,
+reproducible from view-source in an hour. The shield is the one drawn asset.
+
+### The logo
+
+The **master artwork** is a shield holding an R/M with a rising arrow, beside a
+three-tier "Reid Morrison / Consulting / EOL Remediation" lockup, supplied by
+Reid on 2026-08-31 as an 1881x836 PNG with an opaque white ground.
+
+**It is deliberately not in this repository.** It was committed once and removed
+the same day, before anything was pushed, so it is not in the history either.
+Reid keeps it outside the repo; ask him for it if a derivative has to be
+regenerated. `.gitignore` carries the filename so it cannot drift back in.
+
+The reason is that this repository is public and permanent. A 750KB source file
+that no page loads is pure weight in every clone, and once pushed it could not
+be taken back out. Only the derivatives below are tracked, and they are what the
+site actually serves.
+
+| Derivative | Form | Used by |
+|------------|------|---------|
+| `_includes/logo-mark.svg` | inline SVG, ~4.8KB | the topbar shield, both themes |
+| `images/logo-lockup.png` | 1440x391 PNG, 33KB | the `/eol/` print letterhead |
+
+**The full lockup is never used at small size, and this is the important rule.**
+Its third tier ("EOL REMEDIATION") is illegible below roughly 44px tall on
+screen or 14mm in print. That is why the topbar gets the shield alone rather
+than the lockup, and why `.ph-logo` in `eol.html` is 18mm and not smaller. If
+the lockup ever appears in a slim bar, a card, or a favicon, it is wrong.
+
+#### Why the mark is vector and the lockup is not
+
+This looks inconsistent and is not. **The master art is built from gradients**:
+the shield stroke runs mid-blue at the top right to near-black navy at the
+bottom left, and the hairline rule under "CONSULTING" fades left to right. A
+traced vector has flat fills, so any two-colour separation cuts that shield
+gradient at one arbitrary point and leaves a visible hard step where blue meets
+navy.
+
+At the 28-34px the topbar uses, that step is smaller than a pixel and the
+vector is strictly better: crisper than a scaled raster, and its fills are CSS
+variables. At the ~66mm the letterhead reproduces, the step is plainly visible
+and the raster is strictly better. Hence one of each. **Do not "finish the job"
+by vectorising the lockup**; it was tried, and the shield reads as a two-tone
+error. Vectorising it properly means reproducing the gradients as SVG
+`linearGradient`s, which needs the shield ring separated from the R, and they
+are one connected shape in the trace.
+
+The lockup PNG is 2x deliberately: 1440px across ~66mm is about 550dpi. At the
+previous 720px it was 276dpi, below print resolution, and this document goes to
+an auditor.
+
+#### The mark is inline, not an `<img>`
+
+CSS variables do not cross into an SVG loaded through `<img src>`, so an
+external file would have needed one copy per theme. Inlined through
+`{% include logo-mark.svg %}`, its two fills read `--logo-ink` and
+`--logo-accent`, which `topbar.css` sets with the same three-state pattern as
+the colour tokens. One file, and an explicit `data-theme` override works rather
+than only the OS setting.
+
+Those are **logo** variables, not `--ink` and `--accent`. On the light palette
+the site's ink and accent are both dark, and painting the shield with them
+collapses its two tones into one.
+
+The navy is `#092449`, which is **1.2:1** against the dark ground `#0E1319`:
+not low contrast, absent. The dark theme lifts it to `#E3E9F1` and brightens
+the accent to the site's dark accent.
+
+The mark sits **outside** `.brand-type`, so the 2px rule still underlines only
+the type and the rhyme with the masthead rule survives. Do not move it inside.
+
+#### Regenerating from the master
+
+Needs the master artwork, which is not in this repo, and `potrace`
+(`brew install potrace`). Run this from `images/` with the master copied in
+beside you, and delete it again afterwards. The separation is by **saturation**,
+not lightness: navy-against-white antialiasing sits at about 15% saturation
+while the real blue is about 43%, so a lightness threshold alone paints halos.
+
+```sh
+# transparent, trimmed lockup, then the shield alone (its gutter is x 485-575)
+magick reid-morrison-consulting.png -fuzz 9% -transparent white \
+  -trim +repage -bordercolor none -border 10 /tmp/lockup.png
+magick /tmp/lockup.png -resize 1440x -strip -colors 200 images/logo-lockup.png
+magick /tmp/lockup.png -crop 530x473+0+0 +repage -trim +repage \
+  -bordercolor none -border 8 /tmp/mark.png
+
+# 4x upscale, split into navy and blue, smooth, trace, assemble by hand
+magick /tmp/mark.png -filter Lanczos -resize 400% -background white \
+  -alpha remove -alpha off /tmp/big.png
+magick /tmp/big.png -colorspace HSL -channel G -separate +channel /tmp/sat.png
+magick /tmp/big.png -colorspace HSL -channel B -separate +channel /tmp/lum.png
+magick /tmp/lum.png -threshold 88% -negate /tmp/all.pbm
+magick /tmp/sat.png -threshold 28% /tmp/s.png
+magick /tmp/lum.png -threshold 34% /tmp/l.png
+magick /tmp/s.png /tmp/l.png -compose multiply -composite \
+  -morphology Open Disk:2.5 -morphology Close Disk:2.5 /tmp/blue.pbm
+magick /tmp/blue.pbm -morphology Dilate Disk:1.5 /tmp/bg.pbm
+magick /tmp/all.pbm \( /tmp/bg.pbm -negate \) -compose Multiply -composite \
+  -morphology Open Disk:2 /tmp/navy.pbm
+for f in navy blue; do
+  magick /tmp/$f.pbm -blur 0x6 -threshold 50% -negate /tmp/${f}_s.pbm
+  potrace /tmp/${f}_s.pbm -b svg -a 1.2 -O 0.5 -t 60 -u 1 -o /tmp/$f.svg
+done
+```
+
+Then lift each `<path d="...">` into `_includes/logo-mark.svg`, navy filled
+`var(--logo-ink)` and blue `var(--logo-accent)`, keeping potrace's group
+transform. **`-u 1` matters**: without it potrace emits coordinates at ten
+times the scale and the file roughly doubles. The blur before tracing matters
+too; without it potrace chases every antialiased stair-step and the path data
+grows about fourfold.
+
+Verify a retrace by rendering it over the PNG and thresholding the difference.
+The current trace has no disagreeing region larger than two pixels.
 
 ### The icons
 
@@ -321,17 +448,22 @@ reaches end of life 2026-11-07**, which alters what the tool says. Bump
 `verified:` when you check; the footer date reads from it, so the page cannot
 claim a verification that did not happen.
 
-### The lead form is off until an access key is configured
+### The lead form is live
 
-`web3forms_key` in `_config.yml` is empty. While it is empty the form is **not
-rendered at all** and the page points at LinkedIn instead. This is deliberate:
-the original file posted to `ENDPOINT=null`, which wrote submissions to the
-browser console and lost them while telling the visitor they were on their way.
+`web3forms_key` in `_config.yml` is set, and **Reid verified end to end on
+2026-08-31 that a submission arrives in the destination inbox.** The form
+renders and delivers.
 
-To turn it on, create an access key at <https://web3forms.com/> **using
+It is still gated on that key: while it is empty the form is **not rendered at
+all** and the page points at LinkedIn instead. That guard is deliberate and
+should stay. The original file posted to `ENDPOINT=null`, which wrote
+submissions to the browser console and lost them while telling the visitor they
+were on their way.
+
+If the key ever needs replacing, create it at <https://web3forms.com/> **using
 `sales@reidmorrison.com`**, because submissions are delivered to whichever
-address created the key. Paste it into `_config.yml`. The key is public by
-design; it identifies a destination inbox and grants nothing.
+address created the key. The key is public by design; it identifies a
+destination inbox and grants nothing.
 
 The form asks for company and makes it required, so a prospect row can be opened
 and screened against the non-compete before anyone replies.
@@ -341,8 +473,9 @@ and screened against the non-compete before anyone replies.
 The original offered "a signed one-page finding" as a PDF that did not exist and
 had no way to be sent. Instead the page prints itself: `@media print` forces the
 light palette (a dark-theme visitor would otherwise print a black page), swaps
-the masthead for a letterhead naming the versions and the date, hides the form
-and nav, and keeps records from breaking across pages. A typical finding runs
+the masthead for a letterhead carrying the logo lockup and naming the versions
+and the date, hides the form and nav, and keeps records from breaking across
+pages. A typical finding runs
 two or three pages.
 
 **Do not describe the printed output as one page**, and do not reintroduce the

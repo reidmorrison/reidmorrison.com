@@ -3,15 +3,22 @@
   carries its own shell, so the nav has one home and the two cannot drift.
   Styles live in stylesheets/topbar.css, linked by both.
 
-  The wordmark is typographic: no logo file, no monogram. The 2px rule under
-  the name is the same device that sits under every page title, so the mark
-  reads as part of this site rather than dropped onto it.
+  The wordmark stays typographic: the 2px rule under the name is the same
+  device that sits under every page title, so the mark reads as part of this
+  site rather than dropped onto it. The shield sits OUTSIDE that rule, which
+  is why .brand-type exists as a wrapper.
+
+  The shield is inline SVG, not an image, so its two fills are CSS variables
+  and one file serves both themes. topbar.css sets those variables with the
+  same three-state pattern the colour tokens use. It is aria-hidden: the
+  adjacent text already names the link.
 {% endcomment %}
 {% assign current_page = page.name | replace: '.md', '.html' %}
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="{{ '/index.html' | relative_url }}">
-      <span class="brand-name">Reid Morrison</span><span class="brand-sub">EOL Remediation</span>
+      {% include logo-mark.svg %}
+      <span class="brand-type"><span class="brand-name">Reid Morrison</span><span class="brand-sub">EOL Remediation</span></span>
     </a>
     {% assign nav_items = "index.html=Home,/eol/=EOL Check,assessment.html=Assessment,open-source.html=Open Source,about.html=About" | split: ',' %}
     <nav class="nav">

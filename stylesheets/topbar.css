@@ -20,12 +20,41 @@
   align-items:center;justify-content:space-between;
 }
 
-/* Wordmark. The 2px rule repeats the masthead rule under every page title. */
+/* Wordmark. The 2px rule repeats the masthead rule under every page title,
+   so it stays under the type only: the shield sits outside .brand-type and
+   the rhyme with the masthead survives. */
 .brand{
-  display:inline-block;line-height:1;text-decoration:none;
+  display:inline-flex;align-items:center;gap:11px;
+  line-height:1;text-decoration:none;
+}
+.brand:hover{text-decoration:none}
+.brand-type{
+  display:inline-block;
   border-bottom:2px solid var(--ink);padding-bottom:5px;
 }
-.brand:hover{text-decoration:none;border-bottom-color:var(--accent)}
+.brand:hover .brand-type{border-bottom-color:var(--accent)}
+
+/* The shield, inline SVG from _includes/logo-mark.svg. Its two fills read
+   these variables, so one file serves both themes and the navy, which is
+   1.2:1 on the dark ground and therefore invisible, is only ever used on the
+   light one. The light values are declared unconditionally, so a visitor whose
+   OS setting is "system" resolves without a media query; the dark ones follow
+   the same three-state pattern as the colour tokens in site.css.
+
+   These are logo variables, not site tokens: --ink and --accent are both dark
+   on the light palette, and painting the shield with them would collapse its
+   two tones into one. Height is fixed and width follows, so the bar cannot
+   change height if the artwork is ever replaced. */
+.brand-mark{
+  display:block;width:auto;height:34px;flex:none;
+  --logo-ink:#0D2547;--logo-accent:#4F8AB8;
+}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .brand-mark{--logo-ink:#E3E9F1;--logo-accent:#7FB2E0}
+}
+:root[data-theme="dark"] .brand-mark{--logo-ink:#E3E9F1;--logo-accent:#7FB2E0}
+
 .brand-name{
   font-family:Spectral,Georgia,serif;font-weight:700;font-size:19px;
   letter-spacing:-.015em;color:var(--ink);
@@ -50,6 +79,8 @@
 
 @media (max-width:44em){
   .topbar-inner{padding:10px 18px}
+  .brand{gap:9px}
+  .brand-mark{height:28px}
   .brand-name{font-size:17px}
   .brand-sub{display:none}
   .nav{gap:14px;font-size:13.5px}

@@ -240,10 +240,12 @@ footer a{color:var(--accent)}
     display:block;border-bottom:2px solid var(--ink);
     padding-bottom:10px;margin-bottom:18px
   }
-  .ph-brand{
-    font-family:Spectral,Georgia,serif;font-weight:700;font-size:16pt;
-    margin:0;letter-spacing:-.01em
-  }
+  /* The lockup only appears here. Print forces the light palette, so the
+     light artwork is the only variant this page needs. 18mm tall is not
+     decoration: below about 14mm the "EOL REMEDIATION" tier turns to mush,
+     and this document goes to an auditor. 1440px across ~66mm is about
+     550dpi, so the letterhead is sharp on any office printer. */
+  .ph-logo{display:block;height:18mm;width:auto;margin:0 0 2mm}
   .ph-sub{
     font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8pt;
     letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:5px 0 0
@@ -269,7 +271,7 @@ footer a{color:var(--accent)}
 <div class="wrap">
 
 <div class="printhead">
-  <p class="ph-brand">Reid Morrison Consulting</p>
+  <img class="ph-logo" src="{{ '/images/logo-lockup.png' | relative_url }}" width="1440" height="391" alt="Reid Morrison Consulting, EOL Remediation">
   <p class="ph-sub">Rails and Ruby end-of-life finding &middot; <span id="phctx"></span> &middot; <span id="phdate"></span></p>
 </div>
 
