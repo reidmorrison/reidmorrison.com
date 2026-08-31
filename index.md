@@ -120,6 +120,11 @@ enterprise deal blocked on a security review, a penetration test finding, or a
 specific unpatched CVE.
 
 <div class="cta-row" markdown="0">
+{% if site.booking_url and site.booking_url != "" %}
+  <a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a>
+  <a class="btn btn-secondary" href="{{ '/contact.html' | relative_url }}">Start a conversation</a>
+{% else %}
   <a class="btn btn-primary" href="{{ '/contact.html' | relative_url }}">Start a conversation</a>
+{% endif %}
   <a class="btn btn-secondary" href="{{ '/eol/' | relative_url }}">Check your exposure first</a>
 </div>

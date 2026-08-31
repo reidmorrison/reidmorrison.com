@@ -38,9 +38,9 @@ plugins:
 # worse than no form. Paste the key here and the form appears.
 # Video call booking link, shown on /contact.html and the home page when set.
 # Empty means no booking button is rendered anywhere, and the contact form is
-# the only route. Cal.com's free plan allows several event types; Calendly's
-# free plan allows one.
-booking_url: ""
+# the only route. This is a Google Calendar appointment schedule; the meeting
+# name set there becomes the subject line on the prospect's own calendar.
+booking_url: "https://calendar.app.google/wkaaAoqxXj1xoVUQ8"
 
 web3forms_key: "018411c9-90f9-4b0f-aa92-b3c080d2c362"
 
