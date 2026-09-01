@@ -24,259 +24,13 @@ permalink: /eol/
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:wght@600;700&display=swap">
+<link rel="stylesheet" href="{{ '/stylesheets/site.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/stylesheets/topbar.css' | relative_url }}">
-<style>
-:root{
-  color-scheme:light;
-  --ground:#F2F4F7; --surface:#FFFFFF; --surface-2:#E9EDF2;
-  --ink:#131A22; --ink-2:#3D4854; --ink-3:#6B7684;
-  --rule:#D3DAE3; --rule-2:#BFC8D4;
-  --accent:#1B4B7A; --accent-ink:#FFFFFF; --accent-soft:#DCE7F2;
-  --crit:#9E2A20; --crit-soft:#F7E2E0;
-  --warn:#8A5300; --warn-soft:#FAECD8;
-  --ok:#1A5C43;  --ok-soft:#DCEDE5;
-  --shadow:0 1px 2px rgba(19,26,34,.06),0 8px 24px -12px rgba(19,26,34,.18);
-  --bar:rgba(242,244,247,.88);
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    color-scheme:dark;
-    --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
-    --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
-    --rule:#28323E; --rule-2:#3A4654;
-    --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
-    --crit:#F0918A; --crit-soft:#33191A;
-    --warn:#E5B369; --warn-soft:#2E2415;
-    --ok:#7BC7A5;  --ok-soft:#12291F;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
-    --bar:rgba(14,19,25,.88);
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
-  --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
-  --rule:#28323E; --rule-2:#3A4654;
-  --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
-  --crit:#F0918A; --crit-soft:#33191A;
-  --warn:#E5B369; --warn-soft:#2E2415;
-  --ok:#7BC7A5;  --ok-soft:#12291F;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
-  --bar:rgba(14,19,25,.88);
-}
-*{box-sizing:border-box}
-body{
-  margin:0; background:var(--ground); color:var(--ink);
-  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
-}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px 72px}
-
-/* ---- masthead ---- */
-.masthead{border-bottom:2px solid var(--ink);margin-bottom:28px;padding:26px 0 14px}
-.eyebrow{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px
-}
-h1{
-  font-family:Spectral,Georgia,serif;font-weight:700;font-size:clamp(28px,4.4vw,44px);
-  line-height:1.1;margin:0 0 10px;text-wrap:balance;letter-spacing:-.01em
-}
-.standfirst{margin:0;max-width:62ch;color:var(--ink-2);font-size:17px}
-
-/* ---- layout ---- */
-.cols{display:grid;grid-template-columns:320px minmax(0,1fr);gap:28px;align-items:start}
-@media (max-width:860px){.cols{grid-template-columns:1fr}}
-
-.panel{
-  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
-  box-shadow:var(--shadow);padding:20px
-}
-.panel--sticky{position:sticky;top:20px}
-@media (max-width:860px){.panel--sticky{position:static}}
-
-.panel-title{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:600;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
-  margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--rule)
-}
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-label{font-size:13px;font-weight:600;color:var(--ink-2)}
-.hint{font-size:12px;color:var(--ink-3);line-height:1.4}
-select,textarea,input[type=email],input[type=text]{
-  width:100%;padding:10px 11px;border:1px solid var(--rule-2);border-radius:3px;
-  background:var(--surface);color:var(--ink);font:inherit;font-size:15px
-}
-select{font-family:"IBM Plex Mono",ui-monospace,monospace}
-textarea{min-height:88px;resize:vertical;font-family:inherit}
-select:focus-visible,textarea:focus-visible,input:focus-visible,button:focus-visible{
-  outline:2px solid var(--accent);outline-offset:2px
-}
-button{
-  width:100%;padding:12px;border:0;border-radius:3px;background:var(--accent);
-  color:var(--accent-ink);font:inherit;font-weight:600;font-size:15px;cursor:pointer
-}
-button:hover{filter:brightness(1.08)}
-
-/* ---- findings ---- */
-.stack{display:flex;flex-direction:column;gap:16px}
-.record{
-  background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--rule-2);
-  border-radius:4px;box-shadow:var(--shadow);padding:18px 20px
-}
-.record--crit{border-left-color:var(--crit)}
-.record--warn{border-left-color:var(--warn)}
-.record--ok{border-left-color:var(--ok)}
-
-.rec-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:12px}
-.rec-title{font-family:Spectral,Georgia,serif;font-weight:600;font-size:21px;margin:0;letter-spacing:-.005em}
-.pill{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;font-weight:600;
-  letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:2px;white-space:nowrap
-}
-.pill--crit{background:var(--crit-soft);color:var(--crit)}
-.pill--warn{background:var(--warn-soft);color:var(--warn)}
-.pill--ok{background:var(--ok-soft);color:var(--ok)}
-
-.dl{display:grid;grid-template-columns:auto 1fr;gap:7px 18px;margin:0;font-size:14px}
-.dl dt{color:var(--ink-3);font-size:12px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;align-self:center}
-.dl dd{margin:0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
-/* ---- elapsed counter ---- */
-/* The number of days without patches is the whole argument of this page, so
-   it is set as the headline of each record rather than as a table row. */
-.counter{
-  display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;
-  margin:2px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--rule)
-}
-.counter-n{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:clamp(44px,8.5vw,66px);font-weight:600;line-height:.88;
-  letter-spacing:-.035em;font-variant-numeric:tabular-nums
-}
-.counter--crit .counter-n{color:var(--crit)}
-.counter--ok   .counter-n{color:var(--ok)}
-.counter-l{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-3);line-height:1.5;max-width:23ch;padding-bottom:6px
-}
-
-/* ---- trap ladder ---- */
-.trap{background:var(--surface);border:1px solid var(--crit);border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
-.trap-head{background:var(--crit-soft);padding:16px 20px;border-bottom:1px solid var(--crit)}
-.trap-head .rec-title{color:var(--crit)}
-.trap-body{padding:18px 20px}
-.trap p{margin:0 0 14px;max-width:64ch}
-.ladder{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column}
-.rung{display:grid;grid-template-columns:26px 1fr;gap:14px;align-items:start;padding-bottom:14px;position:relative}
-.rung:not(:last-child)::before{
-  content:"";position:absolute;left:12px;top:24px;bottom:0;width:2px;background:var(--rule-2)
-}
-.rung-n{
-  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;font-weight:600;
-  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule-2);position:relative;z-index:1
-}
-.rung--rails .rung-n{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
-.rung--ruby  .rung-n{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
-.rung-body strong{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;display:block}
-.rung-why{font-size:13px;color:var(--ink-3);margin-top:2px}
-
-/* ---- controls table ---- */
-.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
-th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;border-bottom:1px solid var(--rule-2)}
-td.ctl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;white-space:nowrap;color:var(--accent)}
-tbody tr:last-child td{border-bottom:0}
-
-/* ---- capture ---- */
-.capture{background:var(--surface-2);border:1px solid var(--rule);border-radius:4px;padding:20px}
-.capture h3{font-family:Spectral,Georgia,serif;font-size:20px;margin:0 0 6px}
-.capture p{margin:0 0 16px;font-size:14px;color:var(--ink-2);max-width:58ch}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media (max-width:560px){.row2{grid-template-columns:1fr}}
-.done{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok);border-radius:3px;padding:14px;font-size:14px;font-weight:500}
-
-.placeholder{color:var(--ink-3);font-size:15px;padding:36px 20px;text-align:center;border:1px dashed var(--rule-2);border-radius:4px}
-footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3);max-width:76ch}
-footer a{color:var(--accent)}
-.hidden{display:none}
-@media (prefers-reduced-motion:no-preference){
-  .record,.trap{animation:rise .32s ease-out both}
-  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-}
-
-/* ---- capture actions ---- */
-.capture + .capture{margin-top:-2px}
-.capture .hint{margin:0 0 14px}
-.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 14px}
-.btn{
-  display:inline-block;width:auto;padding:11px 20px;border-radius:3px;
-  border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);
-  font:inherit;font-weight:600;font-size:15px;text-decoration:none;text-align:center
-}
-.btn:hover{filter:brightness(1.08)}
-.note{margin:12px 0 0;font-size:13.5px;color:var(--ink-3)}
-.note--err{color:var(--crit)}
-.btn-quiet{background:transparent;color:var(--accent);border:1px solid var(--rule-2)}
-.btn-quiet:hover{filter:none;background:var(--accent-soft)}
-
-/* ---- print: the finding becomes the one-page document ---- */
-.printhead{display:none}
-
-@media print{
-  /* Force the light palette. A dark-theme viewer would otherwise print a
-     black page, and this document is meant to go to an auditor. */
-  :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
-    color-scheme:light;
-    --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F7;
-    --ink:#131A22; --ink-2:#3D4854; --ink-3:#55606D;
-    --rule:#C9D1DB; --rule-2:#AEB9C6;
-    --accent:#1B4B7A; --accent-soft:#DCE7F2;
-    --crit:#9E2A20; --crit-soft:#F7E2E0;
-    --warn:#7A4900; --warn-soft:#FAECD8;
-    --ok:#1A5C43;  --ok-soft:#DCEDE5;
-    --shadow:none;
-  }
-  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  @page{margin:16mm}
-  body{background:#fff;font-size:11pt;line-height:1.45}
-  .wrap{max-width:none;padding:0}
-  .masthead,.panel,.capture,.placeholder{display:none !important}
-  .printhead{
-    display:block;border-bottom:2px solid var(--ink);
-    padding-bottom:10px;margin-bottom:18px
-  }
-  /* The lockup only appears here. Print forces the light palette, so the
-     light artwork is the only variant this page needs. 18mm tall is not
-     decoration: below about 14mm the "EOL REMEDIATION" tier turns to mush,
-     and this document goes to an auditor. 1440px across ~66mm is about
-     550dpi, so the letterhead is sharp on any office printer. */
-  .ph-logo{display:block;height:18mm;width:auto;margin:0 0 2mm}
-  .ph-sub{
-    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8pt;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:5px 0 0
-  }
-  .cols{display:block}
-  .stack{gap:12px}
-  .record,.trap{border:1px solid var(--rule);box-shadow:none;animation:none;break-inside:avoid;page-break-inside:avoid}
-  .rec-title{font-size:15pt}
-  .counter{margin-bottom:12px;padding-bottom:12px}
-  .counter-n{font-size:34pt}
-  .counter-l{font-size:7.5pt}
-  .scroll{overflow:visible}
-  table{min-width:0;font-size:9.5pt}
-  th,td{padding:6px 8px}
-  a{color:var(--ink);text-decoration:none}
-  footer{margin-top:18px;font-size:8pt}
-}
-</style>
 </head>
-<body>
+<body class="eol">
 {% include topbar.html %}
 
-<div class="wrap">
+<div class="page">
 
 <div class="printhead">
   <img class="ph-logo" src="{{ '/images/logo-lockup.png' | relative_url }}" width="1440" height="391" alt="Reid Morrison Consulting, EOL Remediation">
@@ -310,7 +64,7 @@ footer a{color:var(--accent)}
   </main>
 </div>
 
-<footer>
+<footer class="eol-footer">
   <p><strong>Sources.</strong> End-of-life dates from the Rails and Ruby maintenance policies via <a href="https://endoflife.date/rails">endoflife.date</a>, verified {{ site.data.eol.verified | date: "%-d %B %Y" }}. Version compatibility from the <a href="https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html">FastRuby compatibility table</a>. Control references are to PCI DSS v4.0.1, the SOC 2 Trust Services Criteria, 45 CFR Part 164, and ISO/IEC 27001:2022.</p>
   <p>This tool reports whether your versions receive vendor security patches and which controls reference that condition. It is not a vulnerability scan, does not enumerate CVEs, and is not a compliance opinion. Whether a given control is met depends on your compensating controls and your assessor.</p>
 </footer>
@@ -405,12 +159,12 @@ function render(rv,uv){
     h+=`<article class="record record--warn">
       <div class="rec-head"><h2 class="rec-title">Those two versions do not run together</h2>
       <span class="pill pill--warn">Check the input</span></div>
-      <p style="margin:0 0 10px;color:var(--ink-2);font-size:14px;max-width:64ch">${
+      <p style="margin:0 0 10px;color:var(--ink-2);font-size:14px">${
         belowMin
           ? `Rails ${rv} requires at least Ruby ${rr.min}, and you selected Ruby ${uv}.`
           : `Rails ${rv} is not supported above Ruby ${rr.max}, and you selected Ruby ${uv}.`
       } Rails ${rv} runs on Ruby ${rr.min} to ${rr.max}.</p>
-      <p style="margin:0;color:var(--ink-2);font-size:14px;max-width:64ch">The end-of-life dates above are still correct for each version on its own, but no upgrade path is shown, because the starting point cannot exist. Both numbers are on the last lines of your <code>Gemfile.lock</code>, under <code>RUBY VERSION</code> and next to <code>rails</code>.</p>
+      <p style="margin:0;color:var(--ink-2);font-size:14px">The end-of-life dates above are still correct for each version on its own, but no upgrade path is shown, because the starting point cannot exist. Both numbers are on the last lines of your <code>Gemfile.lock</code>, under <code>RUBY VERSION</code> and next to <code>rails</code>.</p>
     </article>`;
   }
 
@@ -431,13 +185,13 @@ function render(rv,uv){
     h+=`<article class="record record--ok">
       <div class="rec-head"><h2 class="rec-title">No upgrade required</h2>
       <span class="pill pill--ok">Current</span></div>
-      <p style="margin:0;color:var(--ink-2);font-size:14px;max-width:64ch">You are on the only Rails and Ruby combination still in normal maintenance. Re-check when Rails ${TARGET_RAILS} approaches its end of life on ${fmtDate(railsRec(TARGET_RAILS).eol)}.</p>
+      <p style="margin:0;color:var(--ink-2);font-size:14px">You are on the only Rails and Ruby combination still in normal maintenance. Re-check when Rails ${TARGET_RAILS} approaches its end of life on ${fmtDate(railsRec(TARGET_RAILS).eol)}.</p>
     </article>`;
   } else {
   h+=`<article class="record record--${anyEol?"crit":"ok"}">
     <div class="rec-head"><h2 class="rec-title">Required upgrade path</h2>
     <span class="pill pill--${steps.length>6?"crit":"warn"}">${steps.length} version hop${steps.length===1?"":"s"}</span></div>
-    <p style="margin:0 0 4px;color:var(--ink-2);font-size:14px;max-width:64ch">To Rails ${TARGET_RAILS} on Ruby ${TARGET_RUBY}, the only combination in normal maintenance. Each hop ships and soaks in production before the next begins.</p>
+    <p style="margin:0 0 4px;color:var(--ink-2);font-size:14px">To Rails ${TARGET_RAILS} on Ruby ${TARGET_RUBY}, the only combination in normal maintenance. Each hop ships and soaks in production before the next begins.</p>
     <ol class="ladder">${steps.map((s,i)=>`
       <li class="rung rung--${s.kind}">
         <span class="rung-n">${i+1}</span>
@@ -453,8 +207,8 @@ function render(rv,uv){
     h+=`<article class="record record--crit">
       <div class="rec-head"><h2 class="rec-title">Controls implicated</h2>
       <span class="pill pill--crit">${CONTROLS.length} references</span></div>
-      <p style="margin:0 0 14px;color:var(--ink-2);font-size:14px;max-width:64ch">These controls reference unsupported software directly. Which apply depends on the frameworks you are assessed against.</p>
-      <div class="scroll"><table>
+      <p style="margin:0 0 14px;color:var(--ink-2);font-size:14px">These controls reference unsupported software directly. Which apply depends on the frameworks you are assessed against.</p>
+      <div class="table-scroll"><table>
         <thead><tr><th>Framework</th><th>Control</th><th>What it requires</th></tr></thead>
         <tbody>${CONTROLS.map(c=>`<tr><td>${esc(c.framework)}</td><td class="ctl">${esc(c.control)}</td><td>${esc(c.requires)}</td></tr>`).join("")}</tbody>
       </table></div>
@@ -472,11 +226,11 @@ function render(rv,uv){
     <h3>Or talk it through</h3>
     <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
-    <div class="cta-row"><a class="btn" href="{{ site.booking_url }}">Book a video call</a></div>
+    <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
     <p class="hint">Or send the details below, with your versions attached, and I will come back to you.</p>
 {% endif %}
     <form id="lead">
-      <div class="row2">
+      <div class="form-row">
         <div class="field"><label for="nm">Name</label><input id="nm" name="name" type="text" required></div>
         <div class="field"><label for="em">Work email</label><input id="em" name="email" type="email" required></div>
       </div>
@@ -512,7 +266,7 @@ function render(rv,uv){
     <h3>Or talk it through</h3>
     <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
-    <div class="cta-row"><a class="btn" href="{{ site.booking_url }}">Book a video call</a></div>
+    <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
 {% endif %}
     <p class="hint">Reach me on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a> to start a conversation.</p>
   </section>`;
