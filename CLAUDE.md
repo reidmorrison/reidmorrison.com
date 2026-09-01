@@ -64,8 +64,10 @@ Still to do:
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
   only reproduced.
 
-`/eol/` keeps its own self-contained shell. It now matches the rest of the site
-visually, so folding it into the shared layout is optional cleanup, not a fix.
+`/eol/` keeps its own shell: its own `<head>`, its own sources footer, and the
+print letterhead. Its **CSS is no longer its own**; it moved into `site.css` on
+2026-09-01, so the page is markup and JavaScript only. Folding the shell itself
+into `_layouts/default.html` is optional cleanup, not a fix.
 
 ## Commercial rules that constrain content
 
@@ -136,8 +138,10 @@ _config.yml            Site config. kramdown settings mirror the doc sites.
 _data/projects.yml     THE source of truth for the library list. Edit here.
 _data/eol.yml          THE source of truth for Rails/Ruby EOL dates, version
                        ceilings and control citations. Drives /eol/.
-eol.html               The EOL exposure check, served at /eol/. Self-contained,
-                       does not use the shared layout. See below.
+eol.html               The EOL exposure check, served at /eol/. Builds its own
+                       shell rather than using _layouts/default.html, but
+                       carries no CSS: it links site.css like every other
+                       page. See below.
 _layouts/default.html  Shared shell: sticky top bar, page title, footer.
                        Renders page.title as the h1, so pages must NOT repeat
                        their own title as a leading heading.
@@ -158,7 +162,7 @@ talks.md               Conference talks. Not in the nav; linked from About and
 404.html               Links back to the doc sites.
 _includes/topbar.html  The top bar and wordmark markup. Included by the
                        shared layout AND by eol.html, so the nav has one home.
-stylesheets/site.css   The site stylesheet. See "Styling".
+stylesheets/site.css   THE stylesheet, /eol/ included. See "Styling".
 stylesheets/topbar.css The top bar, in its own file because two shells use it.
 images/                favicon.ico, apple-touch-icon.png, reid-morrison.jpg.
                        logo-lockup.png is the /eol/ print letterhead. The topbar
@@ -372,9 +376,30 @@ into a table row.
   redefines them again. **Never declare a colour only inside a media block**, or
   it will not apply for a visitor whose OS setting is "system".
 - **Style through tokens, never literal hex values** in component rules.
-- Both `site.css` and `/eol/` force the light palette in `@media print`. A
-  dark-theme visitor would otherwise print a black page, and pages here are
-  meant to be printable and forwardable.
+- **One width, and it is the top bar's.** `.page` and `.topbar-inner` both cap
+  at 1120px, so the wordmark, the nav, the masthead rule, every card and every
+  paragraph share two vertical edges. `.page` was 820px with a separate
+  `.page--wide` for `/eol/` until 2026-09-01, when Reid asked for the match.
+- **Nothing is capped to a reading measure, and that is deliberate.** `p` and
+  `li` were 68ch, `.lede` 64ch, `.standfirst` 62ch, and the `/eol/` card copy 58
+  to 64ch. At 1120px those all stopped well short of the rule above them and
+  read as stranded text, so they were lifted the same day. Running text fills
+  its container. The only `ch` caps left are the About pull quote and the
+  `/eol/` counter label, which sit beside something rather than run as prose;
+  `p,li{max-width:none}` is written out rather than deleted so the full width
+  reads as a decision and not an omission.
+- **The print block restates every semantic token**, not only the ones it
+  changes. The theme rules match `:root` at the same specificity, so a token
+  left out keeps its dark value: that is how the printed finding ends up with a
+  salmon counter on white. A dark-theme visitor would otherwise print a black
+  page, and pages here are meant to be printable and forwardable.
+- **A grid track holding a scrollable table is `minmax(0,1fr)`, never `1fr`.**
+  A bare `1fr` takes its minimum from the content, so the 560px min-width on the
+  `/eol/` controls table sized the whole findings column and pushed the page
+  sideways on a phone. Fixed 2026-09-01; the table scrolls inside
+  `.table-scroll` and the page does not.
+- **The `/eol/` print rules are scoped to `body.eol`.** They hide the masthead
+  and the forms, which is right for the finding and wrong for every other page.
 - The separator pseudo-elements (`.project-meta a + a::before`) need
   `display:inline-block`, otherwise the parent link's underline propagates into
   the middot and it renders as an underscore.
@@ -436,9 +461,14 @@ the global footer.
 
 The lead magnet, and the highest-value page here. Moved into this repo
 2026-08-27 from `eol-calculator.html` in the business folder; **this is now the
-only live copy**. It carries its own complete design system (Spectral, IBM Plex
-Sans and Mono, its own tokens, a full dark theme) and does **not** use
-`_layouts/default.html`. That is deliberate until the site retheme lands.
+only live copy**. It builds its own shell rather than using
+`_layouts/default.html`, but it no longer carries its own design system: the
+tokens, fields, buttons, tables and print palette it invented were adopted
+site-wide in the retheme, and on 2026-09-01 the page's remaining components
+(`.cols`, `.panel`, `.record`, `.counter`, `.trap`, `.capture`) moved into
+`site.css` under their own section. **`eol.html` now contains no CSS at all.**
+Style it there, with everything else, and expect the shared rules above that
+section to apply.
 
 ### The data lives in `_data/eol.yml`, not in the JavaScript
 
@@ -496,12 +526,13 @@ for directly.
 ### Printing is the delivery mechanism
 
 The original offered "a signed one-page finding" as a PDF that did not exist and
-had no way to be sent. Instead the page prints itself: `@media print` forces the
-light palette (a dark-theme visitor would otherwise print a black page), swaps
-the masthead for a letterhead carrying the logo lockup and naming the versions
-and the date, hides the form and nav, and keeps records from breaking across
-pages. A typical finding runs
-two or three pages.
+had no way to be sent. Instead the page prints itself, through the `@media
+print` block in `site.css`: it forces the light palette (a dark-theme visitor
+would otherwise print a black page), swaps the masthead for a letterhead
+carrying the logo lockup and naming the versions and the date, hides the form
+and nav, and keeps records from breaking across pages. Those rules are scoped to
+`body.eol`, which `eol.html` sets, because hiding the masthead is right here and
+wrong everywhere else. A typical finding runs two or three pages.
 
 **Do not describe the printed output as one page**, and do not reintroduce the
 word "signed": the page's own footer states it is not a compliance opinion, and
