@@ -105,4 +105,16 @@
   .nav{gap:14px;font-size:13.5px}
 }
 
-@media print{ .topbar{display:none} }
+@media print{
+  .topbar{display:none}
+
+  /* The shield survives print on /eol/, as the letterhead. The print block in
+     site.css forces the light palette by restating the :root tokens, but the
+     logo variables are set on .brand-mark rather than on :root, so the dark
+     rules above would otherwise still apply and a dark-theme visitor would
+     print a near-white shield onto white paper. Restated here at the same
+     specificity as those rules, and after them. */
+  :root .brand-mark,
+  :root[data-theme="dark"] .brand-mark,
+  :root:not([data-theme="light"]) .brand-mark{--logo-ink:#0D2547;--logo-accent:#4F8AB8}
+}

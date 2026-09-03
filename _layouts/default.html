@@ -37,12 +37,23 @@
       {{ content }}
     </main>
 
+    {% comment %}
+      The entity line is the counterparty, named on every page: a reader has to
+      be able to see who they would be contracting with without reaching
+      /security.html. The facts come from site.entity in _config.yml, which is
+      their one home; do not retype them here. /eol/ carries its own footer and
+      repeats this block from the same source.
+    {% endcomment %}
     <footer class="site-footer">
-      <span class="site-footer-links">
-        <a href="https://github.com/{{ site.github_username }}">GitHub</a>
-        <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}">LinkedIn</a>
-      </span>
-      <span>&copy; {{ site.time | date: '%Y' }} Reid Morrison.</span>
+      <p class="site-footer-entity">{{ site.entity.name }}, {{ site.entity.form_short }} &middot; {{ site.entity.address }}</p>
+      <div class="site-footer-row">
+        <span class="site-footer-links">
+          <a href="{{ '/privacy.html' | relative_url }}">Privacy</a>
+          <a href="https://github.com/{{ site.github_username }}">GitHub</a>
+          <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}">LinkedIn</a>
+        </span>
+        <span>&copy; {{ site.time | date: '%Y' }} {{ site.entity.name }}</span>
+      </div>
     </footer>
   </div>
 </body>

@@ -549,6 +549,13 @@ tbody tr:last-child td{border-bottom:0}
   margin-top:36px;padding-top:18px;border-top:1px solid var(--rule);
   font-size:12.5px;color:var(--ink-3);
 }
+/* The entity, set apart from the sources and the disclaimer above it. This
+   line prints with the finding, which is the point of it being here at all:
+   an engineer forwards the printout to an auditor, and the document has to
+   say who produced it. The privacy link is screen furniture and comes out. */
+.eol-footer-entity{margin:16px 0 0}
+.eol-footer a{color:var(--ink-3);text-decoration:underline}
+.eol-footer a:hover{color:var(--accent)}
 
 @media (prefers-reduced-motion:no-preference){
   .record,.trap{animation:rise .32s ease-out both}
@@ -562,8 +569,17 @@ tbody tr:last-child td{border-bottom:0}
 
 .site-footer{
   margin-top:52px;padding-top:20px;border-top:1px solid var(--rule);
-  display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;
   font-size:13.5px;color:var(--ink-3);
+}
+
+/* Two rows, not one. The entity line is the counterparty rather than a nav
+   item, and at this size the name, the form and the address already fill most
+   of a laptop line: folded into the flex row below it, the address wrapped
+   against the copyright on anything narrower. It sits first because that is
+   the order the sentence reads in. */
+.site-footer-entity{margin:0 0 10px}
+.site-footer-row{
+  display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;
 }
 .site-footer a{color:var(--ink-3)}
 .site-footer a:hover{color:var(--accent)}
@@ -592,6 +608,10 @@ tbody tr:last-child td{border-bottom:0}
   }
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   @page{margin:16mm}
+  /* For the parts of a footer that are navigation on screen and dead text on
+     paper: print strips link styling, so a "Privacy" link prints as a word
+     with nowhere to go. */
+  .print-hide{display:none !important}
   body{background:#fff;font-size:11pt;line-height:1.45}
   .topbar{display:none}
   .page{max-width:none;padding:0}
@@ -608,12 +628,30 @@ tbody tr:last-child td{border-bottom:0}
     display:block;border-bottom:2px solid var(--ink);
     padding-bottom:10px;margin-bottom:18px;
   }
-  /* The lockup only appears here. Print forces the light palette, so the
-     light artwork is the only variant this page needs. 18mm tall is not
-     decoration: below about 14mm the "EOL REMEDIATION" tier turns to mush,
-     and this document goes to an auditor. 1440px across ~66mm is about
-     550dpi, so the letterhead is sharp on any office printer. */
-  .eol .ph-logo{display:block;height:18mm;width:auto;margin:0 0 2mm}
+  /* The letterhead. It was images/logo-lockup.png until 2026-09-03, a raster
+     of the master artwork whose middle tier read "CONSULTING": a name no
+     entity holds. It is now the same construction as the top bar, the shield
+     beside "Reid Morrison" over "EOL REMEDIATION" on the 2px rule, which
+     means the printed finding and the screen carry one mark and nothing on
+     this site depends on the master art any more.
+
+     Set in mm and pt because this only ever renders on paper. The tier label
+     is the part that used to turn to mush when the lockup was reproduced
+     small; as live type at 8pt it sets cleanly at any printer resolution,
+     which is the second reason the raster is gone. */
+  .eol .ph-lockup{display:flex;align-items:center;gap:4mm;margin:0 0 3mm}
+  .eol .ph-lockup .brand-mark{height:15mm}
+  .eol .ph-type{
+    display:inline-block;border-bottom:2px solid var(--ink);padding-bottom:1.5mm;
+  }
+  .eol .ph-name{
+    font-family:Spectral,Georgia,serif;font-weight:700;font-size:21pt;
+    letter-spacing:-.015em;color:var(--ink);
+  }
+  .eol .ph-tier{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8pt;font-weight:500;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-left:3mm;
+  }
   .eol .ph-sub{
     font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8pt;
     letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:5px 0 0;

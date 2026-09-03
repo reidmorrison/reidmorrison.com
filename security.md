@@ -21,7 +21,7 @@ So this page answers it without being asked. Everything below is what would go
 on your questionnaire. If your process needs it on your own form instead, send
 the form.
 
-**Reid Morrison Inc., a Florida corporation, is the contracting party.** One
+**{{ site.entity.name }}, {{ site.entity.form_short }}, is the contracting party.** One
 named engineer does the work. There is no bench, no subcontractor, and no
 offshore delivery team.
 
@@ -229,7 +229,7 @@ channel, put it in your addendum and we will sign it.
 
 ## The agreement
 
-- **Corp-to-corp**, with Reid Morrison Inc. as the contracting party.
+- **Corp-to-corp**, with {{ site.entity.name }} as the contracting party.
 - **An NDA before anything is shared**, including the `Gemfile.lock`.
 - **The AI-tooling disclosure written into the statement of work**, naming which
   of the three postures above applies to your engagement, and who supplies the
@@ -256,10 +256,10 @@ to it.
 ## For your procurement team
 
 <dl class="dl">
-  <dt>Entity</dt><dd>Reid Morrison Inc.</dd>
-  <dt>Form</dt><dd>Florida profit corporation</dd>
-  <dt>Document</dt><dd>P26000043890</dd>
-  <dt>Address</dt><dd>7901 4th St N, Ste 300, St. Petersburg, FL 33702</dd>
+  <dt>Entity</dt><dd>{{ site.entity.name }}</dd>
+  <dt>Form</dt><dd>{{ site.entity.form }}</dd>
+  <dt>Document</dt><dd>{{ site.entity.document }}</dd>
+  <dt>Address</dt><dd>{{ site.entity.address }}</dd>
 </dl>
 
 The document number is the public record, so you can verify the entity and its
