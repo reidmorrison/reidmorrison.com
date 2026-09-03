@@ -7,7 +7,7 @@ standfirst: >-
   companies. Fixed price, in weeks rather than quarters, by the engineer who
   does the work.
 description: >-
-  Reid Morrison Consulting. End-of-life remediation for Rails applications in
+  Reid Morrison Inc. End-of-life remediation for Rails applications in
   PCI DSS, SOC 2, HIPAA and ISO 27001 scope. EOL Risk Assessment, $12,500 fixed,
   two weeks.
 ---

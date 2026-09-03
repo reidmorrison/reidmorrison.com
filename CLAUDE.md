@@ -1,6 +1,6 @@
 # reidmorrison.com
 
-The website for **Reid Morrison Consulting**, served by GitHub Pages at the apex
+The website for **Reid Morrison Inc.**, served by GitHub Pages at the apex
 domain `reidmorrison.com`. Jekyll, markdown pages, no build step beyond what
 GitHub Pages runs itself.
 
@@ -48,18 +48,58 @@ previews. They carried the job-search positioning until 2026-08-28. If they ever
 describe a person looking for work rather than a practice selling a service,
 that is a bug.
 
+### The entity is named on this site, and it is not "Consulting"
+
+**Changed 2026-09-03.** The contracting party is **`Reid Morrison Inc.`**, a
+Florida corporation, document **P26000043890**, at 7901 4th St N, Ste 300,
+St. Petersburg, FL 33702. It has **no trading name and no descriptor**, by
+decision: "Consulting" signals the advisory, time-and-materials category this
+fixed-fee offer is priced out of, and a trading name that differs from the legal
+name would need a Florida fictitious-name registration nobody has filed. The
+reasoning lives in the business folder, not here.
+
+Two rules follow, and both are load-bearing on `/security.html`:
+
+- **The corporation is the counterparty; the founder is the capability.** Every
+  page names Reid Morrison Inc. as the party you contract with, and Reid's
+  experience and open-source record as the reason to choose it. No page may read
+  as though the individual is contracting.
+- **The word "Consulting" appears on no public surface.** `_config.yml` `title`,
+  the descriptions and `og:site_name` were changed the same day. Two hits remain
+  and are deliberate: `about.md` and `open-source.md` use "consulting references"
+  generically, which is the word doing ordinary work.
+
+**One hit is not yet fixed:** `images/logo-lockup.png`, the `/eol/` print
+letterhead, has "CONSULTING" as its middle tier, and its `alt` text accurately
+says so. Replacing it with the shield plus the typographic wordmark the top bar
+already uses is the fix, and it retires the last dependency on the master
+artwork. Until then, do not "correct" the alt text to disagree with the image.
+
 ### Rebuild in progress
 
 The full plan, its reasoning and the sequencing are recorded outside this repo.
-Shipped: `/eol/` with its data file, sitemap, the site-wide retheme, and the
-page set: a home page that sells the finding, `/assessment`, `/contact`,
-`/open-source`.
+Shipped: `/eol/` with its data file, sitemap, the site-wide retheme, the page
+set (a home page that sells the finding, `/assessment`, `/contact`,
+`/open-source`), and `/security` on 2026-09-03.
 
-Still to do:
+Still to do, in the order the plan sets:
 
-- **A security posture page.** How client code is handled, where it lives, what
-  is retained, laptop encryption, credential handling. The plan calls having
-  this unprompted a differentiator, and the question always comes.
+- **The hero and the tagline.** They must convey fixed-price upgrades of
+  end-of-life software with compliance as the driver, and read as delivery
+  rather than advice. `_config.yml` `tagline` is still the bare category.
+- **A `/services` page** stating the two-step model outright: fixed-price
+  Remediation Assessment, the compliance-ready upgrade plan as its deliverable,
+  then a fixed-price quote for the upgrade. It also carries the product rename
+  (see below) and takes a nav slot, which means removing one.
+- **The footer**, on every page and on `/eol/`, carrying "Reid Morrison Inc., a
+  Florida corporation", the address above, and a link to a privacy policy.
+- **A `/privacy` page.** No cookies and no analytics, so it is short: GitHub
+  Pages, Google Fonts, Web3Forms and Google Calendar are the only third parties
+  a visitor's browser contacts.
+- **The product rename.** "EOL Risk Assessment" becomes **Remediation
+  Assessment** across `index.md` and `assessment.md`. "Risk assessment" is
+  compliance-advisory language, which is the framing the E&O underwriter must
+  never see. `/assessment.html` keeps its URL; LinkedIn points at it.
 - **A social share image.** Link unfurls for `/eol/` are text-only.
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
   only reproduced.
@@ -156,6 +196,8 @@ contact.md             Qualifying form plus optional booking link. The Rails
                        Its fields and the /eol/ form are kept in step; see
                        "The two lead forms" below.
 open-source.md         The library list, generated from _data/projects.yml.
+security.md            "How we work with your code." The page a CISO forwards
+                       to their third-party risk team. See below.
 about.md               Professional bio. See the prose constraint below.
 talks.md               Conference talks. Not in the nav; linked from About and
                        from open-source.md.
@@ -438,6 +480,120 @@ title; `index.md`, `about.md`, `talks.md` and `404.html` each had one removed.
 There is no longer any JavaScript in the layout. The old script measured the
 banner's height to set `scroll-padding-top`; the slim bar has a fixed height, so
 CSS handles it.
+
+## `/security.html` is written to be forwarded, not read
+
+The reader is a third-party risk or vendor-security reviewer, and they arrive
+because a CISO sent them the link. Publishing it unprompted shortens their review
+cycle, which is the whole point: they read the page instead of waiting on a
+questionnaire round trip.
+
+**Every claim on it was confirmed by Reid on 2026-09-03.** Nothing there is
+inferred, and nothing may be added later that has not been through the same
+check. It is the one page where a plausible guess is a liability rather than a
+placeholder, because a reviewer will hold the company to it and an auditor may
+read it. The facts, so a future edit does not have to re-ask:
+
+- Company-owned Mac, full-disk encryption, automatic screen lock, enrolled in
+  **Apple Business Manager** and centrally managed with **Mosyle**. Client work
+  never touches a personal device. The page says "centrally managed" rather than
+  naming Mosyle, because the vendor can change and the control cannot.
+- MFA on every account that can reach client code, **passkeys wherever
+  supported**, unique credentials in a password manager, no shared logins.
+- **Client code: destroyed at close-out, confirmed in writing, and excluded from
+  every backup.** The backup exclusion is what makes the deletion claim complete,
+  and it is the follow-up question a reviewer always asks.
+- **Deliverables and correspondence: seven years, then destroyed.**
+- **Incident notification within 24 hours** of becoming aware.
+- **Background check on request.**
+- AI tooling is **Claude and Claude Code**, run on a **commercial account**
+  (Team, Enterprise or API), confirmed 2026-09-03. That account type is what
+  makes the citation correct: the **Commercial** Terms carry the no-training
+  clause, and a personal Pro or Max plan would fall under the Consumer Terms
+  instead, making the sentence on the page wrong. If the account ever changes,
+  the page changes with it. The claim is deliberately limited to what those terms
+  actually say, which is that Anthropic may not train models on customer content
+  and that the customer retains its inputs and owns its outputs. **Do not add a
+  zero-retention claim**; there is no such agreement, and the terms state no
+  retention period.
+
+### The three hosting postures (added 2026-09-03)
+
+The page presents where the work is hosted as the client's choice, ordered by
+assurance, using the `.options` component from the home page with **no severity
+modifier**: all three are acceptable, so painting one `--crit` would say the
+default posture is bad.
+
+1. **Our managed machine.** The default. A working copy lives on the managed Mac,
+   destroyed at close-out, excluded from backups. Tooling on our own account.
+2. **Your Anthropic tenancy.** Same for the code; the tooling runs under accounts
+   the client provisions.
+3. **Your virtual desktop.** The strongest. **Source code is never downloaded**,
+   so there is nothing on our side to retain, delete or lose.
+
+**The VDI posture is not the default, deliberately.** It makes the client's
+infrastructure a precondition for starting, which is the trade
+`risks-and-counterarguments.md` warns about in the business folder: a security
+objection swapped for a procurement delay. Do not promote it to the default
+without revisiting that.
+
+**Claude Code must run inside the virtual desktop, and the page says so as a
+requirement rather than a preference.** A VDI that will not permit it is not a
+viable environment, and it is cheaper for everyone to learn that before the
+agreement than after. Two ways to satisfy it, both stated publicly:
+
+- **Reid's own subscription, used from inside the client's desktop.** Preferred,
+  and nothing for the client to buy.
+- **The client's own subscription**, if their policy demands it. Then it **must
+  include the latest Claude Opus AND Claude Fable models, at their cost.** Both,
+  not either: raised to two models 2026-09-03. This is a real precondition with a
+  real price, so it is on the public page rather than saved for scoping.
+
+**If the client will fund neither route, the VDI posture is off the table and the
+work runs under one of the other two.** The page says so. It is a decision about
+posture rather than a disqualifier for the engagement, and the only true
+disqualifier is a client who will permit neither their own desktop nor our
+machine, which leaves nowhere for the work to happen. The scoping questions live
+in `pre-quote-checklist.md` in the business folder, under B5.
+
+**Where the assessment report lives under VDI, decided 2026-09-03:** it is
+written inside the virtual desktop and leaves it as the deliverable, carrying
+findings, version data, dependency status and the agreed baselines, and no
+application source. **Reid keeps his copy**, under the same seven-year rule.
+That is not a convenience: the report is the underwriting record the fixed price
+rests on, and the acknowledged error and flaky-test baselines are what separate a
+genuine upgrade regression from a pre-existing bug. The alternative, leaving the
+only copy inside the client's VDI, was considered and rejected for that reason.
+
+Three things the page does deliberately, which look like omissions and are not:
+
+1. **It admits the working copy exists**, and scopes that admission to the first
+   two postures. A local clone lives on one machine for the length of the
+   engagement, because running the suite requires it. Saying otherwise would be
+   false, and the admission is what makes the rest credible. Under VDI the
+   exception genuinely disappears, and the page says that too.
+2. **It keeps in-tenancy AI conditional**, per the commercial rule above. The
+   default is Anthropic's commercial service; the client's own tenancy is
+   available on request, goes into the agreement, and costs schedule.
+3. **It makes no claim about production data.** The delivery playbook allows a
+   shadow-replay harness where traffic volume justifies it, so a blanket "we
+   never touch production data" would be wrong.
+
+**The procurement line is gated and is not published yet.** "W-9, certificate of
+insurance and D-U-N-S number are available on request" names three documents, and
+none exist today: the EIN has not been issued, E&O is not bound, and the D-U-N-S
+request goes in the day the EIN does. An HTML comment in `security.md` marks the
+spot. Add it there and on `contact.md` on the same day, and not before, because
+the one reader who sees that line is the one who will ask for the documents.
+
+## The nav has no "Home" item
+
+Removed 2026-09-03 when `/security.html` needed a slot. The wordmark is the home
+link, which is the ordinary convention. `topbar.css` records that the bar holds
+one line down to about 820px at the floor sizes, and that budget is now spent:
+**adding another nav item means removing one.** `/services` is the next page that
+wants a slot, and `Assessment` is the one it should take, because the services
+page links to it.
 
 ### The footer carries no RSS link
 

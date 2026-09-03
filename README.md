@@ -1,8 +1,11 @@
 # reidmorrison.com
 
 Source for [reidmorrison.com](https://reidmorrison.com), the website for **Reid
-Morrison Consulting**: end-of-life remediation for Rails applications in PCI DSS,
+Morrison Inc.**: end-of-life remediation for Rails applications in PCI DSS,
 SOC 2, HIPAA and ISO 27001 scope. Jekyll, served by GitHub Pages.
+
+The contracting entity is `Reid Morrison Inc.`, a Florida corporation. It has no
+trading name, so nothing published here says "Consulting".
 
 This was a personal site supporting a job search until August 2026. It is now a
 commercial site, and the two purposes do not mix: copy written for a hiring
