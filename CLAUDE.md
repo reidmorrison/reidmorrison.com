@@ -545,9 +545,16 @@ agreement than after. Two ways to satisfy it, both stated publicly:
 - **Reid's own subscription, used from inside the client's desktop.** Preferred,
   and nothing for the client to buy.
 - **The client's own subscription**, if their policy demands it. Then it **must
-  include the current Claude Opus model, at their cost.** This is a real
-  precondition with a real price, so it is on the public page rather than saved
-  for scoping. Decided 2026-09-03.
+  include the latest Claude Opus AND Claude Fable models, at their cost.** Both,
+  not either: raised to two models 2026-09-03. This is a real precondition with a
+  real price, so it is on the public page rather than saved for scoping.
+
+**If the client will fund neither route, the VDI posture is off the table and the
+work runs under one of the other two.** The page says so. It is a decision about
+posture rather than a disqualifier for the engagement, and the only true
+disqualifier is a client who will permit neither their own desktop nor our
+machine, which leaves nowhere for the work to happen. The scoping questions live
+in `pre-quote-checklist.md` in the business folder, under B5.
 
 **Where the assessment report lives under VDI, decided 2026-09-03:** it is
 written inside the virtual desktop and leaves it as the deliverable, carrying

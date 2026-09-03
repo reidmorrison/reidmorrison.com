@@ -40,7 +40,7 @@ offshore delivery team.
     <tr><td>Access</td><td>Issued by you, to a named individual, at the least privilege the phase needs. Revoked by you at close-out.</td></tr>
     <tr><td>Production changes</td><td>Through your own deployment and change process, never around it.</td></tr>
     <tr><td>AI tooling</td><td>Claude and Claude Code, on a commercial account. Anthropic's commercial terms state customer content is not used to train models. It can run in your own tenancy, or on your virtual desktop, at your choice.</td></tr>
-    <tr><td>What you host, on a virtual desktop</td><td>Claude Code, with access to a current frontier model. Without it the work cannot be done there.</td></tr>
+    <tr><td>What you host, on a virtual desktop</td><td>Claude Code, able to reach the latest Claude Opus and Claude Fable models. A desktop that cannot run it rules that posture out.</td></tr>
     <tr><td>Incident notification</td><td>Within 24 hours of becoming aware, to your named contact.</td></tr>
     <tr><td>Certifications</td><td>No SOC 2 report. We complete your questionnaire in full and sign your security addendum.</td></tr>
     <tr><td>Screening</td><td>An NDA before anything is shared. Background check on request.</td></tr>
@@ -191,10 +191,14 @@ than after the agreement is signed. There are two ways to satisfy it:
 
 - **Our own subscription, used from inside your desktop.** Nothing for you to
   buy, and the tooling behaves exactly as it does everywhere else.
-- **Your subscription, if your policy requires it.** Then it has to include
-  access to the current Claude Opus model, at your cost. The work depends on the
-  strongest model available, and a weaker one changes both what can be delivered
-  and how long it takes.
+- **Your subscription, if your policy requires it.** Then it has to include the
+  **latest Claude Opus and Claude Fable models, at your cost.** The work depends
+  on current frontier models, and a weaker one changes both what can be
+  delivered and how long it takes.
+
+If neither route is open to you, the virtual desktop posture is not available and
+the work runs under one of the other two instead. That is a decision about
+posture, not a reason to stop.
 
 The failure mode with these tools on a production upgrade is not that they are
 too slow. It is that they are too fast. The control that matters is not the
