@@ -3,16 +3,16 @@ layout: default
 title: Contact
 heading: Start a conversation
 standfirst: >-
-  Tell me what you are running and what is forcing the timeline. I read and
-  answer these myself.
+  Tell us what you are running and what is forcing the timeline. Reid reads and
+  answers these himself.
 description: >-
-  Get in touch with Reid Morrison about end-of-life remediation for a Rails
-  application in a regulated environment.
+  Get in touch with Reid Morrison Inc. about end-of-life remediation for a
+  Rails application in a regulated environment.
 ---
 
 Everything starts with a video call rather than a phone slot, so we can look at
 the same screen. If you already have your `Gemfile.lock` to hand, mention it and
-I will read it before we speak, which makes the first conversation specific
+we will read it before we speak, which makes the first conversation specific
 instead of general.
 
 {% if site.booking_url and site.booking_url != "" %}
@@ -20,7 +20,7 @@ instead of general.
   <a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a>
 </div>
 
-Or send the details below and I will come back to you.
+Or send the details below and we will come back to you.
 {% endif %}
 
 {% if site.web3forms_key and site.web3forms_key != "" %}
@@ -81,7 +81,7 @@ Or send the details below and I will come back to you.
 </form>
 
 <div id="thanks" class="done hidden" markdown="0">
-  Sent. I reply personally, usually the same day.
+  Sent. Reid replies personally, usually the same day.
 </div>
 
 <script>
@@ -114,14 +114,14 @@ Or send the details below and I will come back to you.
     } catch (err) {
       button.disabled = false;
       status.className = "note note--err";
-      status.innerHTML = 'That did not send. Try again, or reach me on ' +
+      status.innerHTML = 'That did not send. Try again, or reach us on ' +
         '<a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a>.';
     }
   });
 })();
 </script>
 {% else %}
-The contact form is not configured. Reach me on
+The contact form is not configured. Reach us on
 [LinkedIn](https://www.linkedin.com/in/{{ site.linkedin_username }}) in the
 meantime.
 {% endif %}
@@ -136,12 +136,34 @@ dependency, which is what determines whether an upgrade is straightforward or
 structural.
 
 **What your assessor or your customer actually said.** The specific wording of a
-finding, a security questionnaire, or a blocked deal tells me which control you
+finding, a security questionnaire, or a blocked deal tells us which control you
 are being measured against, and that decides what the work has to produce.
 
-## What I will ask you
+## What we will ask you
 
 Which frameworks you are assessed against. What is forcing the date, and how
 firm it is. Who signs, and what they need to see. Whether the application has a
 staging environment, continuous integration, and a test suite you would trust to
 catch a regression.
+
+## What happens next
+
+A video call, then a short written scope. **The agreement is with
+{{ site.entity.name }}, {{ site.entity.form_short }}**, and it is corp-to-corp:
+an NDA before anything is shared if you need one, liability capped at fees
+paid, and your own security addendum signed.
+
+How your code, your access and your credentials are handled is set out in full
+on [our security page]({{ '/security.html' | relative_url }}), which is written
+for the reviewer your CISO forwards it to.
+
+<!--
+  The procurement line from the round 2 plan is deliberately NOT here yet:
+
+    "W-9, certificate of insurance and D-U-N-S number are available on request."
+
+  Same gate as /security.html, where the other half of this pair is marked:
+  EIN issued, E&O bound, D-U-N-S issued. Publishing it before all three exist
+  promises a document that cannot be produced, to the one reader who will ask
+  for it. Add it to both pages on the same day, not before.
+-->

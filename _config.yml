@@ -8,14 +8,41 @@
 # surface would be a fictitious name nobody registered. /security.html names the
 # entity as the counterparty, and the tab title has to agree with it.
 title: Reid Morrison Inc.
-tagline: EOL Remediation
+
+# `tagline` is the descriptive work the entity name no longer does: the
+# corporation has no descriptor, so the offer has to be legible from the
+# surrounding copy instead. Changed 2026-09-03 from the bare category
+# "EOL Remediation", which named the market rather than what is sold.
+#
+# Honest note on where it renders: jekyll-seo-tag only uses `tagline` for the
+# site root, and ONLY when that page sets no `title` of its own. index.md sets
+# one, so this string is currently inert. It is set correctly anyway, because
+# the day the home page drops its title this becomes the tab and the search
+# result, and a stale value would be discovered by a buyer rather than by us.
+# `description` below is the string that actually ships on every page.
+tagline: Fixed-price upgrades off end-of-life software
 description: >-
-  Reid Morrison Inc. End-of-life remediation for Rails applications in
-  PCI DSS, SOC 2, HIPAA and ISO 27001 scope. Fixed-price upgrades off unsupported
-  Rails and Ruby versions, delivered by a principal engineer with twenty years in
-  regulated systems.
+  Reid Morrison Inc. upgrades production applications off end-of-life software
+  at a fixed price, for companies in PCI DSS, SOC 2, HIPAA and ISO 27001 scope.
+  Rails and Ruby first. Starts with the Remediation Assessment: $12,500 fixed,
+  two weeks, and the senior-management remediation plan your assessor asks for.
 url: https://reidmorrison.com
 author: Reid Morrison
+
+# The contracting entity, exactly as it appears on the approved Florida
+# Articles. THE ONE HOME for these facts: the footer on every page, the /eol/
+# print letterhead and the procurement block on /security.html all read them
+# from here. They are also what the W-9, the D-U-N-S record and the insurance
+# certificate will carry, so a page that drifts from this block drifts from a
+# document a procurement reviewer is holding.
+entity:
+  name: Reid Morrison Inc.
+  # Reads as an apposition in the footer: "Reid Morrison Inc., a Florida
+  # corporation". `form` is the register a procurement form asks for.
+  form_short: a Florida corporation
+  form: Florida profit corporation
+  document: P26000043890
+  address: 7901 4th St N, Ste 300, St. Petersburg, FL 33702
 
 github_username: reidmorrison
 linkedin_username: reidmorrison
@@ -30,6 +57,13 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  # Added 2026-09-03 for exactly one redirect: /assessment.html was a page in
+  # its own right for six days, was in the sitemap, and folded into
+  # /services.html. `redirect_from` there keeps the old URL resolving instead
+  # of 404ing anything that indexed or bookmarked it. Whitelisted on GitHub
+  # Pages. If that redirect is ever removed, remove this too rather than
+  # leaving a plugin nothing uses.
+  - jekyll-redirect-from
 
 # Web3Forms access key for the lead form on /eol/. Public by design; it only
 # identifies the destination inbox, it does not grant access to anything.

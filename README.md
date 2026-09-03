@@ -5,7 +5,15 @@ Morrison Inc.**: end-of-life remediation for Rails applications in PCI DSS,
 SOC 2, HIPAA and ISO 27001 scope. Jekyll, served by GitHub Pages.
 
 The contracting entity is `Reid Morrison Inc.`, a Florida corporation. It has no
-trading name, so nothing published here says "Consulting".
+trading name, so nothing published here says "Consulting". Its name, form,
+document number and address live in one place, `entity:` in
+[`_config.yml`](_config.yml), and every footer and procurement block renders
+from there.
+
+The pages: a home page that names the finding, [`/services`](services.md) for
+the two-step model and the $12,500 product in full, [`/security`](security.md)
+for the reader a CISO forwards it to, [`/open-source`](open-source.md),
+[`/about`](about.md), [`/contact`](contact.md) and [`/privacy`](privacy.md).
 
 This was a personal site supporting a job search until August 2026. It is now a
 commercial site, and the two purposes do not mix: copy written for a hiring

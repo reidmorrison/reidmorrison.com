@@ -1,15 +1,16 @@
 ---
 layout: default
 title: EOL Remediation for Rails
-heading: Your Rails version is an audit finding.
+heading: Your Rails version is an audit finding. We close it at a fixed price.
 standfirst: >-
-  I remove end-of-life findings from production applications at regulated
-  companies. Fixed price, in weeks rather than quarters, by the engineer who
-  does the work.
+  Reid Morrison Inc. upgrades production applications off end-of-life software
+  and hands them back on a supported version, in weeks rather than quarters.
+  Rails and Ruby first. The same fixed-price model fits any upgrade, migration
+  or maintenance backlog with a compliance date attached.
 description: >-
   Reid Morrison Inc. End-of-life remediation for Rails applications in
-  PCI DSS, SOC 2, HIPAA and ISO 27001 scope. EOL Risk Assessment, $12,500 fixed,
-  two weeks.
+  PCI DSS, SOC 2, HIPAA and ISO 27001 scope. Remediation Assessment, $12,500
+  fixed, two weeks.
 ---
 
 {% assign r72 = site.data.eol.rails | where: "v", "7.2" | first %}
@@ -24,8 +25,8 @@ description: >-
 
 Rails {{ r72.v }} stopped receiving security patches on
 {{ r72.eol | date: "%-d %B %Y" }}. Rails {{ r80.v }} follows on
-{{ r80.eol | date: "%-d %B %Y" }}, which leaves Rails
-{{ site.data.eol.target_rails }} as the only series still supported. Ruby
+{{ r80.eol | date: "%-d %B %Y" }}, and after that Rails
+{{ site.data.eol.target_rails }} is the only series still receiving them. Ruby
 {{ ruby32.v }} went end of life on {{ ruby32.eol | date: "%-d %B %Y" }}.
 
 If you are assessed against PCI DSS, SOC 2, HIPAA or ISO 27001, that is not a
@@ -62,7 +63,7 @@ the days each has gone unpatched and the controls it implicates.
   <div class="option option--ok">
     <p class="verdict">Ends the finding</p>
     <h3>Get current</h3>
-    <p>Move onto a supported version and the condition that created the finding is gone. Historically expensive and slow, which is the actual reason it keeps getting deferred. That is the part I have changed.</p>
+    <p>Move onto a supported version and the condition that created the finding is gone. Historically expensive and slow, which is the actual reason it keeps getting deferred. That is the part we have changed.</p>
   </div>
 </div>
 
@@ -70,34 +71,34 @@ the days each has gone unpatched and the controls it implicates.
 
 PCI DSS 12.3.4 requires a remediation plan approved by senior management for
 any component no longer receiving vendor security fixes. Most teams do not have
-that document. It is the first thing I produce.
+that document. It is the first thing we produce.
 
 <div class="price" markdown="0">
   <span class="price-figure">$12,500</span>
   <span class="price-terms">Fixed &middot; Two weeks</span>
-  <p>The EOL Risk Assessment. Component inventory, the 12.3.4 remediation plan itself, the upgrade path across both Ruby and Rails, and fixed prices for each phase that follows.</p>
+  <p>The Remediation Assessment. Component inventory, the 12.3.4 remediation plan itself, the upgrade path across both Ruby and Rails, and fixed prices for each phase that follows.</p>
 </div>
 
 If the assessment concludes you should not do this work, or should not do it
-with me, you pay nothing.
-
-[What the assessment covers]({{ '/assessment.html' | relative_url }})
+with us, you pay nothing.
 
 Remediation is quoted from the assessment findings. Every codebase is
 different, and anyone quoting an upgrade without reading your `Gemfile.lock` is
 guessing.
 
-## Why me
+[How an engagement works, and what the assessment contains]({{ '/services.html' | relative_url }})
+
+## Why one engineer, and why this one
 
 Twenty years building systems where being wrong was expensive: a real-time
 credit bureau at 99.99% availability, healthcare, payments, and an event-driven
-platform on Elixir and Kafka. I do the work myself. You are not being sold a
-principal engineer and handed a junior.
+platform on Elixir and Kafka. Reid Morrison does that work himself. You are not
+being sold a principal engineer and handed a junior.
 
-I maintain **11 open-source Ruby libraries with over 77 million combined
-downloads**, and I shipped new versions of four of them in July 2026 using
-agentic workflows. Those diffs are public. You can audit how I work, at what
-increment size and in what order, before you hire me.
+He maintains **11 open-source Ruby libraries with over 77 million combined
+downloads**, and shipped new versions of four of them in July 2026 using
+agentic workflows. Those diffs are public. You can audit how he works, at what
+increment size and in what order, before you hire anyone.
 [See the libraries]({{ '/open-source.html' | relative_url }}).
 
 The failure mode with AI tooling on a production upgrade is not that it is too
@@ -105,11 +106,11 @@ slow. It is that it is too fast. The value is knowing which step happens first
 and how little to change in any one iteration, and that comes from having done
 this before on systems where a bad deploy had consequences.
 
-If your security policy requires it, the work can stay inside your environment:
-tooling runs there and no client code reaches services outside your control. Ask
-for that and it goes into the agreement rather than being promised in a meeting.
-It is an extra step in every phase, so it buys the assurance at the cost of some
-schedule.
+Where the work happens is your choice, and there are three postures: our own
+managed machine, your Anthropic tenancy, or a virtual desktop you supply, on
+which your source code is never downloaded at all. Whichever applies goes into
+the agreement rather than being promised in a meeting.
+[How we work with your code]({{ '/security.html' | relative_url }}).
 
 ## Who this is for
 

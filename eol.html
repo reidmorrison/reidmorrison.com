@@ -33,7 +33,17 @@ permalink: /eol/
 <div class="page">
 
 <div class="printhead">
-  <img class="ph-logo" src="{{ '/images/logo-lockup.png' | relative_url }}" width="1440" height="391" alt="Reid Morrison Consulting, EOL Remediation">
+  {% comment %}
+    The letterhead, print only. It is built from the shield and live type
+    rather than images/logo-lockup.png, which was retired on 2026-09-03: its
+    middle tier read "CONSULTING" and named an entity that does not exist.
+    Same construction as the top bar, so the printed finding and the screen
+    carry one mark. See site.css, the print block.
+  {% endcomment %}
+  <div class="ph-lockup">
+    {% include logo-mark.svg %}
+    <span class="ph-type"><span class="ph-name">Reid Morrison</span><span class="ph-tier">EOL Remediation</span></span>
+  </div>
   <p class="ph-sub">Rails and Ruby end-of-life finding &middot; <span id="phctx"></span> &middot; <span id="phdate"></span></p>
 </div>
 
@@ -67,6 +77,7 @@ permalink: /eol/
 <footer class="eol-footer">
   <p><strong>Sources.</strong> End-of-life dates from the Rails and Ruby maintenance policies via <a href="https://endoflife.date/rails">endoflife.date</a>, verified {{ site.data.eol.verified | date: "%-d %B %Y" }}. Version compatibility from the <a href="https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html">FastRuby compatibility table</a>. Control references are to PCI DSS v4.0.1, the SOC 2 Trust Services Criteria, 45 CFR Part 164, and ISO/IEC 27001:2022.</p>
   <p>This tool reports whether your versions receive vendor security patches and which controls reference that condition. It is not a vulnerability scan, does not enumerate CVEs, and is not a compliance opinion. Whether a given control is met depends on your compensating controls and your assessor.</p>
+  <p class="eol-footer-entity">{{ site.entity.name }}, {{ site.entity.form_short }} &middot; {{ site.entity.address }}<span class="print-hide"> &middot; <a href="{{ '/privacy.html' | relative_url }}">Privacy</a></span></p>
 </footer>
 </div>
 
@@ -224,10 +235,10 @@ function render(rv,uv){
 {% if site.web3forms_key and site.web3forms_key != "" %}
   h+=`<section class="capture">
     <h3>Or talk it through</h3>
-    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
+    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
     <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
-    <p class="hint">Or send the details below, with your versions attached, and I will come back to you.</p>
+    <p class="hint">Or send the details below, with your versions attached, and we will come back to you.</p>
 {% endif %}
     <form id="lead">
       <div class="form-row">
@@ -259,16 +270,16 @@ function render(rv,uv){
       <button type="submit">Send</button>
       <p class="note" id="leadstatus" role="status"></p>
     </form>
-    <div id="thanks" class="done hidden">Sent, with <strong>Rails ${rv} / Ruby ${uv}</strong> attached. You will hear back from me, not from a sequence.</div>
+    <div id="thanks" class="done hidden">Sent, with <strong>Rails ${rv} / Ruby ${uv}</strong> attached. You will hear back from Reid himself, not from a sequence.</div>
   </section>`;
 {% else %}
   h+=`<section class="capture">
     <h3>Or talk it through</h3>
-    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week EOL Risk Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with me, you pay nothing.</p>
+    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
     <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
 {% endif %}
-    <p class="hint">Reach me on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a> to start a conversation.</p>
+    <p class="hint">Reach us on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a> to start a conversation.</p>
   </section>`;
 {% endif %}
 
@@ -308,7 +319,7 @@ function render(rv,uv){
     }catch(err){
       btn.disabled=false;
       status.className="note note--err";
-      status.innerHTML='That did not send. Try again, or reach me on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a>.';
+      status.innerHTML='That did not send. Try again, or reach us on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a>.';
     }
   });
 }

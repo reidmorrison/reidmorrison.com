@@ -58,6 +58,14 @@ fixed-fee offer is priced out of, and a trading name that differs from the legal
 name would need a Florida fictitious-name registration nobody has filed. The
 reasoning lives in the business folder, not here.
 
+**The four entity facts live in `_config.yml` under `entity:`**, added
+2026-09-03, and every surface reads them from there: the footer on every page,
+the `/eol/` footer, the counterparty lines on `/services`, `/contact` and
+`/about`, and the procurement block on `/security`. Do not retype the name or
+the address into a page. They are also what the W-9, the D-U-N-S record and the
+certificate of insurance will carry, so a page that drifts from that block
+drifts from a document a procurement reviewer is holding.
+
 Two rules follow, and both are load-bearing on `/security.html`:
 
 - **The corporation is the counterparty; the founder is the capability.** Every
@@ -69,40 +77,39 @@ Two rules follow, and both are load-bearing on `/security.html`:
   and are deliberate: `about.md` and `open-source.md` use "consulting references"
   generically, which is the word doing ordinary work.
 
-**One hit is not yet fixed:** `images/logo-lockup.png`, the `/eol/` print
-letterhead, has "CONSULTING" as its middle tier, and its `alt` text accurately
-says so. Replacing it with the shield plus the typographic wordmark the top bar
-already uses is the fix, and it retires the last dependency on the master
-artwork. Until then, do not "correct" the alt text to disagree with the image.
+**The last hit was cleared 2026-09-03.** `images/logo-lockup.png` was the
+`/eol/` print letterhead and carried "CONSULTING" as its middle tier. The
+letterhead is now built from the shield plus live type, the PNG is deleted, and
+nothing on this site depends on the master artwork any more. See "The logo".
 
 ### Rebuild in progress
 
 The full plan, its reasoning and the sequencing are recorded outside this repo.
-Shipped: `/eol/` with its data file, sitemap, the site-wide retheme, the page
-set (a home page that sells the finding, `/assessment`, `/contact`,
-`/open-source`), and `/security` on 2026-09-03.
+Round 1 shipped `/eol/` with its data file, the sitemap, the site-wide retheme
+and the page set (a home page that sells the finding, `/assessment`,
+`/contact`, `/open-source`). `/security` followed on 2026-09-03, and
+`/assessment` was folded into `/services` later the same day.
+
+**Round 2 shipped 2026-09-03**, in one pull request: the entity footer and
+`/privacy` on every page, the hero and `_config.yml` rewritten, `/services`
+added and given the nav slot, the product renamed, the commercial pages moved
+into the company voice, and the last "Consulting" surface retired.
+`/assessment.html` was folded into `/services.html` in the same branch; see
+below.
 
 Still to do, in the order the plan sets:
 
-- **The hero and the tagline.** They must convey fixed-price upgrades of
-  end-of-life software with compliance as the driver, and read as delivery
-  rather than advice. `_config.yml` `tagline` is still the bare category.
-- **A `/services` page** stating the two-step model outright: fixed-price
-  Remediation Assessment, the compliance-ready upgrade plan as its deliverable,
-  then a fixed-price quote for the upgrade. It also carries the product rename
-  (see below) and takes a nav slot, which means removing one.
-- **The footer**, on every page and on `/eol/`, carrying "Reid Morrison Inc., a
-  Florida corporation", the address above, and a link to a privacy policy.
-- **A `/privacy` page.** No cookies and no analytics, so it is short: GitHub
-  Pages, Google Fonts, Web3Forms and Google Calendar are the only third parties
-  a visitor's browser contacts.
-- **The product rename.** "EOL Risk Assessment" becomes **Remediation
-  Assessment** across `index.md` and `assessment.md`. "Risk assessment" is
-  compliance-advisory language, which is the framing the E&O underwriter must
-  never see. `/assessment.html` keeps its URL; LinkedIn points at it.
+- **The procurement line**, on `/security` and `/contact`. Gated on all three
+  documents existing: EIN issued, E&O bound, D-U-N-S issued. An HTML comment
+  marks the spot on both pages. See "The procurement line is gated" below.
+- **A `Gemfile.lock` drop zone** on `/eol/`, parsed in the browser with nothing
+  uploaded. The strongest single addition left, and the free tier of the
+  assessment in one page.
 - **A social share image.** Link unfurls for `/eol/` are text-only.
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
   only reproduced.
+- **Refresh the download counts**, stamped 2026-08-06. See "Refreshing download
+  counts".
 
 `/eol/` keeps its own shell: its own `<head>`, its own sources footer, and the
 print letterhead. Its **CSS is no longer its own**; it moved into `site.css` on
@@ -132,11 +139,15 @@ one costs real money.
 - **Working entirely inside the client's environment is optional, not the
   default.** It is achievable, and it goes into the agreement when a client asks
   for it, but it adds a step to every phase and costs schedule. `index.md`,
-  `assessment.md` and `about.md` each stated it as an unconditional guarantee
-  until 2026-08-31; all three now offer it conditionally and name the schedule
-  cost. Do not restore the absolute phrasing ("all tooling runs inside your own
-  environment", "no client code is transmitted to services outside your
-  control"), which promises something delivery does not always do.
+  `services.md` and `about.md` each stated it as an unconditional guarantee
+  until 2026-08-31 (`assessment.md` before it was folded into `services.md`).
+Since 2026-09-03 none of them restates the posture at all:
+  each names the three choices in one sentence and links `/security.html`, which
+  is where they are set out in full and kept correct. Do not restore the
+  absolute phrasing ("all tooling runs inside your own environment", "no client
+  code is transmitted to services outside your control"), which promises
+  something delivery does not always do, and do not re-describe the postures on
+  a selling page, which is how the two drift.
 - **Verified citations only.** PCI DSS **4.0.1**, never 4.0 (retired
   2024-12-31). HIPAA **164.308(a)(1)(ii)(A)-(B)**, never 164.312. SOC 2
   **CC7.1 with CC6.8**, never CC6.1. These specific errors regenerate; check
@@ -174,7 +185,9 @@ catch-all for receiving at any address.
 
 ```
 _config.yml            Site config. kramdown settings mirror the doc sites.
-                       Also holds web3forms_key, which gates the /eol/ form.
+                       Also holds web3forms_key, which gates the /eol/ form,
+                       and `entity:`, THE one home for the four contracting
+                       facts every page's footer renders.
 _data/projects.yml     THE source of truth for the library list. Edit here.
 _data/eol.yml          THE source of truth for Rails/Ruby EOL dates, version
                        ceilings and control citations. Drives /eol/.
@@ -189,8 +202,13 @@ _layouts/post.html     Blog post wrapper. Date line, then content.
 _posts/                Empty. Blog scaffold only, with no index page.
 index.md               Home. Sells the finding. The library list moved OUT of
                        here to open-source.md in the step 5 rewrite.
-assessment.md          The $12,500 product page. Renders the control table
-                       from _data/eol.yml, so citations have one home.
+services.md            THE product page: the two-step model, the $12,500
+                       Remediation Assessment in full, and step two. Absorbed
+                       assessment.md on 2026-09-03 and carries its
+                       `redirect_from`. Renders the control table from
+                       _data/eol.yml, so citations have one home.
+privacy.md             Privacy policy. Short, because the site sets no cookies
+                       and runs no analytics. Linked from every footer.
 contact.md             Qualifying form plus optional booking link. The Rails
                        version dropdown is generated from _data/eol.yml.
                        Its fields and the /eol/ form are kept in step; see
@@ -207,9 +225,10 @@ _includes/topbar.html  The top bar and wordmark markup. Included by the
 stylesheets/site.css   THE stylesheet, /eol/ included. See "Styling".
 stylesheets/topbar.css The top bar, in its own file because two shells use it.
 images/                favicon.ico, apple-touch-icon.png, reid-morrison.jpg.
-                       logo-lockup.png is the /eol/ print letterhead. The topbar
-                       shield is vector and lives in _includes/. The logo master
-                       is deliberately NOT here; see "The logo".
+                       NO logo raster: logo-lockup.png was deleted 2026-09-03
+                       when the /eol/ letterhead became typographic. The shield
+                       is vector and lives in _includes/. The logo master is
+                       deliberately NOT here; see "The logo".
                        header-banner.jpg is unused since the retheme.
 _includes/logo-mark.svg  The shield, inline so its fills are CSS variables.
 ```
@@ -277,18 +296,33 @@ site actually serves.
 
 | Derivative | Form | Used by |
 |------------|------|---------|
-| `_includes/logo-mark.svg` | inline SVG, ~4.8KB | the topbar shield, both themes |
-| `images/logo-lockup.png` | 1440x391 PNG, 33KB | the `/eol/` print letterhead |
+| `_includes/logo-mark.svg` | inline SVG, ~4.8KB | the topbar shield, and the `/eol/` print letterhead |
 
-**The full lockup is never used at small size, and this is the important rule.**
-Its third tier ("EOL REMEDIATION") is illegible below roughly 44px tall on
-screen or 14mm in print. That is why the topbar gets the shield alone rather
-than the lockup, and why `.ph-logo` in `eol.html` is 18mm and not smaller. If
-the lockup ever appears in a slim bar, a card, or a favicon, it is wrong.
+**One derivative, as of 2026-09-03.** `images/logo-lockup.png` was a 1440x391
+raster of the full lockup and served the `/eol/` print letterhead. It is
+deleted. The letterhead is now the shield beside "Reid Morrison" over
+"EOL REMEDIATION" on the 2px rule, the same construction as the top bar, set in
+`site.css` under the print block.
 
-#### Why the mark is vector and the lockup is not
+Three things that bought:
 
-This looks inconsistent and is not. **The master art is built from gradients**:
+- The middle tier of the master lockup read **"CONSULTING"**, an entity that
+  does not exist. That was the last such surface on the site.
+- **Nothing here depends on the master artwork any more.** It lives outside the
+  repo (below), and a printed document no longer breaks if it is lost.
+- The tier label is **live type rather than a raster**, so the legibility floor
+  that governed the old letterhead is gone. It sets cleanly at any printer
+  resolution.
+
+**The full lockup is still never used at small size**, if it is ever
+reintroduced. Its third tier is illegible below roughly 44px on screen or 14mm
+in print, which is why the topbar gets the shield alone. In a slim bar, a card
+or a favicon it is wrong.
+
+#### Why the mark is vector and the lockup was not
+
+Kept because the master art still exists and someone may want another
+derivative from it. **The master art is built from gradients**:
 the shield stroke runs mid-blue at the top right to near-black navy at the
 bottom left, and the hairline rule under "CONSULTING" fades left to right. A
 traced vector has flat fills, so any two-colour separation cuts that shield
@@ -297,16 +331,15 @@ navy.
 
 At the 28-34px the topbar uses, that step is smaller than a pixel and the
 vector is strictly better: crisper than a scaled raster, and its fills are CSS
-variables. At the ~66mm the letterhead reproduces, the step is plainly visible
-and the raster is strictly better. Hence one of each. **Do not "finish the job"
-by vectorising the lockup**; it was tried, and the shield reads as a two-tone
-error. Vectorising it properly means reproducing the gradients as SVG
-`linearGradient`s, which needs the shield ring separated from the R, and they
-are one connected shape in the trace.
+variables. At the ~66mm the old letterhead reproduced, the step was plainly
+visible and the raster was strictly better, which is why there used to be one of
+each. **Do not "finish the job" by vectorising the lockup** if it comes back; it
+was tried, and the shield reads as a two-tone error. Vectorising it properly
+means reproducing the gradients as SVG `linearGradient`s, which needs the shield
+ring separated from the R, and they are one connected shape in the trace.
 
-The lockup PNG is 2x deliberately: 1440px across ~66mm is about 550dpi. At the
-previous 720px it was 276dpi, below print resolution, and this document goes to
-an auditor.
+The letterhead sidesteps all of that by using the shield alone at 15mm, where
+the gradient step is already sub-pixel, and setting the words as type.
 
 #### The mark is inline, not an `<img>`
 
@@ -363,7 +396,8 @@ for f in navy blue; do
 done
 ```
 
-Then lift each `<path d="...">` into `_includes/logo-mark.svg`, navy filled
+The lockup half of that recipe is kept for completeness; nothing on the site
+serves it. Then lift each `<path d="...">` into `_includes/logo-mark.svg`, navy filled
 `var(--logo-ink)` and blue `var(--logo-accent)`, keeping potrace's group
 transform. **`-u 1` matters**: without it potrace emits coordinates at ten
 times the scale and the file roughly doubles. The blur before tracing matters
@@ -453,6 +487,8 @@ into a table row.
   sentence and the tab should stay short.
 - `eyebrow` renders a small mono label above the `h1`.
 - `standfirst` renders the lead paragraph under it.
+- `redirect_from` (from `jekyll-redirect-from`) keeps a retired URL resolving.
+  Only `services.md` uses it, for `/assessment.html`.
 
 ### The About page was rewritten, and the old constraint is lifted
 
@@ -582,18 +618,85 @@ Three things the page does deliberately, which look like omissions and are not:
 **The procurement line is gated and is not published yet.** "W-9, certificate of
 insurance and D-U-N-S number are available on request" names three documents, and
 none exist today: the EIN has not been issued, E&O is not bound, and the D-U-N-S
-request goes in the day the EIN does. An HTML comment in `security.md` marks the
-spot. Add it there and on `contact.md` on the same day, and not before, because
-the one reader who sees that line is the one who will ask for the documents.
+request goes in the day the EIN does. **HTML comments in `security.md` and in
+`contact.md` mark both spots**, and each points at the other. Add it to both on
+the same day, and not before, because the one reader who sees that line is the
+one who will ask for the documents.
 
-## The nav has no "Home" item
+What `/security.html` does already publish is the entity block: name, form,
+document number and address, rendered from `site.entity`. The document number is
+public record, so a reviewer can verify the corporation and its standing with
+the Florida Division of Corporations without asking for anything.
 
-Removed 2026-09-03 when `/security.html` needed a slot. The wordmark is the home
-link, which is the ordinary convention. `topbar.css` records that the bar holds
-one line down to about 820px at the floor sizes, and that budget is now spent:
-**adding another nav item means removing one.** `/services` is the next page that
-wants a slot, and `Assessment` is the one it should take, because the services
-page links to it.
+## The assessment page was folded in
+
+**2026-09-03.** `/assessment.html` shipped in round 1 as the $12,500 product
+page. `/services.html` was added hours earlier the same day to state the
+two-step model, which left two pages describing one product: the services page
+listed the deliverables in short form and the assessment page listed the same
+ones at length.
+
+The only argument for keeping both was the URL. `/assessment.html` was to be
+pinned in the LinkedIn Featured section, so it had to keep resolving. **Reid
+confirmed LinkedIn had not been updated yet**, which removed the constraint, so
+the pages were merged into `/services.html` and `assessment.md` was deleted.
+
+What moved across, and must not be lost again if this is ever re-split:
+
+- **The controls table**, rendered from `site.data.eol.controls`. Those are the
+  eight verified citations and they are the compliance wedge. `/eol/` is the
+  only other page that renders them, and that page is written for an engineer.
+- **The underwriting argument** ("it is underwriting rather than a sales step,
+  and it is why we can hold a fixed price afterwards"), which is the reason the
+  assessment is not a discovery call with an invoice attached.
+- **The long-form deliverable list.** The short version on the services page was
+  a summary of it, so the summary went and the full list stayed.
+
+`/assessment.html` still resolves. `services.md` carries
+`redirect_from: /assessment.html`, and `jekyll-redirect-from` was added to
+`_config.yml` for that one redirect: the page was public for six days and sat
+in the sitemap, so a 404 would have been the wrong answer to anything that
+indexed or bookmarked it. The generated stub is `noindex` and the sitemap now
+lists only `/services.html`. **If that redirect is ever removed, remove the
+plugin with it** rather than leaving one nothing uses.
+
+Anything outside this repo that pointed at the old URL, notably the Featured
+section item in `linkedin.md` in the business folder, now names
+`/services.html`.
+
+## The nav has no "Home" item, and no "Assessment" item
+
+"Home" went on 2026-09-03 when `/security.html` needed a slot; the wordmark is
+the home link, which is the ordinary convention. "Assessment" went the same day
+when `/services.html` took its place, because the services page describes both
+steps and links to it.
+
+`topbar.css` records that the bar holds one line down to about 820px at the
+floor sizes, and that budget is spent: **adding another nav item means removing
+one.** The order is EOL Check, Services, Security, Open Source, About, then
+Contact as the outlined call to action.
+
+There is no sub-page under any nav item. A `nav_parent` front-matter key
+existed briefly to light Services while `/assessment.html` was being read; it
+went with that page. If a sub-page is ever added, reintroduce that pattern
+rather than growing the bar.
+
+## The footer names the counterparty
+
+**Added 2026-09-03.** Two rows on every page: the entity line
+("Reid Morrison Inc., a Florida corporation" and the address from the Articles),
+then the link row, which gained **Privacy** and now reads
+`Privacy - GitHub - LinkedIn` with the copyright opposite.
+
+- **Every value comes from `site.entity`** in `_config.yml`. Nothing in a layout
+  or a page retypes the name or the address.
+- **`/eol/` carries the same block** in its own footer, because that page has its
+  own shell. Unlike the rest of the site, **that one prints**: a finding
+  forwarded to an auditor has to name who produced it. The Privacy link inside
+  it is wrapped in `.print-hide`, since print strips link styling and it would
+  otherwise print as a word with nowhere to go.
+- The entity line is a full-width row rather than a third item in the flex row.
+  Folded in, the address wrapped against the copyright on a laptop.
 
 ### The footer carries no RSS link
 
@@ -612,6 +715,37 @@ leftover from the same era. `/eol/` has its own footer and never carried one.
 When the first post ships and `/writing/` gets an index page, the RSS link
 belongs on that index, where the reader is already looking for a feed. Not in
 the global footer.
+
+## `/privacy.html` says almost nothing, on purpose
+
+Added 2026-09-03 because the footer links it from every page. It is short
+because the site genuinely collects nothing: **no cookies, no analytics, no tag
+manager, no tracking pixel, and nothing written to browser storage.** Confirmed
+by `grep` at the time, and worth re-confirming before adding anything:
+
+```sh
+grep -rn "localStorage\|sessionStorage\|cookie" --include=*.html --include=*.md .
+```
+
+The substance of the page is the four third parties a visitor's browser
+contacts: GitHub Pages, Google Fonts, Web3Forms and Google Calendar, each linked
+to its own statement. **Adding any embed, font, script or analytics tool means
+adding a row to that table in the same commit.** A privacy page that is
+out of date is worse than none, on a page set whose job is establishing that
+this vendor can be trusted.
+
+It states that `/eol/` computes everything locally and uploads nothing. That is
+true because the site is static and has no backend, and a reader can confirm it
+in a network tab. **Do not add a server round trip to that page without
+rewriting this claim first.**
+
+Two things it deliberately does not do. It quotes **no retention period for
+Web3Forms**, because that is a vendor number nobody has verified recently and a
+legal page is the wrong place to guess. And it makes no promise of an automatic
+purge for enquiries that do not become engagements: it offers deletion on
+request instead, and points at the seven-year business-record retention on
+`/security.html` for the ones that do. If Reid wants a stated purge schedule,
+that is a fact he has to set, not one to infer.
 
 ## The EOL exposure check at `/eol/`
 
@@ -684,11 +818,23 @@ for directly.
 The original offered "a signed one-page finding" as a PDF that did not exist and
 had no way to be sent. Instead the page prints itself, through the `@media
 print` block in `site.css`: it forces the light palette (a dark-theme visitor
-would otherwise print a black page), swaps the masthead for a letterhead
-carrying the logo lockup and naming the versions and the date, hides the form
-and nav, and keeps records from breaking across pages. Those rules are scoped to
-`body.eol`, which `eol.html` sets, because hiding the masthead is right here and
-wrong everywhere else. A typical finding runs two or three pages.
+would otherwise print a black page), swaps the masthead for a letterhead that
+names the versions and the date, hides the form and nav, and keeps records from
+breaking across pages. Those rules are scoped to `body.eol`, which `eol.html`
+sets, because hiding the masthead is right here and wrong everywhere else. A
+typical finding runs two or three pages.
+
+**The letterhead is typographic since 2026-09-03**: the shield from
+`_includes/logo-mark.svg` beside "Reid Morrison" over "EOL REMEDIATION" on the
+2px rule, not the retired lockup raster. One consequence is easy to undo by
+accident: the shield's fills come from `--logo-ink` and `--logo-accent`, which
+are set on `.brand-mark` in `topbar.css` rather than on `:root`, so the print
+block's palette reset in `site.css` does not reach them. `topbar.css` restates
+them for print at the same specificity as its dark rules. **Remove that and a
+dark-theme visitor prints a near-white shield onto white paper.**
+
+The footer prints with the finding and carries the entity line, so the document
+names who produced it.
 
 **Do not describe the printed output as one page**, and do not reintroduce the
 word "signed": the page's own footer states it is not a compliance opinion, and
@@ -741,6 +887,16 @@ places and does have to be changed by hand.
 
 ## Content rules
 
+- **Voice: the commercial pages speak as the company, and only two pages speak
+  as Reid.** Set 2026-09-03 with the entity decision. `index.md`,
+  `services.md`, `contact.md`, `security.md` and the selling
+  copy inside `eol.html` say "we", because the counterparty is
+  Reid Morrison Inc. `about.md` and `open-source.md` stay first person, because
+  the experience and the libraries are Reid's and that is the whole point of
+  those pages. Naming him inside company voice is fine and often better
+  ("Reid does the work himself", "Reid replies personally"); what may not
+  happen is a commercial page reading as though an individual is contracting.
+  If you find an "I" on a selling page, it is a leftover from before that date.
 - **No em dashes.** Use commas, colons, parentheses, semicolons, or separate
   sentences. This applies to every page.
 - **Do not invent facts.** Talk titles, dates, metrics, and links must come from
