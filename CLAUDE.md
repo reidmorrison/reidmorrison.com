@@ -506,18 +506,65 @@ read it. The facts, so a future edit does not have to re-ask:
 - **Deliverables and correspondence: seven years, then destroyed.**
 - **Incident notification within 24 hours** of becoming aware.
 - **Background check on request.**
-- AI tooling is **Claude and Claude Code**. The retention claim is deliberately
-  limited to what Anthropic's published commercial terms say, which is that
-  Anthropic may not train models on customer content and that the customer
-  retains its inputs and owns its outputs. **Do not add a zero-retention claim**;
-  there is no such agreement in place, and the commercial terms state no
+- AI tooling is **Claude and Claude Code**, run on a **commercial account**
+  (Team, Enterprise or API), confirmed 2026-09-03. That account type is what
+  makes the citation correct: the **Commercial** Terms carry the no-training
+  clause, and a personal Pro or Max plan would fall under the Consumer Terms
+  instead, making the sentence on the page wrong. If the account ever changes,
+  the page changes with it. The claim is deliberately limited to what those terms
+  actually say, which is that Anthropic may not train models on customer content
+  and that the customer retains its inputs and owns its outputs. **Do not add a
+  zero-retention claim**; there is no such agreement, and the terms state no
   retention period.
+
+### The three hosting postures (added 2026-09-03)
+
+The page presents where the work is hosted as the client's choice, ordered by
+assurance, using the `.options` component from the home page with **no severity
+modifier**: all three are acceptable, so painting one `--crit` would say the
+default posture is bad.
+
+1. **Our managed machine.** The default. A working copy lives on the managed Mac,
+   destroyed at close-out, excluded from backups. Tooling on our own account.
+2. **Your Anthropic tenancy.** Same for the code; the tooling runs under accounts
+   the client provisions.
+3. **Your virtual desktop.** The strongest. **Source code is never downloaded**,
+   so there is nothing on our side to retain, delete or lose.
+
+**The VDI posture is not the default, deliberately.** It makes the client's
+infrastructure a precondition for starting, which is the trade
+`risks-and-counterarguments.md` warns about in the business folder: a security
+objection swapped for a procurement delay. Do not promote it to the default
+without revisiting that.
+
+**Claude Code must run inside the virtual desktop, and the page says so as a
+requirement rather than a preference.** A VDI that will not permit it is not a
+viable environment, and it is cheaper for everyone to learn that before the
+agreement than after. Two ways to satisfy it, both stated publicly:
+
+- **Reid's own subscription, used from inside the client's desktop.** Preferred,
+  and nothing for the client to buy.
+- **The client's own subscription**, if their policy demands it. Then it **must
+  include the current Claude Opus model, at their cost.** This is a real
+  precondition with a real price, so it is on the public page rather than saved
+  for scoping. Decided 2026-09-03.
+
+**Where the assessment report lives under VDI, decided 2026-09-03:** it is
+written inside the virtual desktop and leaves it as the deliverable, carrying
+findings, version data, dependency status and the agreed baselines, and no
+application source. **Reid keeps his copy**, under the same seven-year rule.
+That is not a convenience: the report is the underwriting record the fixed price
+rests on, and the acknowledged error and flaky-test baselines are what separate a
+genuine upgrade regression from a pre-existing bug. The alternative, leaving the
+only copy inside the client's VDI, was considered and rejected for that reason.
 
 Three things the page does deliberately, which look like omissions and are not:
 
-1. **It admits the working copy exists.** A local clone lives on one machine for
-   the length of the engagement, because running the suite requires it. Saying
-   otherwise would be false, and the admission is what makes the rest credible.
+1. **It admits the working copy exists**, and scopes that admission to the first
+   two postures. A local clone lives on one machine for the length of the
+   engagement, because running the suite requires it. Saying otherwise would be
+   false, and the admission is what makes the rest credible. Under VDI the
+   exception genuinely disappears, and the page says that too.
 2. **It keeps in-tenancy AI conditional**, per the commercial rule above. The
    default is Anthropic's commercial service; the client's own tenancy is
    available on request, goes into the agreement, and costs schedule.

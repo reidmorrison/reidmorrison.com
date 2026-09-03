@@ -31,15 +31,16 @@ offshore delivery team.
 <table>
   <thead><tr><th>What gets asked</th><th>The answer here</th></tr></thead>
   <tbody>
-    <tr><td>Where the work happens</td><td>In your repositories, your CI and your environments, through your branches and your pull requests.</td></tr>
-    <tr><td>What is kept afterwards</td><td>Nothing. Working copies are destroyed at close-out and confirmed to you in writing.</td></tr>
+    <tr><td>Where the work happens</td><td>In your repositories, your CI and your environments. On a virtual desktop you supply, no source code is downloaded at all.</td></tr>
+    <tr><td>What is kept afterwards</td><td>On your virtual desktop, nothing is downloaded in the first place. Otherwise working copies are destroyed at close-out and confirmed to you in writing.</td></tr>
     <tr><td>Backups</td><td>The directory holding client code is excluded from every backup, so deletion at close-out is final rather than deferred.</td></tr>
     <tr><td>Who does the work</td><td>One named engineer, throughout. No subcontractors, no offshore delivery, no bench.</td></tr>
     <tr><td>Devices</td><td>Company-owned Mac. Full-disk encryption, automatic screen lock, enrolled in Apple Business Manager and centrally managed. Client work never touches a personal device.</td></tr>
     <tr><td>Accounts</td><td>Multi-factor authentication on every account that can reach your code, passkeys wherever supported, unique credentials in a password manager, no shared logins.</td></tr>
     <tr><td>Access</td><td>Issued by you, to a named individual, at the least privilege the phase needs. Revoked by you at close-out.</td></tr>
     <tr><td>Production changes</td><td>Through your own deployment and change process, never around it.</td></tr>
-    <tr><td>AI tooling</td><td>Claude and Claude Code. Anthropic's commercial terms state customer content is not used to train models. On request, the work runs inside your own tenancy instead.</td></tr>
+    <tr><td>AI tooling</td><td>Claude and Claude Code, on a commercial account. Anthropic's commercial terms state customer content is not used to train models. It can run in your own tenancy, or on your virtual desktop, at your choice.</td></tr>
+    <tr><td>What you host, on a virtual desktop</td><td>Claude Code, with access to a current frontier model. Without it the work cannot be done there.</td></tr>
     <tr><td>Incident notification</td><td>Within 24 hours of becoming aware, to your named contact.</td></tr>
     <tr><td>Certifications</td><td>No SOC 2 report. We complete your questionnaire in full and sign your security addendum.</td></tr>
     <tr><td>Screening</td><td>An NDA before anything is shared. Background check on request.</td></tr>
@@ -55,10 +56,42 @@ deployments through your own release process. There is no parallel copy of your
 application running on our infrastructure, and there is no product, portal or
 agent of ours that has to be installed anywhere.
 
-One honest exception, because a page like this is worthless if it is not exact:
-**a working copy of the repository exists on one machine for the length of the
-engagement.** Running your test suite and the upgrade tooling requires it. That
-machine is described below, and the copy is destroyed at close-out.
+**How far into your environment that goes is your choice.** There are three
+postures. They differ in where your source code sits while the work happens, and
+each one costs something, so the strongest is not the default.
+
+<div class="options" markdown="0">
+  <div class="option">
+    <p class="verdict">Default</p>
+    <h3>Our managed machine</h3>
+    <p>A working copy of your repository sits on the managed Mac described below for the length of the engagement, because running your test suite requires it. It is destroyed at close-out and excluded from every backup.</p>
+    <p>AI tooling runs against our own commercial Anthropic account, under the terms set out below.</p>
+  </div>
+  <div class="option">
+    <p class="verdict">On request</p>
+    <h3>Your Anthropic tenancy</h3>
+    <p>The same as the default for your code, except the AI tooling runs under accounts you provision, so it sits inside your commercial relationship with Anthropic rather than ours.</p>
+    <p>It adds a step to every phase, so it buys that assurance at the cost of some schedule.</p>
+  </div>
+  <div class="option">
+    <p class="verdict">On request, strongest</p>
+    <h3>Your virtual desktop</h3>
+    <p>All work happens on a virtual desktop you supply. Your source code stays on your systems and is never downloaded, so there is nothing on our side to retain, delete, or lose.</p>
+    <p>It requires you to host Claude Code, and it costs the most schedule of the three.</p>
+  </div>
+</div>
+
+Whichever applies, the same things hold. Access is yours to grant and yours to
+revoke, changes arrive as pull requests your engineers review, and nothing
+reaches production except through your own release process.
+
+One honest exception, because a page like this is worthless if it is not exact,
+and it applies to the first two postures only: **a working copy of the
+repository exists on one machine for the length of the engagement.** Running
+your test suite and the upgrade tooling requires it. That machine is described
+below, and the copy is destroyed at close-out. **On your virtual desktop the
+exception disappears**, because nothing is downloaded and so there is nothing to
+destroy.
 
 Before an engagement starts, the assessment needs one file: your
 `Gemfile.lock`. It carries your Rails version, your Ruby version and every
@@ -67,12 +100,23 @@ it under a one-page NDA.
 
 ## What is kept, and for how long
 
-**Your code: nothing.** Working copies are destroyed when the engagement closes,
-and confirmed in writing to your named contact rather than left as an assumption.
-The directory they live in is excluded from every backup, which is what makes
-that deletion final instead of something that quietly persists in a snapshot for
-another year. Your code is never shared with a third party, and since there are
-no subcontractors there is nobody else to share it with.
+**Your code: nothing.** On a virtual desktop it is never downloaded, so the
+question does not arise. Otherwise working copies are destroyed when the
+engagement closes, and confirmed in writing to your named contact rather than
+left as an assumption. The directory they live in is excluded from every backup,
+which is what makes that deletion final instead of something that quietly
+persists in a snapshot for another year. Your code is never shared with a third
+party, and since there are no subcontractors there is nobody else to share it
+with.
+
+**The assessment report, on a virtual desktop.** It is written inside your
+desktop and leaves it as the deliverable. It carries findings, version data,
+dependency status and the agreed baselines, and it does not carry your
+application source. We keep our copy, and that is deliberate rather than
+incidental: it is the underwriting record the fixed price rests on. The error and
+flaky-test baselines you acknowledge in writing are what separate a genuine
+upgrade regression from a bug that was always there, and neither of us benefits
+from that record being unavailable six months later.
 
 **Deliverables: seven years.** The assessment report, the remediation plan and
 the engagement correspondence are retained for seven years, matching the
@@ -115,24 +159,42 @@ nothing is sent by mail or chat.
 Your secrets stay in your own secret store. The work uses the access you
 provision rather than copies of your credentials.
 
+When the work runs on your virtual desktop, this is still the machine that
+connects to it. Your code never reaches it, and the controls above apply to that
+endpoint anyway.
+
 ## AI tooling
 
 The upgrade work is AI-assisted, and that is disclosed in the agreement rather
 than left for you to discover. The tooling is **Claude and Claude Code**, from
-Anthropic. There are two ways to run it, and the choice is yours.
+Anthropic.
 
-**By default**, the tooling runs from the managed machine described above
-against Anthropic's commercial service. Anthropic's
-[commercial terms](https://www.anthropic.com/legal/commercial-terms) state that
-Anthropic may not train models on customer content, and that the customer
-retains all rights to its inputs and owns its outputs.
+Anthropic's [commercial terms](https://www.anthropic.com/legal/commercial-terms)
+state that Anthropic may not train models on customer content, and that the
+customer retains all rights to its inputs and owns its outputs. **Client work
+runs on a commercial account rather than a personal one**, so those are the terms
+that apply to it.
 
-**On request, the work runs inside your own tenancy**, under accounts you
-provision, so the tooling sits within your commercial relationship with the
-vendor rather than ours. Ask for that and it goes into the agreement rather than
-being promised in a meeting. It adds a step to every phase, so it buys the
-assurance at the cost of some schedule, and whether that trade is worth making
-is your call.
+**On our managed machine**, the tooling runs against our own account under those
+terms. That is the default.
+
+**In your tenancy**, it runs under accounts you provision, so it sits within your
+commercial relationship with Anthropic rather than ours. Ask for that and it goes
+into the agreement rather than being promised in a meeting. It adds a step to
+every phase, so it buys the assurance at the cost of some schedule, and whether
+that trade is worth making is your call.
+
+**On your virtual desktop, Claude Code has to run inside it.** That is a
+requirement rather than a preference. A virtual desktop that will not permit it
+is not a viable environment for this work, and it is better to find that out now
+than after the agreement is signed. There are two ways to satisfy it:
+
+- **Our own subscription, used from inside your desktop.** Nothing for you to
+  buy, and the tooling behaves exactly as it does everywhere else.
+- **Your subscription, if your policy requires it.** Then it has to include
+  access to the current Claude Opus model, at your cost. The work depends on the
+  strongest model available, and a weaker one changes both what can be delivered
+  and how long it takes.
 
 The failure mode with these tools on a production upgrade is not that they are
 too slow. It is that they are too fast. The control that matters is not the
@@ -166,8 +228,9 @@ channel, put it in your addendum and we will sign it.
 
 - **Corp-to-corp**, with Reid Morrison Inc. as the contracting party.
 - **An NDA before anything is shared**, including the `Gemfile.lock`.
-- **The AI-tooling disclosure written into the statement of work**, including
-  which mode above applies to your engagement.
+- **The AI-tooling disclosure written into the statement of work**, naming which
+  of the three postures above applies to your engagement, and who supplies the
+  model access.
 - **Liability capped at fees paid.**
 - **A review clause that stops the delivery clock** when your reviewer is
   unavailable, rather than quietly consuming the schedule.
