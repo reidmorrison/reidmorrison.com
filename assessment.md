@@ -1,14 +1,17 @@
 ---
 layout: default
-title: EOL Risk Assessment
+title: Remediation Assessment
+# Keeps the Services item lit in the nav: /services.html describes both steps
+# and hands off to this page for the detail. See _includes/topbar.html.
+nav_parent: services.html
 heading: The remediation plan your assessor is asking for
 standfirst: >-
   $12,500 fixed. Two weeks. It produces the document PCI DSS 12.3.4 obliges you
   to have, and the fixed prices for everything that follows from it.
 description: >-
-  A two-week fixed-price EOL Risk Assessment for Rails applications. Component
-  inventory, a senior-management remediation plan written to PCI DSS 12.3.4, the
-  Ruby and Rails upgrade path, and fixed prices per phase.
+  A two-week fixed-price Remediation Assessment for Rails applications.
+  Component inventory, a senior-management remediation plan written to PCI DSS
+  12.3.4, the Ruby and Rails upgrade path, and fixed prices per phase.
 ---
 
 Most upgrade projects are quoted from a conversation and a guess. That is why
@@ -18,7 +21,7 @@ internals that have been monkey patched, a test suite with 8% meaningful
 coverage, an application that will not boot on a fresh machine.
 
 The assessment finds those first. It is underwriting, not a sales step, and it
-is why I can hold a fixed price afterwards.
+is why we can hold a fixed price afterwards.
 
 ## What you get
 
@@ -45,7 +48,7 @@ be delivered and reviewed.
 
 **Error and flaky-test baselines.** Thirty days of production error history and
 a repeated run of your suite, both recorded and acknowledged in writing as the
-pre-existing state. This protects you as much as me: it is the difference
+pre-existing state. This protects you as much as us: it is the difference
 between a genuine upgrade regression and a bug that was always there.
 
 **A blocked dependency report.** Abandoned gems, forks required, patched
@@ -84,21 +87,25 @@ references are to v4.0.1; v4.0 was retired on 31 December 2024.
   <p>One application. No hourly billing, no change orders inside the fixed scope, and no surprise at the end.</p>
 </div>
 
-**If the assessment concludes you should not do this work, or should not do it
-with me, you pay nothing.** I would rather tell you that in week two than
-discover it in month four, and it means I have no incentive to manufacture
-scope for myself.
+The agreement is with {{ site.entity.name }}, {{ site.entity.form_short }}.
 
-Remediation is quoted from the findings. I do not publish upgrade prices,
+**If the assessment concludes you should not do this work, or should not do it
+with us, you pay nothing.** We would rather tell you that in week two than
+discover it in month four, and it means there is no incentive to manufacture
+scope.
+
+Remediation is quoted from the findings. We do not publish upgrade prices,
 because the honest number depends on what the assessment turns up, and a
 published range would only invite everyone to expect the bottom of it.
+[How the two steps fit together]({{ '/services.html' | relative_url }}).
 
 ## How it starts
 
-**Send me your `Gemfile.lock`.** One file. It gives me your exact Rails
-version, your Ruby version, and every dependency with its version, which means
-the first real conversation can be about your actual stack instead of a generic
-pitch. It is shareable under a one-page NDA if you need one.
+**Send us your `Gemfile.lock`.** One file, with no application source code in
+it. It gives us your exact Rails version, your Ruby version, and every
+dependency with its version, which means the first real conversation can be
+about your actual stack instead of a generic pitch. It is shareable under a
+one-page NDA if you need one.
 
 From there: a video call to confirm scope and the forcing event, a short
 agreement, and two weeks.
@@ -109,11 +116,11 @@ Phased single-version hops. Each one ships to production and soaks before the
 next begins, so a problem is always traceable to one change rather than to a
 six-month merge.
 
-If your security policy requires it, the work can stay inside your environment:
-tooling runs there and no client code reaches services outside your control. Ask
-for that and it goes into the agreement rather than being promised in a meeting.
-It is an extra step in every phase, so it buys the assurance at the cost of some
-schedule, and whether that trade is worth making is your call.
+Where the work happens is your choice: our own managed machine, your Anthropic
+tenancy, or a virtual desktop you supply, on which your source code is never
+downloaded at all. Whichever applies is named in the statement of work rather
+than promised in a meeting, and each costs something.
+[How we work with your code]({{ '/security.html' | relative_url }}).
 
 The agreement also caps liability at fees paid and carries a review clause that
 pauses the delivery clock if your reviewer is unavailable, rather than letting it

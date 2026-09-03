@@ -85,21 +85,25 @@ The trade is honest: I am not the right call for a twelve-team platform
 migration. For one business-critical application that has fallen off supported
 versions and now has a date attached to it, being solo is the feature.
 
+**The agreement itself is with {{ site.entity.name }},
+{{ site.entity.form_short }}.** You get me, and you get me from an entity your
+procurement team can look up, insure against, and hold to a contract.
+
 ## How I work
 
 Fixed price per milestone, never hourly, so you carry no risk on how long it
 takes. Phased single-version hops, each shipped to production and soaked before
-the next begins, so any problem traces to one change. If your security policy
-requires the work to stay inside your environment, it can: tooling runs there and
-no client code reaches services outside your control, at the cost of some
-schedule.
+the next begins, so any problem traces to one change. Liability capped at fees
+paid, and a review clause that pauses the clock instead of quietly eating the
+schedule when your reviewer is unavailable.
 
-Ask for that and it goes into the agreement rather than being promised in a
-meeting, along with liability capped at fees paid and a review clause that pauses
-the clock instead of quietly eating the schedule when your reviewer is
-unavailable.
+Where the work happens is your choice, and all three postures are set out in
+full on the [security page](security.html): my own managed machine, your
+Anthropic tenancy, or a virtual desktop you supply, on which your source code is
+never downloaded at all. Whichever applies goes into the statement of work
+rather than being promised in a meeting.
 
-[How the assessment works](assessment.html)
+[How an engagement works](services.html)
 
 ## Speaking
 
