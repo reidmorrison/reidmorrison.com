@@ -1,10 +1,16 @@
 # Site identity. jekyll-seo-tag reads these for every page, so they set how the
 # whole site is described in search results and link previews. They were the
 # job-search positioning until 2026-08-28; this site now sells a service.
-title: Reid Morrison Consulting
+#
+# `title` is the LEGAL NAME of the contracting entity, changed 2026-09-03 from
+# "Reid Morrison Consulting". The corporation is `Reid Morrison Inc.` (Florida,
+# document P26000043890) and it has no trading name, so "Consulting" on a public
+# surface would be a fictitious name nobody registered. /security.html names the
+# entity as the counterparty, and the tab title has to agree with it.
+title: Reid Morrison Inc.
 tagline: EOL Remediation
 description: >-
-  Reid Morrison Consulting. End-of-life remediation for Rails applications in
+  Reid Morrison Inc. End-of-life remediation for Rails applications in
   PCI DSS, SOC 2, HIPAA and ISO 27001 scope. Fixed-price upgrades off unsupported
   Rails and Ruby versions, delivered by a principal engineer with twenty years in
   regulated systems.
