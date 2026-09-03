@@ -135,13 +135,15 @@ never broader than the phase in front of us needs.
 - **Reviewed at each phase boundary**, so access granted for one phase does not
   quietly persist through the rest of the engagement.
 - **Revoked by you at close-out**, confirmed by both sides in writing.
+- **Your secrets stay in your own secret store.** We work through the access you
+  provision rather than taking copies of your credentials.
 - **Production changes go through your own deployment and change process.**
 
 Offboarding is the item a security questionnaire most often finds missing at a
 small vendor, so it is written into the close-out of every engagement rather
 than left to somebody remembering.
 
-## The machine, and the accounts
+## Our machine, and our accounts
 
 **One company-owned Mac.** Full-disk encryption is on, the screen locks
 automatically, and the machine is enrolled in Apple Business Manager and
@@ -155,9 +157,6 @@ used wherever a service supports them, so the critical accounts are not
 protected by a code that can be phished out of somebody. Credentials are unique,
 generated, and held in a password manager. There are no shared logins, and
 nothing is sent by mail or chat.
-
-Your secrets stay in your own secret store. The work uses the access you
-provision rather than copies of your credentials.
 
 When the work runs on your virtual desktop, this is still the machine that
 connects to it. Your code never reaches it, and the controls above apply to that
