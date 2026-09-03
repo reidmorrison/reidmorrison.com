@@ -11,10 +11,9 @@ document number and address live in one place, `entity:` in
 from there.
 
 The pages: a home page that names the finding, [`/services`](services.md) for
-the two-step model, [`/assessment`](assessment.md) for the $12,500 product,
-[`/security`](security.md) for the reader a CISO forwards it to,
-[`/open-source`](open-source.md), [`/about`](about.md), [`/contact`](contact.md)
-and [`/privacy`](privacy.md).
+the two-step model and the $12,500 product in full, [`/security`](security.md)
+for the reader a CISO forwards it to, [`/open-source`](open-source.md),
+[`/about`](about.md), [`/contact`](contact.md) and [`/privacy`](privacy.md).
 
 This was a personal site supporting a job search until August 2026. It is now a
 commercial site, and the two purposes do not mix: copy written for a hiring

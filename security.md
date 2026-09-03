@@ -202,7 +202,7 @@ posture, not a reason to stop.
 The failure mode with these tools on a production upgrade is not that they are
 too slow. It is that they are too fast. The control that matters is not the
 tooling's terms of service, it is knowing which step happens first and how
-little to change in any one iteration. [How that is delivered]({{ '/assessment.html' | relative_url }}).
+little to change in any one iteration. [How that is delivered]({{ '/services.html' | relative_url }}).
 
 ## The people
 

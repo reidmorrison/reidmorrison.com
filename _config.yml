@@ -57,6 +57,13 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  # Added 2026-09-03 for exactly one redirect: /assessment.html was a page in
+  # its own right for six days, was in the sitemap, and folded into
+  # /services.html. `redirect_from` there keeps the old URL resolving instead
+  # of 404ing anything that indexed or bookmarked it. Whitelisted on GitHub
+  # Pages. If that redirect is ever removed, remove this too rather than
+  # leaving a plugin nothing uses.
+  - jekyll-redirect-from
 
 # Web3Forms access key for the lead form on /eol/. Public by design; it only
 # identifies the destination inbox, it does not grant access to anything.

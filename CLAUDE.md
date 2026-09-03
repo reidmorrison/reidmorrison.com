@@ -60,7 +60,7 @@ reasoning lives in the business folder, not here.
 
 **The four entity facts live in `_config.yml` under `entity:`**, added
 2026-09-03, and every surface reads them from there: the footer on every page,
-the `/eol/` footer, the counterparty lines on `/assessment`, `/contact` and
+the `/eol/` footer, the counterparty lines on `/services`, `/contact` and
 `/about`, and the procurement block on `/security`. Do not retype the name or
 the address into a page. They are also what the W-9, the D-U-N-S record and the
 certificate of insurance will carry, so a page that drifts from that block
@@ -87,12 +87,15 @@ nothing on this site depends on the master artwork any more. See "The logo".
 The full plan, its reasoning and the sequencing are recorded outside this repo.
 Round 1 shipped `/eol/` with its data file, the sitemap, the site-wide retheme
 and the page set (a home page that sells the finding, `/assessment`,
-`/contact`, `/open-source`). `/security` followed on 2026-09-03.
+`/contact`, `/open-source`). `/security` followed on 2026-09-03, and
+`/assessment` was folded into `/services` later the same day.
 
 **Round 2 shipped 2026-09-03**, in one pull request: the entity footer and
 `/privacy` on every page, the hero and `_config.yml` rewritten, `/services`
 added and given the nav slot, the product renamed, the commercial pages moved
 into the company voice, and the last "Consulting" surface retired.
+`/assessment.html` was folded into `/services.html` in the same branch; see
+below.
 
 Still to do, in the order the plan sets:
 
@@ -136,8 +139,9 @@ one costs real money.
 - **Working entirely inside the client's environment is optional, not the
   default.** It is achievable, and it goes into the agreement when a client asks
   for it, but it adds a step to every phase and costs schedule. `index.md`,
-  `assessment.md` and `about.md` each stated it as an unconditional guarantee
-  until 2026-08-31. Since 2026-09-03 none of them restates the posture at all:
+  `services.md` and `about.md` each stated it as an unconditional guarantee
+  until 2026-08-31 (`assessment.md` before it was folded into `services.md`).
+Since 2026-09-03 none of them restates the posture at all:
   each names the three choices in one sentence and links `/security.html`, which
   is where they are set out in full and kept correct. Do not restore the
   absolute phrasing ("all tooling runs inside your own environment", "no client
@@ -198,13 +202,11 @@ _layouts/post.html     Blog post wrapper. Date line, then content.
 _posts/                Empty. Blog scaffold only, with no index page.
 index.md               Home. Sells the finding. The library list moved OUT of
                        here to open-source.md in the step 5 rewrite.
-services.md            The two-step model in one screen, and the page that
-                       holds the nav slot. Hands off to assessment.md for the
-                       detail.
-assessment.md          The $12,500 product page, renamed Remediation Assessment
-                       2026-09-03 while keeping its URL. Renders the control
-                       table from _data/eol.yml, so citations have one home.
-                       Sets `nav_parent: services.html`.
+services.md            THE product page: the two-step model, the $12,500
+                       Remediation Assessment in full, and step two. Absorbed
+                       assessment.md on 2026-09-03 and carries its
+                       `redirect_from`. Renders the control table from
+                       _data/eol.yml, so citations have one home.
 privacy.md             Privacy policy. Short, because the site sets no cookies
                        and runs no analytics. Linked from every footer.
 contact.md             Qualifying form plus optional booking link. The Rails
@@ -485,8 +487,8 @@ into a table row.
   sentence and the tab should stay short.
 - `eyebrow` renders a small mono label above the `h1`.
 - `standfirst` renders the lead paragraph under it.
-- `nav_parent` names the nav item that should stay lit for a page that is not
-  itself in the bar. `assessment.md` sets `services.html`.
+- `redirect_from` (from `jekyll-redirect-from`) keeps a retired URL resolving.
+  Only `services.md` uses it, for `/assessment.html`.
 
 ### The About page was rewritten, and the old constraint is lifted
 
@@ -626,6 +628,42 @@ document number and address, rendered from `site.entity`. The document number is
 public record, so a reviewer can verify the corporation and its standing with
 the Florida Division of Corporations without asking for anything.
 
+## The assessment page was folded in
+
+**2026-09-03.** `/assessment.html` shipped in round 1 as the $12,500 product
+page. `/services.html` was added hours earlier the same day to state the
+two-step model, which left two pages describing one product: the services page
+listed the deliverables in short form and the assessment page listed the same
+ones at length.
+
+The only argument for keeping both was the URL. `/assessment.html` was to be
+pinned in the LinkedIn Featured section, so it had to keep resolving. **Reid
+confirmed LinkedIn had not been updated yet**, which removed the constraint, so
+the pages were merged into `/services.html` and `assessment.md` was deleted.
+
+What moved across, and must not be lost again if this is ever re-split:
+
+- **The controls table**, rendered from `site.data.eol.controls`. Those are the
+  eight verified citations and they are the compliance wedge. `/eol/` is the
+  only other page that renders them, and that page is written for an engineer.
+- **The underwriting argument** ("it is underwriting rather than a sales step,
+  and it is why we can hold a fixed price afterwards"), which is the reason the
+  assessment is not a discovery call with an invoice attached.
+- **The long-form deliverable list.** The short version on the services page was
+  a summary of it, so the summary went and the full list stayed.
+
+`/assessment.html` still resolves. `services.md` carries
+`redirect_from: /assessment.html`, and `jekyll-redirect-from` was added to
+`_config.yml` for that one redirect: the page was public for six days and sat
+in the sitemap, so a 404 would have been the wrong answer to anything that
+indexed or bookmarked it. The generated stub is `noindex` and the sitemap now
+lists only `/services.html`. **If that redirect is ever removed, remove the
+plugin with it** rather than leaving one nothing uses.
+
+Anything outside this repo that pointed at the old URL, notably the Featured
+section item in `linkedin.md` in the business folder, now names
+`/services.html`.
+
 ## The nav has no "Home" item, and no "Assessment" item
 
 "Home" went on 2026-09-03 when `/security.html` needed a slot; the wordmark is
@@ -638,11 +676,10 @@ floor sizes, and that budget is spent: **adding another nav item means removing
 one.** The order is EOL Check, Services, Security, Open Source, About, then
 Contact as the outlined call to action.
 
-`/assessment.html` is still live and still linked from LinkedIn. It carries
-`nav_parent: services.html` in its front matter, which lights the Services item
-while you are reading it; that is the third clause in the active test in
-`_includes/topbar.html`. Any future page that lives under a nav item should use
-the same key rather than growing the bar.
+There is no sub-page under any nav item. A `nav_parent` front-matter key
+existed briefly to light Services while `/assessment.html` was being read; it
+went with that page. If a sub-page is ever added, reintroduce that pattern
+rather than growing the bar.
 
 ## The footer names the counterparty
 
@@ -852,7 +889,7 @@ places and does have to be changed by hand.
 
 - **Voice: the commercial pages speak as the company, and only two pages speak
   as Reid.** Set 2026-09-03 with the entity decision. `index.md`,
-  `services.md`, `assessment.md`, `contact.md`, `security.md` and the selling
+  `services.md`, `contact.md`, `security.md` and the selling
   copy inside `eol.html` say "we", because the counterparty is
   Reid Morrison Inc. `about.md` and `open-source.md` stay first person, because
   the experience and the libraries are Reid's and that is the whole point of

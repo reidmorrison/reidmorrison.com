@@ -8,12 +8,10 @@
   the bar holds one line down to about 820px at the floor sizes, and that budget
   is spent. Adding another nav item means removing one.
 
-  "Services" took the "Assessment" slot on 2026-09-03 under exactly that rule.
-  /assessment.html is still live and still linked from LinkedIn; it is now
-  reached from /services.html, which describes both steps and hands off to it
-  for the detail. It sets `nav_parent: services.html` in its front matter so
-  the Services item stays lit while you are reading it, which is why the active
-  test below has a third clause.
+  "Services" took the "Assessment" slot on 2026-09-03 under exactly that rule,
+  and later the same day /assessment.html was folded into /services.html
+  outright, so there is no sub-page under this item and no need for the
+  nav-parent mechanism that briefly existed here.
 
   The wordmark stays typographic: the 2px rule under the name is the same
   device that sits under every page title, so the mark reads as part of this
@@ -35,7 +33,7 @@
     {% assign nav_items = "/eol/=EOL Check,services.html=Services,security.html=Security,open-source.html=Open Source,about.html=About" | split: ',' %}
     <nav class="nav">
       {% for item in nav_items %}{% assign pair = item | split: '=' %}
-      <a href="{{ pair[0] | relative_url }}"{% if pair[0] == current_page or pair[0] == page.url or pair[0] == page.nav_parent %} class="active" aria-current="page"{% endif %}>{{ pair[1] }}</a>
+      <a href="{{ pair[0] | relative_url }}"{% if pair[0] == current_page or pair[0] == page.url %} class="active" aria-current="page"{% endif %}>{{ pair[1] }}</a>
       {% endfor %}
       <a href="{{ '/contact.html' | relative_url }}" class="nav-cta{% if current_page == 'contact.html' %} active{% endif %}">Contact</a>
     </nav>

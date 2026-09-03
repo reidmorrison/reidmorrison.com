@@ -86,8 +86,7 @@ Remediation is quoted from the assessment findings. Every codebase is
 different, and anyone quoting an upgrade without reading your `Gemfile.lock` is
 guessing.
 
-[How an engagement works]({{ '/services.html' | relative_url }}) &middot;
-[What the assessment covers]({{ '/assessment.html' | relative_url }})
+[How an engagement works, and what the assessment contains]({{ '/services.html' | relative_url }})
 
 ## Why one engineer, and why this one
 
