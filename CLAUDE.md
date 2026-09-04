@@ -245,10 +245,8 @@ file, `stylesheets/site.css`.
 
 The stylesheet was previously copied verbatim from `semantic_logger/docs/` so
 this site looked like part of the documentation family, and was kept diffable
-against the upstream file. **That is over.** The doc sites serve engineers
-reading API documentation; this site serves someone deciding whether to trust a
-vendor with production access to a system under audit. Those are different
-rooms and they are allowed to look different.
+against the upstream file. **That is over**, and the dependency has since
+reversed: see "The doc sites now share this palette" below.
 
 Deleted in the retheme, all previously copied from the doc sites:
 `stylesheet.css`, `normalize.css`, `github-light.css`, `pygment_trac.css`,
@@ -258,8 +256,46 @@ git history if any of it is ever wanted back.
 The **blue and orange gradient wordmark was retired** with them. It was built
 for a dark photographic banner that no longer exists, and `/eol/` had already
 set the plain Spectral wordmark. This was a change from the rebuild plan, which
-had suggested keeping the wordmark for continuity; the doc sites keep it, and
-this site does not.
+had suggested keeping the wordmark for continuity. The doc sites kept it at the
+time; they have since dropped it too, for the same wordmark construction used
+here.
+
+### The doc sites now share this palette
+
+**Changed 2026-09-04, and this reverses what this file used to say.** The note
+here read that the doc sites "are allowed to look different", on the grounds
+that they serve engineers reading API documentation while this site serves
+someone deciding whether to trust a vendor. The second half of that is still
+true and still governs the *content*. The first half is no longer how the
+styling works.
+
+The doc sites now take their layout, palette, type pairing and syntax
+highlighting from **`reidmorrison/rm-docs-theme`**, a Jekyll remote theme whose
+token block is this file's token block. `semantic_logger` and
+`symmetric-encryption` are converted; the other four follow. The reason is
+plain: six gem repos each carried a near-identical copy of one stylesheet, and
+the copies had drifted, so a mobile header fix made in one repo never reached
+the other five.
+
+Two rules govern the relationship, and both matter commercially:
+
+- **The design system is shared; the commercial chrome is not.** A doc site gets
+  the palette, both themes, the type pairing, the code treatment and the shield.
+  It never gets navigation to `/services`, `/security` or `/contact`, the entity
+  block, or any price. The only mention of the business on a doc site is one
+  footer line, "Maintained by Reid Morrison", linking here. A doc site that
+  sells consulting reads to the Ruby community as a rug-pull risk on the gem
+  itself, and would cost more credibility than it could generate leads.
+- **This site keeps its own layouts and its own top bar.** Only the tokens and
+  the syntax sheet are common. Nothing about the doc theme constrains what this
+  site's pages do.
+
+The remaining work on this side is to take the token block and the Rouge sheet
+*from* the theme rather than maintaining a second copy here. Until that lands,
+a colour changed here must be changed there too. The Rouge rules below are the
+live example: the theme's sheet covers about twenty-five token classes and this
+file still has six, so a code sample renders better on a doc site than it does
+here.
 
 ### The wordmark
 

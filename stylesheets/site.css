@@ -6,10 +6,12 @@
    body, IBM Plex Mono for labels and data, a muted navy accent, and semantic
    critical / warning / ok colours kept separate from that accent.
 
-   This replaced the stylesheet copied from semantic_logger/docs. The doc sites
-   keep their own look; they serve engineers reading API documentation, and
-   this site now serves someone deciding whether to trust a vendor with
-   production access. See CLAUDE.md.
+   This replaced the stylesheet copied from semantic_logger/docs. Since
+   2026-09-04 the traffic runs the other way: the doc sites take these tokens
+   from reidmorrison/rm-docs-theme, so the whole family shares one palette and
+   one type pairing. What is NOT shared is the chrome, and that is the load
+   bearing part: no commercial navigation, no entity block and no pricing ever
+   appears on an Apache-licensed doc site. See CLAUDE.md.
 
    Theme rules, in order, so all three viewer states resolve:
      :root                                    complete light palette
