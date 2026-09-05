@@ -587,9 +587,7 @@ tbody tr:last-child td{border-bottom:0}
      treatment is not the theme's: a doc site prints plain black on white, and
      this one prints a client-facing document that keeps the brand navy and the
      semantic colours. Two deliberate treatments, so the print block is the one
-     piece of the palette that is NOT shared. --logo-ink and --logo-accent are
-     the exception to the exception: the shield reads them from .brand-mark, and
-     topbar.css restates them there at the same specificity. */
+     piece of the palette that is NOT shared. */
   :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
     color-scheme:light;
     --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F7;
@@ -600,6 +598,11 @@ tbody tr:last-child td{border-bottom:0}
     --warn:#7A4900; --warn-soft:#FAECD8;
     --ok:#1A5C43;  --ok-soft:#DCEDE5;
     --shadow:none;
+
+    /* The shield's fills. The /eol/ letterhead prints the mark, and the navy
+       is what a printed finding carries: without this line a dark-theme
+       visitor prints a near-white shield onto white paper. */
+    --logo-ink:#0D2547; --logo-accent:#4F8AB8;
 
     /* The code well and inline chips. Without these three a dark-theme
        visitor prints "Gemfile.lock" as white type on a near-black chip,

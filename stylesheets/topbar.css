@@ -41,25 +41,23 @@
 .brand:hover .brand-type{border-bottom-color:var(--accent)}
 
 /* The shield, inline SVG from _includes/logo-mark.svg. Its two fills read
-   these variables, so one file serves both themes and the navy, which is
-   1.2:1 on the dark ground and therefore invisible, is only ever used on the
-   light one. The light values are declared unconditionally, so a visitor whose
-   OS setting is "system" resolves without a media query; the dark ones follow
-   the same three-state pattern as the colour tokens in site.css.
+   --logo-ink and --logo-accent, so one file serves both themes and the navy,
+   which is 1.2:1 on the dark ground and therefore invisible rather than merely
+   low contrast, is only ever used on the light one.
 
-   These are logo variables, not site tokens: --ink and --accent are both dark
-   on the light palette, and painting the shield with them would collapse its
-   two tones into one. Only the height is set and the width follows it, so
-   replacing the artwork cannot change the height of the bar. */
+   Those two variables are NOT declared here any more (2026-09-05). They are
+   shared tokens now, defined in rm-docs-theme's css/tokens.css alongside the
+   rest of the palette, so the same shield reads identically here and on every
+   doc site that takes the default mark. The values are the ones this file
+   used to carry; the theme's dark pair was corrected to match. They are logo
+   variables and not --ink and --accent, which are both dark on the light
+   palette and would collapse the shield's two tones into one.
+
+   Only the height is set and the width follows it, so replacing the artwork
+   cannot change the height of the bar. */
 .brand-mark{
   display:block;width:auto;height:clamp(34px,3.6vw,40px);flex:none;
-  --logo-ink:#0D2547;--logo-accent:#4F8AB8;
 }
-
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .brand-mark{--logo-ink:#E3E9F1;--logo-accent:#7FB2E0}
-}
-:root[data-theme="dark"] .brand-mark{--logo-ink:#E3E9F1;--logo-accent:#7FB2E0}
 
 .brand-name{
   font-family:Spectral,Georgia,serif;font-weight:700;font-size:clamp(19px,2vw,22px);
@@ -108,13 +106,10 @@
 @media print{
   .topbar{display:none}
 
-  /* The shield survives print on /eol/, as the letterhead. The print block in
-     site.css forces the light palette by restating the :root tokens, but the
-     logo variables are set on .brand-mark rather than on :root, so the dark
-     rules above would otherwise still apply and a dark-theme visitor would
-     print a near-white shield onto white paper. Restated here at the same
-     specificity as those rules, and after them. */
-  :root .brand-mark,
-  :root[data-theme="dark"] .brand-mark,
-  :root:not([data-theme="light"]) .brand-mark{--logo-ink:#0D2547;--logo-accent:#4F8AB8}
+  /* The shield survives print on /eol/, as the letterhead, and a dark-theme
+     visitor must not print a near-white shield onto white paper. Nothing is
+     needed here for that any more: the fills are :root tokens, and site.css's
+     print block restates them light across all three viewer states with the
+     rest of the palette. Kept as a note because the danger is not obvious and
+     the letterhead goes to an auditor. */
 }
