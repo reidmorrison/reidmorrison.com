@@ -32,8 +32,13 @@ The styling **used to be** copied from the project documentation sites
 [Secret Config](https://config.reidmorrison.com),
 [IOStreams](https://iostreams.reidmorrison.com),
 [Parallel Minion](https://minion.reidmorrison.com)).
-That ended with the August 2026 retheme. Those sites keep their own look; this
-one now uses a single stylesheet of its own, `stylesheets/site.css`.
+That ended with the August 2026 retheme, which built the design system here.
+Since September 2026 it flows the other way and from one place: those six sites
+and this one all take the palette, the code treatment and the syntax sheet from
+[`reidmorrison/rm-docs-theme`](https://github.com/reidmorrison/rm-docs-theme).
+This site pulls in three CSS partials from it and keeps everything else of its
+own: its layouts, its top bar, and `stylesheets/site.css`, which is still the
+one stylesheet for every page.
 
 ## Local development
 

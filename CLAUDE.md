@@ -186,8 +186,10 @@ catch-all for receiving at any address.
 ```
 _config.yml            Site config. kramdown settings mirror the doc sites.
                        Also holds web3forms_key, which gates the /eol/ form,
-                       and `entity:`, THE one home for the four contracting
-                       facts every page's footer renders.
+                       `entity:`, THE one home for the four contracting facts
+                       every page's footer renders, and `remote_theme:`, which
+                       exists ONLY to reach the three shared CSS partials.
+                       No layout comes from that theme.
 _data/projects.yml     THE source of truth for the library list. Edit here.
 _data/eol.yml          THE source of truth for Rails/Ruby EOL dates, version
                        ceilings and control citations. Drives /eol/.
@@ -222,7 +224,10 @@ talks.md               Conference talks. Not in the nav; linked from About and
 404.html               Links back to the doc sites.
 _includes/topbar.html  The top bar and wordmark markup. Included by the
                        shared layout AND by eol.html, so the nav has one home.
-stylesheets/site.css   THE stylesheet, /eol/ included. See "Styling".
+stylesheets/site.css   THE stylesheet, /eol/ included. Carries front matter
+                       since 2026-09-05, because it {% include %}s the palette,
+                       the code rules and the Rouge sheet from rm-docs-theme.
+                       See "Styling".
 stylesheets/topbar.css The top bar, in its own file because two shells use it.
 images/                favicon.ico, apple-touch-icon.png, reid-morrison.jpg.
                        NO logo raster: logo-lockup.png was deleted 2026-09-03
@@ -290,12 +295,43 @@ Two rules govern the relationship, and both matter commercially:
   the syntax sheet are common. Nothing about the doc theme constrains what this
   site's pages do.
 
-The remaining work on this side is to take the token block and the Rouge sheet
-*from* the theme rather than maintaining a second copy here. Until that lands,
-a colour changed here must be changed there too. The Rouge rules below are the
-live example: the theme's sheet covers about twenty-five token classes and this
-file still has six, so a code sample renders better on a doc site than it does
-here.
+**Done 2026-09-05: this site now takes the tokens from the theme rather than
+keeping a second copy.** `_config.yml` sets
+`remote_theme: reidmorrison/rm-docs-theme@v1` and `stylesheets/site.css`
+includes three files out of it:
+
+| Include | What it brings |
+|---|---|
+| `css/tokens.css` | The palette in all three viewer states, the shield fills, the code surface, the syntax colours |
+| `css/code.css` | Code blocks and inline code |
+| `css/syntax.css` | Every Rouge class, in both themes |
+
+Everything else about that theme is ignored. Jekyll resolves a site's own
+`_layouts` and `_includes` ahead of a theme's, so `default.html`, `post.html`,
+`topbar.html` and `logo-mark.svg` are unaffected, and no doc-site navigation,
+sidebar or footer can appear here. **Colours are now changed in the theme**,
+which is the point: seven sites, one palette, one commit.
+
+Three consequences to know:
+
+- **A theme release reaches this site on its next Pages build.** `@v1` is a
+  moving major tag. Propagation is lazy, because Pages only rebuilds a site when
+  that site is pushed, so nothing changes here until this repo is pushed.
+- **The print block is the one part of the palette that is NOT shared.** A doc
+  site prints plain black on white; this site prints a client-facing document
+  that keeps the brand navy and the semantic colours. Both print blocks
+  therefore restate their own values, and a token added to the shared file has
+  to be added to the print block here too, or a dark-theme visitor prints it
+  dark. See the block itself.
+- **`/assets/css/rm-docs.css` is published here and unused.** Jekyll copies a
+  theme's `assets/` into every consuming site and offers no way to exclude it.
+  It is the doc-site stylesheet, about 27KB, linked from nothing. Leave it.
+
+What changed visually, on the day: inline `<code>` moved from `--surface-2` to
+the shared `--code-inline` and from `--ink-2` to `--ink`, so control numbers in
+the /services.html table read slightly crisper, and code BLOCKS became a
+recessed well rather than a raised white panel. No page carried a code block at
+the time, so that half is for the first `/writing/` post.
 
 ### The wordmark
 

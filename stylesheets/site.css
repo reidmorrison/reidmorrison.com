@@ -1,3 +1,11 @@
+---
+# Front matter is required, and it is not decoration: it makes Jekyll process
+# this file, which is what lets the {% include %} tags below resolve. The file
+# is otherwise plain CSS. No Sass, matching the theme: GitHub Pages pins
+# jekyll-sass-converter 1.5.2 (libsass, long dead), and custom properties do
+# everything either sheet needs.
+---
+
 /* ===========================================================================
    reidmorrison.com
 
@@ -6,12 +14,15 @@
    body, IBM Plex Mono for labels and data, a muted navy accent, and semantic
    critical / warning / ok colours kept separate from that accent.
 
-   This replaced the stylesheet copied from semantic_logger/docs. Since
-   2026-09-04 the traffic runs the other way: the doc sites take these tokens
-   from reidmorrison/rm-docs-theme, so the whole family shares one palette and
-   one type pairing. What is NOT shared is the chrome, and that is the load
-   bearing part: no commercial navigation, no entity block and no pricing ever
-   appears on an Apache-licensed doc site. See CLAUDE.md.
+   THE PALETTE IS NOT WRITTEN HERE ANY MORE (changed 2026-09-05). The tokens,
+   the code blocks and the syntax sheet are included from
+   `reidmorrison/rm-docs-theme`, resolved as a remote_theme in _config.yml and
+   shared verbatim with the six gem documentation sites. Change a colour there,
+   not here. See CLAUDE.md, "The doc sites now share this palette".
+
+   Nothing else comes from that theme: no layout, no include, no navigation.
+   The commercial chrome is this repo's, and it never travels the other way.
+   See CLAUDE.md for why an Apache-licensed doc site must not carry it.
 
    Theme rules, in order, so all three viewer states resolve:
      :root                                    complete light palette
@@ -24,46 +35,18 @@
    drawn by the browser and follow color-scheme instead. Print forces light.
    =========================================================================== */
 
-:root{
-  color-scheme:light;
-  --ground:#F2F4F7; --surface:#FFFFFF; --surface-2:#E9EDF2;
-  --ink:#131A22; --ink-2:#3D4854; --ink-3:#6B7684;
-  --rule:#D3DAE3; --rule-2:#BFC8D4;
-  --accent:#1B4B7A; --accent-ink:#FFFFFF; --accent-soft:#DCE7F2;
-  --crit:#9E2A20; --crit-soft:#F7E2E0;
-  --warn:#8A5300; --warn-soft:#FAECD8;
-  --ok:#1A5C43;  --ok-soft:#DCEDE5;
-  --shadow:0 1px 2px rgba(19,26,34,.06),0 8px 24px -12px rgba(19,26,34,.18);
-  --bar:rgba(242,244,247,.88);
-}
+{% include css/tokens.css %}
 
+/* The one token this site adds to the shared set: the translucent fill behind
+   the sticky top bar, which no doc site has because the doc masthead does not
+   stick. It is --ground at 88%, written out per theme rather than mixed, so it
+   resolves in every browser the rest of the sheet supports. All three states,
+   same rule as the tokens above. */
+:root{--bar:rgba(242,244,247,.88)}
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    color-scheme:dark;
-    --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
-    --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
-    --rule:#28323E; --rule-2:#3A4654;
-    --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
-    --crit:#F0918A; --crit-soft:#33191A;
-    --warn:#E5B369; --warn-soft:#2E2415;
-    --ok:#7BC7A5;  --ok-soft:#12291F;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
-    --bar:rgba(14,19,25,.88);
-  }
+  :root:not([data-theme="light"]){--bar:rgba(14,19,25,.88)}
 }
-
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --ground:#0E1319; --surface:#161D26; --surface-2:#1E2731;
-  --ink:#E6EBF2; --ink-2:#B4BECB; --ink-3:#818D9C;
-  --rule:#28323E; --rule-2:#3A4654;
-  --accent:#7FB2E0; --accent-ink:#0E1319; --accent-soft:#1B2B3B;
-  --crit:#F0918A; --crit-soft:#33191A;
-  --warn:#E5B369; --warn-soft:#2E2415;
-  --ok:#7BC7A5;  --ok-soft:#12291F;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
-  --bar:rgba(14,19,25,.88);
-}
+:root[data-theme="dark"]{--bar:rgba(14,19,25,.88)}
 
 /* --------------------------------------------------------------- reset --- */
 
@@ -159,25 +142,26 @@ blockquote{
 
 /* ---------------------------------------------------------------- code --- */
 
-code{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.88em;
-  background:var(--surface-2);color:var(--ink-2);
-  padding:1px 5px;border-radius:3px;
-}
+/* Both included from rm-docs-theme, so a Ruby example renders identically here
+   and in a gem's documentation. What was here before was six Rouge rules
+   written for a couple of illustrative snippets; they covered neither symbols
+   nor constants nor hash labels, which is most of what a Ruby configuration
+   example is made of, so the site selling Ruby work displayed Ruby worse than
+   the docs it links to. The shared sheet covers about twenty-five classes.
 
-pre{
-  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
-  padding:14px 16px;margin:0 0 15px;overflow-x:auto;font-size:13.5px;line-height:1.5;
-}
-pre code{background:none;padding:0;font-size:inherit;color:var(--ink)}
+   The code block also changed shape in the same swap: it was a raised white
+   panel on the page ground and is now a recessed well (--code-bg), which is
+   how the doc sites read. White cards are raised, code wells are sunk, and the
+   two roles no longer look alike.
 
-/* Rouge highlighting, kept to the token palette so it works in both themes. */
-.highlight .c,.highlight .c1,.highlight .cm{color:var(--ink-3);font-style:italic}
-.highlight .k,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{color:var(--accent);font-weight:600}
-.highlight .s,.highlight .s1,.highlight .s2,.highlight .sb{color:var(--ok)}
-.highlight .n,.highlight .nn,.highlight .nx{color:var(--ink)}
-.highlight .nc,.highlight .nf{color:var(--crit)}
-.highlight .m,.highlight .mi,.highlight .mf{color:var(--warn)}
+   Scope differs by kind, and it is deliberate. Inline <code> is styled
+   globally, so /eol/ gets it too: that page is self-contained, has no
+   `.content` wrapper, and its nineteen inline mentions of Gemfile.lock and
+   version numbers are exactly the type this rule is for. Code BLOCKS are
+   scoped to `.content`, the wrapper the layout puts markdown output inside,
+   so nothing in a hand-built page can be caught by them. */
+{% include css/code.css %}
+{% include css/syntax.css %}
 
 /* -------------------------------------------------------------- tables --- */
 
@@ -596,7 +580,16 @@ tbody tr:last-child td{border-bottom:0}
      black page, and the /eol/ finding goes to an auditor. Every semantic
      colour is restated, not only the ones this rule changes: the theme rules
      above match :root with the same specificity, so a token left out here
-     keeps its dark value and the finding prints a salmon counter. */
+     keeps its dark value and the finding prints a salmon counter.
+
+     That obligation now extends to the tokens included from rm-docs-theme.
+     They are restated here rather than in that file because this site's print
+     treatment is not the theme's: a doc site prints plain black on white, and
+     this one prints a client-facing document that keeps the brand navy and the
+     semantic colours. Two deliberate treatments, so the print block is the one
+     piece of the palette that is NOT shared. --logo-ink and --logo-accent are
+     the exception to the exception: the shield reads them from .brand-mark, and
+     topbar.css restates them there at the same specificity. */
   :root,:root[data-theme="dark"],:root:not([data-theme="light"]){
     color-scheme:light;
     --ground:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F7;
@@ -607,6 +600,22 @@ tbody tr:last-child td{border-bottom:0}
     --warn:#7A4900; --warn-soft:#FAECD8;
     --ok:#1A5C43;  --ok-soft:#DCEDE5;
     --shadow:none;
+
+    /* The code well and inline chips. Without these three a dark-theme
+       visitor prints "Gemfile.lock" as white type on a near-black chip,
+       nineteen times over on the /eol/ finding, because print-color-adjust
+       is exact. */
+    --code-bg:#E4EAF3; --code-rule:#C8D3E2; --code-inline:#E4EAF3;
+
+    /* The syntax palette, at its light values. No page carries a code block
+       today; the day one does, a printed listing has to read the same for a
+       dark-theme visitor as for a light-theme one. */
+    --syn-comment:#59677C; --syn-keyword:#9425A8; --syn-builtin:#7A3EAF;
+    --syn-symbol:#1266C4;  --syn-func:#006D7C;    --syn-string:#0C7236;
+    --syn-constant:#9C5300; --syn-number:#9C5300; --syn-var:#BB3814;
+    --syn-escape:#BB3814;  --syn-tag:#006D7C;     --syn-error:#BE271B;
+    --syn-operator:#46546A; --syn-punct:#59677F;
+    --syn-diff-add:#D3EADD; --syn-diff-del:#F6DBD8;
   }
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   @page{margin:16mm}
