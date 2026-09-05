@@ -47,6 +47,24 @@ entity:
 github_username: reidmorrison
 linkedin_username: reidmorrison
 
+# The design system, and ONLY the design system. This site resolves the shared
+# theme to reach three CSS partials - _includes/css/tokens.css, code.css and
+# syntax.css - which stylesheets/site.css includes. The palette, the code
+# treatment and the Rouge sheet then have one home for all seven sites instead
+# of a copy here and a copy there that drift apart.
+#
+# It takes NO layout, NO include and NO navigation from the theme: this repo's
+# _layouts and _includes win over a theme's, and the commercial chrome stays
+# here. Nothing travels the other way either. A doc site that carried /services,
+# the entity block or a price would read to the Ruby community as a rug-pull
+# risk on the gem itself. See CLAUDE.md.
+#
+# Pinned to the moving major tag, the same way the six doc sites are, so a
+# palette fix reaches everything on the next build. GitHub Pages only rebuilds
+# on a push, so propagation is lazy: a theme change does not touch this site
+# until this repo is pushed.
+remote_theme: reidmorrison/rm-docs-theme@v1
+
 # Kramdown settings match the project doc sites so markdown behaves identically
 # across reidmorrison.com and logger/encryption/rocketjob/etc.
 markdown: kramdown
@@ -54,6 +72,12 @@ kramdown:
   toc_levels: "2..3"
 
 plugins:
+  # GitHub Pages enables this one on its own, but a local `bundle exec jekyll
+  # build` does not: Jekyll only auto-requires gems in the :jekyll_plugins
+  # bundler group. Without this line the local build silently skips the theme,
+  # every {% include css/... %} in site.css fails, and the site renders unstyled
+  # while production looks fine. Learned converting the doc sites.
+  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
