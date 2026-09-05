@@ -926,6 +926,12 @@ the two claims contradict each other.
 pulls two download figures from it with `where`. Never hardcode a project, a
 download count, or a documentation URL into a page.
 
+The list is ordered by hand, not by download count: the projects with a
+documentation site come first, then the projects without one, then `jruby-jms`
+last because that project is archived. Within each of those groups the order is
+by download count, descending. `404.html` lists the documentation sites in the
+same order.
+
 `jruby-jms` and `sync_attr` are in the list because they are needed to reach 11
 and are genuinely widely downloaded, but both are archived or long-finished.
 They carry `status: stable`, which renders a muted card and describes them as
