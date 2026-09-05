@@ -1,7 +1,11 @@
 # Open source libraries listed on the home page.
 #
-# Ordered by download count, descending. Download counts are from the RubyGems
-# API and were last verified on 2026-08-06. To refresh them:
+# Ordering: projects with a documentation site come first, then the rest, then
+# JRuby JMS last because that project is archived. Within each group, ordered by
+# download count, descending.
+#
+# Download counts are from the RubyGems API and were last verified on
+# 2026-08-06. To refresh them:
 #
 #   curl -s https://rubygems.org/api/v1/gems/<gem>.json | jq .downloads
 #
@@ -60,16 +64,6 @@
     management and key rotation so encrypted columns and files stay readable
     across key changes.
 
-- name: JRuby JMS
-  gem: jruby-jms
-  github: https://github.com/reidmorrison/jruby-jms
-  downloads: 5.1M
-  status: stable
-  summary: >-
-    A complete JRuby API into the Java Messaging Specification, letting Ruby code
-    talk to any JMS provider. Feature complete and unchanged for years; still
-    downloaded steadily by JRuby shops running enterprise messaging.
-
 - name: IOStreams
   gem: iostreams
   github: https://github.com/reidmorrison/iostreams
@@ -86,16 +80,6 @@
     large files risk exhausting memory. With it, you read and write any of them
     as if they were plain local text, one block at a time, regardless of size.
 
-- name: Net::TCPClient
-  gem: net_tcp_client
-  github: https://github.com/reidmorrison/net_tcp_client
-  downloads: 1.1M
-  status: stable
-  summary: >-
-    A TCP socket client with automated failover, load balancing, retries, and
-    genuinely reliable timeouts. Written because Ruby's built-in socket timeouts
-    do not behave the way production traffic needs them to.
-
 - name: Secret Config
   gem: secret_config
   github: https://github.com/reidmorrison/secret_config
@@ -111,15 +95,6 @@
     files. Reads from a file for development, AWS Systems Manager Parameter Store
     for production, and lets environment variables override any setting, with
     string values converted to the types your code expects.
-
-- name: SyncAttr
-  gem: sync_attr
-  github: https://github.com/reidmorrison/sync_attr
-  downloads: 447K
-  status: stable
-  summary: >-
-    Thread-safe lazy-initialized class and instance attributes for Ruby. Small,
-    finished, and still in daily use.
 
 - name: Rocket Job
   gem: rocketjob
@@ -153,6 +128,25 @@
     of all of them. Handles exception propagation, timeouts, and passing logging
     context and Rails state across the thread boundary.
 
+- name: Net::TCPClient
+  gem: net_tcp_client
+  github: https://github.com/reidmorrison/net_tcp_client
+  downloads: 1.1M
+  status: stable
+  summary: >-
+    A TCP socket client with automated failover, load balancing, retries, and
+    genuinely reliable timeouts. Written because Ruby's built-in socket timeouts
+    do not behave the way production traffic needs them to.
+
+- name: SyncAttr
+  gem: sync_attr
+  github: https://github.com/reidmorrison/sync_attr
+  downloads: 447K
+  status: stable
+  summary: >-
+    Thread-safe lazy-initialized class and instance attributes for Ruby. Small,
+    finished, and still in daily use.
+
 - name: Data Cleansing
   gem: data_cleansing
   github: https://github.com/reidmorrison/data_cleansing
@@ -162,3 +156,13 @@
     Declarative cleansing of data arriving from Rails forms, APIs, files, or
     plain Ruby objects. Define the rules once on the model instead of scattering
     strip and normalize calls through every controller.
+
+- name: JRuby JMS
+  gem: jruby-jms
+  github: https://github.com/reidmorrison/jruby-jms
+  downloads: 5.1M
+  status: stable
+  summary: >-
+    A complete JRuby API into the Java Messaging Specification, letting Ruby code
+    talk to any JMS provider. Feature complete and unchanged for years; still
+    downloaded steadily by JRuby shops running enterprise messaging.
