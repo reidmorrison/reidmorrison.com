@@ -1,65 +1,106 @@
 # Rails and Ruby end-of-life data behind the exposure check at /eol/.
+# The single source of truth for these dates; `eol.html` renders it with
+# `jsonify`.
 #
-# THE SINGLE SOURCE FOR THESE DATES. They were previously hardcoded in the
-# calculator's JavaScript; they live here so the page, and any future report,
-# read the same numbers. `eol.html` renders this file with `jsonify`, so a
-# change here changes the tool with no JavaScript edit.
+# Sources. Every date is the vendor's own.
+#   Rails policy     https://guides.rubyonrails.org/maintenance_policy.html
+#   Rails supported  https://rubyonrails.org/maintenance
+#   Rails EOL posts  https://rubyonrails.org/2024/10/15/new-maintenance-policy-and-eol-annouments
+#                    https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement
+#   Rails releases   https://rubygems.org/api/v1/versions/rails.json
+#   Ruby branches    https://www.ruby-lang.org/en/downloads/branches/
+#   Controls         PCI DSS v4.0.1,
+#                    SOC 2 Trust Services Criteria, 45 CFR Part 164,
+#                    ISO/IEC 27001:2022
 #
-# RE-VERIFY BEFORE PUTTING ANY OF THIS IN FRONT OF A COMPLIANCE OFFICER.
-# Dates move, and a wrong control number costs more than the page earns.
-# Next scheduled change: Rails 8.0 reaches end of life 2026-11-07.
+# One non-vendor source, feeding `max` and nothing else:
+#   Version ceilings https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
 #
-# Sources:
-#   EOL dates          https://endoflife.date/rails and https://endoflife.date/ruby
-#   Version ceilings    https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
-#   Controls            PCI DSS v4.0.1 (never cite 4.0, retired 2024-12-31),
-#                       SOC 2 Trust Services Criteria, 45 CFR Part 164,
-#                       ISO/IEC 27001:2022
+# HOW A RAILS `eol` IS SET, and why it is not one formula. The policy's
+# Security Issues rule is `released` + 2 years. Rails adopted that rule
+# 2024-10-15 and does not apply it retroactively, so on older series it
+# yields dates the vendor's own release history contradicts: it puts 6.1 at
+# 2022-12-09, and Rails shipped 6.1.7.10 on 2024-10-23. So where
+# rubyonrails.org announced a date, the announcement wins; where it never
+# announced one, the formula fills the gap. Each row carries its basis.
+# Do NOT collapse this into a single computed rule.
 #
 # Fields on each rails entry:
-#   v     Version series.
-#   eol   End-of-life date, ISO. Quoted so YAML keeps it a string.
-#   min   Minimum Ruby this Rails series supports.
-#   max   Highest Ruby this Rails series is known good with. This is the field
-#         that makes the tool worth using: old Rails caps Ruby, which is what
-#         traps people. Two different things feed it, deliberately:
-#           - Where the gemspec sets required_ruby_version with an upper bound,
-#             max is that HARD cap minus one series (5.0 <2.5, 5.1 <2.6,
-#             5.2 <2.7, 6.0 <3.0). You physically cannot install higher.
-#           - From 6.1 up there is NO hard cap, so max is the highest version
-#             FastRuby lists as recommended. Exceeding it is untested, not
-#             impossible. Keep these matching the cited table: two rows were
-#             wrong until 2026-08-31 (6.1 read 3.1, 7.1 read 3.3).
+#   v         Version series.
+#   released  First stable release of the series (the x.y.0 gem) on RubyGems,
+#             ISO. The input the policy's two-year clock runs from.
+#   eol       End-of-life date, ISO. Quoted so YAML keeps it a string.
+#   min       Minimum Ruby the series supports: the lower bound of
+#             required_ruby_version in its gemspec. "1.9.3" on 4.2 is a series
+#             name like every other value, and is what ruby-lang.org calls
+#             that branch.
+#   max       Highest Ruby the series is known good with. Old Rails caps Ruby,
+#             and that trap is what makes the tool worth using.
+#
+#             No gemspec enforces it: neither rails nor activesupport ever
+#             sets an upper bound on required_ruby_version. Installing above
+#             `max` succeeds and fails at runtime, so this is a compatibility
+#             judgement, not an install-time constraint.
+#
+#             It reads two columns of the FastRuby table. Where that table
+#             gives a Required upper bound (5.0 <2.5, 5.1 <2.6, 5.2 <2.7,
+#             6.0 <3.0) max is the bound minus one series; otherwise max is
+#             their Recommended Ruby. Those bounds are FastRuby's synthesis
+#             of Rails issues and CI config, not vendor constraints. 4.2
+#             matches neither column: it reads 2.3 where they recommend 2.2
+#             and Rails CI reached 2.4.
+#
+#             Rails publishes a minimum Ruby, never a maximum. Their CI
+#             max_ruby is three coarse buckets (< 6.1 -> 2.7, < 8 -> 3.3,
+#             then none), which would call 4.2 good on 2.7 and leave 8.x
+#             uncapped, so it is not usable here.
 
-verified: "2026-08-31"
+verified: "2026-09-08"
 
 target_rails: "8.1"
 target_ruby: "3.4"
 
 rails:
-  - { v: "4.2", eol: "2017-04-27", min: "2.0", max: "2.3" }
-  - { v: "5.0", eol: "2018-04-09", min: "2.2", max: "2.4" }
-  - { v: "5.1", eol: "2019-08-25", min: "2.2", max: "2.5" }
-  - { v: "5.2", eol: "2022-06-01", min: "2.2", max: "2.6" }
-  - { v: "6.0", eol: "2023-06-01", min: "2.5", max: "2.7" }
-  - { v: "6.1", eol: "2024-10-01", min: "2.5", max: "3.0" }
-  - { v: "7.0", eol: "2025-04-01", min: "2.7", max: "3.3" }
-  - { v: "7.1", eol: "2025-10-01", min: "2.7", max: "3.4" }
-  - { v: "7.2", eol: "2026-08-09", min: "3.1", max: "3.4" }
-  - { v: "8.0", eol: "2026-11-07", min: "3.2", max: "3.4" }
-  - { v: "8.1", eol: "2027-10-10", min: "3.2", max: "3.4" }
+  # Formula (released + 2yr). No dated announcement exists for these three.
+  - { v: "4.2", released: "2014-12-20", eol: "2016-12-20", min: "1.9.3", max: "2.3" }
+  - { v: "5.0", released: "2016-06-30", eol: "2018-06-30", min: "2.2", max: "2.4" }
+  - { v: "5.1", released: "2017-04-27", eol: "2019-04-27", min: "2.2", max: "2.5" }
+  # Announced: 2022-05-09 post, "5.2 will reach end of life in June 2022".
+  - { v: "5.2", released: "2018-04-09", eol: "2022-06-01", min: "2.2", max: "2.6" }
+  # Announced: 2023-06-26 post, "the 6.0 and older series are no longer
+  # supported". The 2023-01-17 post still had 6.0 on severe fixes only, so
+  # this is the date Rails put in writing.
+  - { v: "6.0", released: "2019-08-16", eol: "2023-06-26", min: "2.5", max: "2.7" }
+  # Announced in the 2024-10-15 post that introduced the time-based policy.
+  - { v: "6.1", released: "2020-12-09", eol: "2024-10-01", min: "2.5", max: "3.0" }
+  - { v: "7.0", released: "2021-12-15", eol: "2025-04-01", min: "2.7", max: "3.3" }
+  - { v: "7.1", released: "2023-10-05", eol: "2025-10-01", min: "2.7", max: "3.4" }
+  # Announced, and the formula agrees to the day.
+  - { v: "7.2", released: "2024-08-09", eol: "2026-08-09", min: "3.1", max: "3.4" }
+  - { v: "8.0", released: "2024-11-07", eol: "2026-11-07", min: "3.2", max: "3.4" }
+  # Announced 2027-10-10. The formula would say 2027-10-22 from the RubyGems
+  # date; Rails dates the series from 2025-10-10.
+  - { v: "8.1", released: "2025-10-22", eol: "2027-10-10", min: "3.2", max: "3.4" }
 
+# `released` and `eol` come from the branches.json block on the ruby-lang.org
+# branches page.
+#
+# `projected: true` marks a date ruby-core has not fixed: upstream labels 3.3
+# "expected" and gives 3.4 and 4.0 as "TBD". Those are extrapolated from
+# Ruby's cadence, a Christmas release then EOL about 39 months later. The page
+# needs a date on every row, so they carry one. Do not quote a projected date
+# to a client as announced.
 ruby:
-  - { v: "2.4", eol: "2020-03-31" }
-  - { v: "2.5", eol: "2021-03-31" }
-  - { v: "2.6", eol: "2022-03-31" }
-  - { v: "2.7", eol: "2023-03-31" }
-  - { v: "3.0", eol: "2024-04-23" }
-  - { v: "3.1", eol: "2025-03-26" }
-  - { v: "3.2", eol: "2026-03-31" }
-  - { v: "3.3", eol: "2027-03-31" }
-  - { v: "3.4", eol: "2028-03-31" }
-  - { v: "4.0", eol: "2029-03-31" }
+  - { v: "2.4", released: "2016-12-25", eol: "2020-03-31" }
+  - { v: "2.5", released: "2017-12-25", eol: "2021-04-05" }
+  - { v: "2.6", released: "2018-12-25", eol: "2022-04-12" }
+  - { v: "2.7", released: "2019-12-25", eol: "2023-03-31" }
+  - { v: "3.0", released: "2020-12-25", eol: "2024-04-23" }
+  - { v: "3.1", released: "2021-12-25", eol: "2025-03-26" }
+  - { v: "3.2", released: "2022-12-25", eol: "2026-04-01" }
+  - { v: "3.3", released: "2023-12-25", eol: "2027-03-31", projected: true }
+  - { v: "3.4", released: "2024-12-25", eol: "2028-03-31", projected: true }
+  - { v: "4.0", released: "2025-12-25", eol: "2029-03-31", projected: true }
 
 controls:
   - framework: PCI DSS 4.0.1
