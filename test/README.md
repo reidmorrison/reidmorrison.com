@@ -9,6 +9,13 @@ and Jekyll the site already needs. The first run builds the site into
 `test/.site` (gitignored) and later runs reuse it until `_data/eol.yml`,
 `eol.html`, `_config.yml`, `_includes/` or `_layouts/` changes.
 
+`node --test` runs each file in its own process, so that cache is shared state.
+It is taken under `test/.site.lock`: one process builds and the others wait,
+because Jekyll empties its destination before it writes and an unlocked run
+had one process reading a page another had just deleted. That failed about one
+run in three after any edit to an input, with an error unrelated to the change
+being tested. See `helpers/site.mjs`.
+
 ## The one rule
 
 **No test states a date, a version, a ceiling or a control number of its own.**
