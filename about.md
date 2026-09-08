@@ -9,7 +9,7 @@ standfirst: >-
 description: >-
   Reid Morrison. Twenty years building regulated production systems: credit
   bureau, healthcare, payments. Author of 11 open-source Ruby libraries with
-  77M+ downloads. Now doing end-of-life remediation full time.
+  79M+ downloads. Now doing end-of-life remediation full time.
 ---
 
 {% assign logger = site.data.projects | where: "name", "Semantic Logger" | first %}
@@ -59,7 +59,7 @@ not come from the tooling.
 
 Consulting references are selected and rehearsed. Source code is not.
 
-I maintain **11 open-source Ruby libraries with over 77 million combined
+I maintain **11 open-source Ruby libraries with over 79 million combined
 downloads**, including [Semantic Logger]({{ logger.docs }}) at
 {{ logger.downloads }} and [Symmetric Encryption]({{ crypto.docs }}) at
 {{ crypto.downloads }}, in daily production use worldwide.

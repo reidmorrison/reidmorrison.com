@@ -130,6 +130,9 @@ exclude:
   - CLAUDE.md
   - README.md
   - vendor
+  # The test suite, and the throwaway build it makes to test against. Neither
+  # is part of the published site. See test/README.md.
+  - test
   # The logo master is untracked, so it is absent from a fresh clone and from
   # the Pages build. Excluding it keeps a local build byte-identical to
   # production for whoever has a copy sitting in images/. See CLAUDE.md.

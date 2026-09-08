@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Open Source
-heading: Eleven libraries, 77 million downloads, all auditable
+heading: Eleven libraries, 79 million downloads, all auditable
 standfirst: >-
   The case study that needs no NDA. Anyone can read the diffs and judge how I
   work before deciding whether to hire me.
 description: >-
-  Reid Morrison's 11 open-source Ruby libraries with over 77 million combined
+  Reid Morrison's 11 open-source Ruby libraries with over 79 million combined
   downloads, including Semantic Logger, Rails Semantic Logger and Symmetric
   Encryption.
 ---
@@ -37,7 +37,7 @@ including credentials in configuration files.
 </div>
 {% endfor %}
 
-Download counts were last verified on 2026-08-06. Projects shown in grey are complete and
+Download counts were last verified on 2026-09-08. Projects shown in grey are complete and
 stable rather than actively developed: they still work, and still get downloaded, but are
 not receiving new features.
 

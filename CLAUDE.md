@@ -30,7 +30,7 @@ Jobs, in priority order:
 2. **Sell the assessment.** $12,500, two weeks. See "Commercial rules" below for
    what may and may not be published.
 3. **Establish credibility.** The open-source libraries are the proof, not the
-   product: 11 gems, 77M+ downloads, and public commits a prospect can audit
+   product: 11 gems, 79M+ downloads, and public commits a prospect can audit
    before signing anything. Frame them as evidence of how Reid works, never as a
    portfolio of things he has made.
 4. **Hold a place for future writing.** The blog is scaffolded but empty, and
@@ -108,8 +108,6 @@ Still to do, in the order the plan sets:
 - **A social share image.** Link unfurls for `/eol/` are text-only.
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
   only reproduced.
-- **Refresh the download counts**, stamped 2026-08-06. See "Refreshing download
-  counts".
 
 `/eol/` keeps its own shell: its own `<head>`, its own sources footer, and the
 print letterhead. Its **CSS is no longer its own**; it moved into `site.css` on
@@ -236,6 +234,9 @@ images/                favicon.ico, apple-touch-icon.png, reid-morrison.jpg.
                        deliberately NOT here; see "The logo".
                        header-banner.jpg is unused since the retheme.
 _includes/logo-mark.svg  The shield, inline so its fills are CSS variables.
+test/                  The /eol/ test suite. `node --test` from the root. No
+                       dependencies; excluded from the build in _config.yml.
+                       Every expectation comes from _data/eol.yml. See below.
 ```
 
 ## Styling
@@ -920,6 +921,62 @@ the two claims contradict each other.
 - No version numbers in the URL, so a finding cannot yet be linked. Worth adding.
 - No social share image. Link unfurls are text-only.
 
+### The tests read the data file, and nothing else
+
+Added 2026-09-08, in `test/`. `node --test` from the repository root. Node's own
+runner, no packages, no `package.json`, and no gems beyond the ones the site
+already needs. The suite builds the site into `test/.site` (gitignored, and
+`test` is in the `exclude:` list so nothing here ships), lifts the inline script
+out of the generated `/eol/index.html`, and runs it unmodified in a `node:vm`
+context against a DOM stub.
+
+**The rule the suite exists to enforce: no test states a date, a version, a
+ceiling or a control number of its own.** Every expectation is derived from
+`_data/eol.yml`, parsed by Ruby so the tests see exactly what Jekyll sees. A
+test that repeated a value from the data file would keep passing after that
+value changed, which is the whole failure mode here: the data file moves, and
+the tool has to move with it.
+
+Three things follow, and they are worth knowing before editing a test:
+
+- **The clock is pinned on every load.** Every headline number on the page is a
+  distance from today, so a fixed `now` makes a day counter and a status pill
+  exact. It is also how a state the calendar has not reached is tested:
+  `loadCalculator(utc(rec.eol, -89))` puts the page one day inside its warning
+  window. Nothing in the suite depends on the day it runs.
+- **The upgrade ladder is checked against its rules, not against a second copy
+  of itself.** Listing the expected hops would assert only that two
+  implementations agree, and would need rewriting every time a date moved.
+  Instead every Rails hop must be to the next series in the file and only once
+  Ruby clears that series' floor, every Ruby hop must stay under the current
+  series' ceiling, and the walk must end on both targets.
+- **`eol-data.test.mjs` covers what the calculator assumes about the data**, not
+  the calculator itself: the series are in ascending order (the ladder reads
+  `RAILS[i + 1]`), each series can carry Ruby high enough to reach the next one,
+  and the targets exist and run together. An edit to `_data/eol.yml` can break
+  the page without touching a line of code, and that file is where it is caught.
+
+Two deliberate exceptions to the rule above, both of which can only fire on a
+regression rather than on an edit: the 90 day warning window, which is the
+page's threshold and not the data's, and a test asserting that no control has
+regressed to PCI DSS 4.0, 164.312 or CC6.1, the three errors "Verified citations
+only" records as recurring.
+
+**One thing the suite turned up, and it has been fixed.** The Ruby table began
+at 2.4, and Rails 4.2 caps Ruby at 2.3, so every selection of Rails 4.2 returned
+"Those two versions do not run together" and the oldest series on offer could
+not produce a finding at all. The 5.x series had the same gap in weaker form:
+they require Ruby 2.2, which was not listed either. The five pre-2.4 branches
+(1.9.3, 2.0.0, 2.1, 2.2, 2.3) were added on 2026-09-08 from the ruby-lang.org
+branches page, and Rails 4.2 on Ruby 1.9.3 now returns a fourteen hop path. Do
+not prune them for looking obsolete: an application still on Rails 4.2 is the
+most exposed reader this page has, and it is the one the page must not turn
+away.
+
+**Ruby 4.0 still has no compatible Rails, and that one is correct.** It sits
+above every series ceiling because no Rails release supports it yet. It stops
+being an orphan when a Rails series raises its `max`, with no change here.
+
 ## The project list
 
 `_data/projects.yml` drives `open-source.md` and `404.html`, and `about.md`
@@ -946,7 +1003,7 @@ Deliberately excluded, and listed instead in the "Elsewhere" section of
 
 Counts are hand-maintained and stamped with a verification date in both
 `_data/projects.yml` and the note under the cards on `open-source.md`. They are
-currently stamped 2026-08-06 and should be refreshed before the site is pushed
+currently stamped 2026-09-08 and should be refreshed before the site is pushed
 at buyers. To refresh:
 
 ```sh
@@ -960,7 +1017,7 @@ done
 
 Update the badge values in `_data/projects.yml` and the date in the note on
 `open-source.md`. The two figures quoted on `about.md` render from the data file,
-so they follow automatically. The 77M total is written out in prose in several
+so they follow automatically. The 79M total is written out in prose in several
 places and does have to be changed by hand.
 
 ## Content rules
@@ -1005,6 +1062,7 @@ this file. Delete the whole `div`, not just the class.
 ```sh
 bundle install
 bundle exec jekyll serve   # http://127.0.0.1:4000
+node --test                # the /eol/ suite, from the repository root
 ```
 
 `Gemfile.lock` is gitignored, matching the convention in the other repos.

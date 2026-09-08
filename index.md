@@ -95,7 +95,7 @@ credit bureau at 99.99% availability, healthcare, payments, and an event-driven
 platform on Elixir and Kafka. Reid Morrison does that work himself. You are not
 being sold a principal engineer and handed a junior.
 
-He maintains **11 open-source Ruby libraries with over 77 million combined
+He maintains **11 open-source Ruby libraries with over 79 million combined
 downloads**, and shipped new versions of four of them in July 2026 using
 agentic workflows. Those diffs are public. You can audit how he works, at what
 increment size and in what order, before you hire anyone.
