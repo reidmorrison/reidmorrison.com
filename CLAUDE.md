@@ -30,7 +30,7 @@ Jobs, in priority order:
 2. **Sell the assessment.** $12,500, two weeks. See "Commercial rules" below for
    what may and may not be published.
 3. **Establish credibility.** The open-source libraries are the proof, not the
-   product: 11 gems, 77M+ downloads, and public commits a prospect can audit
+   product: 11 gems, 79M+ downloads, and public commits a prospect can audit
    before signing anything. Frame them as evidence of how Reid works, never as a
    portfolio of things he has made.
 4. **Hold a place for future writing.** The blog is scaffolded but empty, and
@@ -108,8 +108,6 @@ Still to do, in the order the plan sets:
 - **A social share image.** Link unfurls for `/eol/` are text-only.
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
   only reproduced.
-- **Refresh the download counts**, stamped 2026-08-06. See "Refreshing download
-  counts".
 
 `/eol/` keeps its own shell: its own `<head>`, its own sources footer, and the
 print letterhead. Its **CSS is no longer its own**; it moved into `site.css` on
@@ -946,7 +944,7 @@ Deliberately excluded, and listed instead in the "Elsewhere" section of
 
 Counts are hand-maintained and stamped with a verification date in both
 `_data/projects.yml` and the note under the cards on `open-source.md`. They are
-currently stamped 2026-08-06 and should be refreshed before the site is pushed
+currently stamped 2026-09-08 and should be refreshed before the site is pushed
 at buyers. To refresh:
 
 ```sh
@@ -960,7 +958,7 @@ done
 
 Update the badge values in `_data/projects.yml` and the date in the note on
 `open-source.md`. The two figures quoted on `about.md` render from the data file,
-so they follow automatically. The 77M total is written out in prose in several
+so they follow automatically. The 79M total is written out in prose in several
 places and does have to be changed by hand.
 
 ## Content rules

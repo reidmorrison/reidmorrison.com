@@ -5,7 +5,7 @@
 # download count, descending.
 #
 # Download counts are from the RubyGems API and were last verified on
-# 2026-08-06. To refresh them:
+# 2026-09-08. To refresh them:
 #
 #   curl -s https://rubygems.org/api/v1/gems/<gem>.json | jq .downloads
 #
@@ -24,7 +24,7 @@
   gem: semantic_logger
   github: https://github.com/reidmorrison/semantic_logger
   docs: https://logger.reidmorrison.com
-  downloads: 36.0M
+  downloads: 37.1M
   status: active
   summary: >-
     A high-performance, asynchronous structured logging framework for Ruby.
@@ -41,7 +41,7 @@
   gem: rails_semantic_logger
   github: https://github.com/reidmorrison/rails_semantic_logger
   docs: https://logger.reidmorrison.com/rails.html
-  downloads: 24.1M
+  downloads: 25.0M
   status: active
   summary: >-
     Drops Semantic Logger into Rails, replacing the default logger so that Rails
@@ -53,7 +53,7 @@
   gem: symmetric-encryption
   github: https://github.com/reidmorrison/symmetric-encryption
   docs: https://encryption.reidmorrison.com
-  downloads: 6.3M
+  downloads: 6.4M
   status: active
   summary: >-
     Symmetric encryption for Ruby and Rails projects using OpenSSL.
@@ -84,7 +84,7 @@
   gem: secret_config
   github: https://github.com/reidmorrison/secret_config
   docs: https://config.reidmorrison.com
-  downloads: 451K
+  downloads: 463K
   status: active
   summary: >-
     Ship the same image to every environment and tenant. Configuration and
@@ -100,7 +100,7 @@
   gem: rocketjob
   github: https://github.com/reidmorrison/rocketjob
   docs: https://rocketjob.reidmorrison.com
-  downloads: 438K
+  downloads: 447K
   status: active
   summary: >-
     A distributed, priority-based background job and batch processing system for
@@ -117,7 +117,7 @@
   gem: parallel_minion
   github: https://github.com/reidmorrison/parallel_minion
   docs: https://minion.reidmorrison.com
-  downloads: 380K
+  downloads: 387K
   status: active
   summary: >-
     Run slow steps at the same time and cut request latency.
@@ -141,7 +141,7 @@
 - name: SyncAttr
   gem: sync_attr
   github: https://github.com/reidmorrison/sync_attr
-  downloads: 447K
+  downloads: 456K
   status: stable
   summary: >-
     Thread-safe lazy-initialized class and instance attributes for Ruby. Small,
@@ -150,7 +150,7 @@
 - name: Data Cleansing
   gem: data_cleansing
   github: https://github.com/reidmorrison/data_cleansing
-  downloads: 360K
+  downloads: 368K
   status: active
   summary: >-
     Declarative cleansing of data arriving from Rails forms, APIs, files, or
