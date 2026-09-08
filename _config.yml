@@ -1,25 +1,14 @@
-# Site identity. jekyll-seo-tag reads these for every page, so they set how the
-# whole site is described in search results and link previews. They were the
-# job-search positioning until 2026-08-28; this site now sells a service.
+# Site identity. jekyll-seo-tag reads these for every page, so they decide how
+# the site appears in search results and link previews.
 #
-# `title` is the LEGAL NAME of the contracting entity, changed 2026-09-03 from
-# "Reid Morrison Consulting". The corporation is `Reid Morrison Inc.` (Florida,
-# document P26000043890) and it has no trading name, so "Consulting" on a public
-# surface would be a fictitious name nobody registered. /security.html names the
-# entity as the counterparty, and the tab title has to agree with it.
+# Company Name
 title: Reid Morrison Inc.
 
-# `tagline` is the descriptive work the entity name no longer does: the
-# corporation has no descriptor, so the offer has to be legible from the
-# surrounding copy instead. Changed 2026-09-03 from the bare category
-# "EOL Remediation", which named the market rather than what is sold.
-#
-# Honest note on where it renders: jekyll-seo-tag only uses `tagline` for the
-# site root, and ONLY when that page sets no `title` of its own. index.md sets
-# one, so this string is currently inert. It is set correctly anyway, because
-# the day the home page drops its title this becomes the tab and the search
-# result, and a stale value would be discovered by a buyer rather than by us.
-# `description` below is the string that actually ships on every page.
+# The entity name carries no descriptor, so `tagline` does that work. It is
+# currently inert: jekyll-seo-tag uses it only for the site root, and only when
+# that page sets no `title` of its own, which index.md does. Keep it right
+# anyway, because it becomes the tab the day the home page drops its title.
+# `description` is the string that actually ships on every page.
 tagline: Fixed-price upgrades off end-of-life software
 description: >-
   Reid Morrison Inc. upgrades production applications off end-of-life software
@@ -29,12 +18,7 @@ description: >-
 url: https://reidmorrison.com
 author: Reid Morrison
 
-# The contracting entity, exactly as it appears on the approved Florida
-# Articles. THE ONE HOME for these facts: the footer on every page, the /eol/
-# print letterhead and the procurement block on /security.html all read them
-# from here. They are also what the W-9, the D-U-N-S record and the insurance
-# certificate will carry, so a page that drifts from this block drifts from a
-# document a procurement reviewer is holding.
+# Company
 entity:
   name: Reid Morrison Inc.
   # Reads as an apposition in the footer: "Reid Morrison Inc., a Florida
@@ -47,66 +31,73 @@ entity:
 github_username: reidmorrison
 linkedin_username: reidmorrison
 
-# The design system, and ONLY the design system. This site resolves the shared
-# theme to reach three CSS partials - _includes/css/tokens.css, code.css and
-# syntax.css - which stylesheets/site.css includes. The palette, the code
-# treatment and the Rouge sheet then have one home for all seven sites instead
-# of a copy here and a copy there that drift apart.
+# The design system, and ONLY the design system: three CSS partials
+# (_includes/css/tokens.css, code.css, syntax.css) that stylesheets/site.css
+# includes, so seven sites share one palette instead of a copy each.
 #
-# It takes NO layout, NO include and NO navigation from the theme: this repo's
-# _layouts and _includes win over a theme's, and the commercial chrome stays
-# here. Nothing travels the other way either. A doc site that carried /services,
-# the entity block or a price would read to the Ruby community as a rug-pull
-# risk on the gem itself. See CLAUDE.md.
+# NO layout, include or navigation comes from the theme. This repo's _layouts
+# and _includes win over a theme's, and the commercial chrome stays here: a doc
+# site carrying /services, the entity block or a price would read to the Ruby
+# community as a rug-pull risk on the gem itself.
 #
-# Pinned to the moving major tag, the same way the six doc sites are, so a
-# palette fix reaches everything on the next build. GitHub Pages only rebuilds
-# on a push, so propagation is lazy: a theme change does not touch this site
-# until this repo is pushed.
+# @v1 is a moving major tag. Pages rebuilds a site only when that site is
+# pushed, so a theme change does not reach here until this repo is pushed.
 remote_theme: reidmorrison/rm-docs-theme@v1
 
-# Kramdown settings match the project doc sites so markdown behaves identically
-# across reidmorrison.com and logger/encryption/rocketjob/etc.
+# Matches the project doc sites, so markdown behaves identically across them.
 markdown: kramdown
 kramdown:
   toc_levels: "2..3"
 
 plugins:
-  # GitHub Pages enables this one on its own, but a local `bundle exec jekyll
-  # build` does not: Jekyll only auto-requires gems in the :jekyll_plugins
-  # bundler group. Without this line the local build silently skips the theme,
-  # every {% include css/... %} in site.css fails, and the site renders unstyled
-  # while production looks fine. Learned converting the doc sites.
+  # Needed for LOCAL builds. Pages enables it on its own, but Jekyll only
+  # auto-requires gems in the :jekyll_plugins bundler group, so without this line
+  # a local build silently skips the theme, every {% include css/... %} in
+  # site.css fails, and the site renders unstyled while production looks fine.
   - jekyll-remote-theme
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
-  # Added 2026-09-03 for exactly one redirect: /assessment.html was a page in
-  # its own right for six days, was in the sitemap, and folded into
-  # /services.html. `redirect_from` there keeps the old URL resolving instead
-  # of 404ing anything that indexed or bookmarked it. Whitelisted on GitHub
-  # Pages. If that redirect is ever removed, remove this too rather than
+  # Here for exactly one redirect: `redirect_from` in services.md keeps
+  # /assessment.html resolving. Remove this with that redirect rather than
   # leaving a plugin nothing uses.
   - jekyll-redirect-from
 
-# Web3Forms access key for the lead form on /eol/. Public by design; it only
-# identifies the destination inbox, it does not grant access to anything.
+# The three third-party keys. Two rules cover all of them.
 #
-# CREATE IT WITH THE PUBLIC SALES ALIAS AT https://web3forms.com/ - submissions
-# are delivered to whichever address the key was created with, and that address
-# is the one that should receive them. The alias is deliberately not written
-# down in this repo, which is public; see CLAUDE.md.
+# PUBLIC BY DESIGN: each names a destination or a hostname and grants access to
+# nothing, which is why they sit unredacted in a public repo.
 #
-# While this is empty the form is NOT rendered and /eol/ points people at
-# LinkedIn instead. That is deliberate: a form that discards submissions is
-# worse than no form. Paste the key here and the form appears.
-# Video call booking link, shown on /contact.html and the home page when set.
-# Empty means no booking button is rendered anywhere, and the contact form is
-# the only route. This is a Google Calendar appointment schedule; the meeting
-# name set there becomes the subject line on the prospect's own calendar.
+# EACH IS ITS OWN OFF SWITCH: every page guards on the key being non-empty, so
+# emptying one removes that feature everywhere. Changing any of them means
+# changing /privacy.html in the same commit, which names all three as parties a
+# visitor's browser contacts.
+
+# Video call booking link. Renders a "Book a video call" button on the home
+# page, /services.html, /security.html, /contact.html and /eol/. Empty means no
+# button anywhere and the forms are the only route. A Google Calendar
+# appointment schedule: the meeting name set there becomes the subject line on
+# the prospect's own calendar.
 booking_url: "https://calendar.app.google/wkaaAoqxXj1xoVUQ8"
 
+# Web3Forms access key, gating BOTH lead forms: /contact.html and /eol/. While
+# it is empty NEITHER form renders and both pages point at LinkedIn instead,
+# because a form that discards submissions while telling the visitor it sent is
+# worse than no form.
+#
+# CREATE IT WITH THE PUBLIC SALES ALIAS AT https://web3forms.com/ - submissions
+# go to whichever address created the key. That alias is deliberately not
+# written down in this repo, which is public.
 web3forms_key: "018411c9-90f9-4b0f-aa92-b3c080d2c362"
+
+# Cloudflare Web Analytics. The free JavaScript beacon, rendered into both
+# shells by _includes/analytics.html.
+#
+# DNS IS UNTOUCHED, AND MUST STAY THAT WAY. The apex is on GoDaddy nameservers
+# pointing at the GitHub Pages addresses, nothing is proxied, and the domain is
+# not a Cloudflare zone. One hostname in a Cloudflare account plus one script
+# tag is the whole integration.
+cloudflare_analytics_token: "dd3a35c446b84f0f85c4cf5c0db17ded"
 
 feed:
   path: feed.xml
@@ -117,11 +108,10 @@ defaults:
       type: posts
     values:
       layout: post
-      # Blog posts live under /writing/. No posts yet, and no index page:
-      # the scaffold is kept so a future post gets a URL and a feed entry.
-      # Scoped to posts rather than set globally: a top-level `permalink` key
-      # switches *pages* to pretty URLs too (about/index.html), which breaks the
-      # .html nav links shared with the project doc sites.
+      # Blog posts live under /writing/. Scoped to posts rather than set
+      # globally: a top-level `permalink` key switches *pages* to pretty URLs
+      # too (about/index.html), which breaks the .html nav links shared with the
+      # project doc sites.
       permalink: /writing/:year/:month/:day/:title/
 
 exclude:
@@ -130,10 +120,9 @@ exclude:
   - CLAUDE.md
   - README.md
   - vendor
-  # The test suite, and the throwaway build it makes to test against. Neither
-  # is part of the published site. See test/README.md.
+  # The test suite, and the throwaway build it makes to test against. Neither is
+  # part of the published site. See test/README.md.
   - test
-  # The logo master is untracked, so it is absent from a fresh clone and from
-  # the Pages build. Excluding it keeps a local build byte-identical to
-  # production for whoever has a copy sitting in images/. See CLAUDE.md.
+  # The logo master artwork, deliberately untracked. Excluding it keeps a local
+  # build identical to production for whoever has a copy sitting in images/.
   - images/reid-morrison-consulting.png

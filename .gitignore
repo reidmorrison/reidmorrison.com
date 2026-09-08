@@ -5,6 +5,7 @@
 Gemfile.lock
 _site
 test/.site
+test/.site.lock
 vendor
 
 # Logo master artwork. Deliberately untracked: see CLAUDE.md, "The logo".

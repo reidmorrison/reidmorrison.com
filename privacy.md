@@ -1,15 +1,16 @@
 ---
 layout: default
 title: Privacy
-eyebrow: Effective 3 September 2026
+eyebrow: Effective 8 September 2026
 heading: What this site collects, and who else sees you
 standfirst: >-
-  Short, because there is little to say. This site sets no cookies, runs no
-  analytics, and learns nothing about you unless you choose to send something.
+  Short, because there is little to say. This site sets no cookies, writes
+  nothing to your browser, and learns nothing about you as an individual. It
+  counts page views, and that is the whole of it.
 description: >-
-  The privacy policy for reidmorrison.com. No cookies and no analytics, the
-  four third parties a visitor's browser contacts, and what happens to an
-  enquiry.
+  The privacy policy for reidmorrison.com. No cookies, cookieless page-view
+  counting, the five third parties a visitor's browser contacts, and what
+  happens to an enquiry.
 ---
 
 This policy covers `reidmorrison.com`, the website of
@@ -22,13 +23,19 @@ agreement itself.
 
 ## The short version
 
-**No cookies are set by this site.** No analytics, no tag manager, no tracking
-pixel, no advertising network, no session recording, no fingerprinting. Nothing
-is written to your browser's storage.
+**No cookies are set by this site.** No tag manager, no tracking pixel, no
+advertising network, no session recording, no fingerprinting. Nothing is
+written to your browser's storage.
 
-There is no account to create, and nothing to opt out of, because nothing is
-being collected in the first place. If you send an enquiry or book a call, we
-receive what you typed and nothing else.
+**One thing is measured, and it is how many people read which page.** That is
+done by Cloudflare Web Analytics, which counts page views without cookies and
+without storing any identifier on your device. What we see is totals: which
+pages were read, roughly where readers arrived from, which country and which
+browser. We cannot see you, we cannot follow you from one visit to the next,
+and there is no profile of you to build. The detail is in the table below.
+
+There is no account to create and no mailing list to leave. If you send an
+enquiry or book a call, we receive what you typed and nothing else.
 
 ## Who your browser contacts
 
@@ -52,6 +59,11 @@ own statement.
       <td>Every page</td>
     </tr>
     <tr>
+      <td><a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Web Analytics</a></td>
+      <td>Counts page views. A small script loads from Cloudflare and reports which page you are on, the address you arrived from, and your browser's own page-load timings. It sets no cookies and leaves nothing on your device, and Cloudflare states the data is not used to identify or profile visitors.</td>
+      <td>Every page</td>
+    </tr>
+    <tr>
       <td><a href="https://web3forms.com/">Web3Forms</a></td>
       <td>Receives a submitted form and forwards it to us as email. It sees whatever you put in the fields.</td>
       <td>Only when you press Send on a form</td>
@@ -68,6 +80,10 @@ own statement.
 Nothing else is embedded. No fonts, scripts, images or frames are loaded from
 anywhere other than this site and the sources above.
 
+If your browser or an extension blocks the analytics beacon, every page here
+still works exactly as it should. We would rather you blocked it than felt
+watched, and nothing on this site is gated on being counted.
+
 ## The EOL exposure check
 
 [The check at `/eol/`]({{ '/eol/' | relative_url }}) runs entirely in your
@@ -78,8 +94,9 @@ is uploaded, and nothing is saved.
 That is a property of how the page is built rather than a promise we are asking
 you to take on trust. The site is static and has no backend to receive
 anything, and you can confirm it in your browser's network tab in about ten
-seconds. Printing the finding is your browser printing a page, not a request to
-us.
+seconds. Look there and you will also see the analytics beacon described above:
+it records that the page was viewed, and it carries none of what you selected.
+Printing the finding is your browser printing a page, not a request to us.
 
 The check carries a separate, clearly marked form. That form is the only part
 of the page that sends anything anywhere, and only if you fill it in.
@@ -112,14 +129,18 @@ prove a legal basis for asking.
 
 Six subdomains (`logger`, `encryption`, `rocketjob`, `config`, `iostreams` and
 `minion`) serve documentation for open-source Ruby libraries. They are static
-sites hosted the same way, they set no cookies either, and they exist to
-document software rather than to sell anything.
+sites hosted the same way, they set no cookies either, they carry no analytics
+beacon at all, and they exist to document software rather than to sell
+anything.
 
 ## Changes to this policy
 
 This page is dated at the top, and material changes are listed here rather than
 made quietly.
 
+- **8 September 2026.** Cloudflare Web Analytics added, and this page changed
+  in the same commit: a row in the table above, and the "no analytics" line in
+  the summary replaced with what is now true.
 - **3 September 2026.** First published.
 
 <div class="cta-row" markdown="0">

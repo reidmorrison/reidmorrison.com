@@ -1,0 +1,16 @@
+{% comment %}
+  The Cloudflare Web Analytics beacon. Included by BOTH shells, for the same
+  reason topbar.html is: _layouts/default.html and eol.html, which builds its
+  own. A third shell needs it too or that page goes uncounted.
+
+  `type="module"` rather than `defer` is Cloudflare's current form, and most
+  snippets found online are the older one. A module script defers already.
+
+  Keep it EXTERNAL. test/helpers/site.mjs lifts the calculator by matching the
+  one <script> on /eol/ without a `src`, so an inline beacon breaks the suite.
+
+  The token, the gate and the privacy-page rule are documented in _config.yml.
+{% endcomment %}
+{% if site.cloudflare_analytics_token and site.cloudflare_analytics_token != "" %}
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ site.cloudflare_analytics_token }}"}'></script>
+{% endif %}
