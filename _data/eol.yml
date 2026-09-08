@@ -90,7 +90,18 @@ rails:
 # Ruby's cadence, a Christmas release then EOL about 39 months later. The page
 # needs a date on every row, so they carry one. Do not quote a projected date
 # to a client as announced.
+#
+# The list starts at 1.9.3 rather than at a version anyone should still be
+# running. Rails 4.2 requires Ruby 1.9.3 and caps it at 2.3, and the 5.x series
+# require 2.2, so without the pre-2.4 branches the tool offers Rails series it
+# has no Ruby to pair with and every selection returns "those two versions do
+# not run together".
 ruby:
+  - { v: "1.9.3", released: "2011-10-31", eol: "2015-02-23" }
+  - { v: "2.0.0", released: "2013-02-24", eol: "2016-02-24" }
+  - { v: "2.1", released: "2013-12-25", eol: "2017-03-31" }
+  - { v: "2.2", released: "2014-12-25", eol: "2018-03-31" }
+  - { v: "2.3", released: "2015-12-25", eol: "2019-03-31" }
   - { v: "2.4", released: "2016-12-25", eol: "2020-03-31" }
   - { v: "2.5", released: "2017-12-25", eol: "2021-04-05" }
   - { v: "2.6", released: "2018-12-25", eol: "2022-04-12" }

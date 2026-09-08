@@ -49,6 +49,20 @@ bundle exec jekyll serve
 
 Then open <http://127.0.0.1:4000>.
 
+## Tests
+
+The EOL exposure check has a test suite. No dependencies beyond the Ruby and
+Jekyll the site already needs:
+
+```sh
+node --test
+```
+
+It builds the site, runs the calculator's own JavaScript against the generated
+page, and derives every expectation from `_data/eol.yml`: no test restates a
+date, a version, a ceiling or a control number. See
+[test/README.md](test/README.md).
+
 ## Editing
 
 The library list on the open source page is generated from
