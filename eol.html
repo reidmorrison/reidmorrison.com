@@ -238,7 +238,7 @@ function render(rv,uv){
       <p style="margin:0;color:var(--ink-2);font-size:14px">You are on the only Rails and Ruby combination still in normal maintenance. Re-check when Rails ${TARGET_RAILS} approaches its end of life on ${fmtDate(railsRec(TARGET_RAILS).eol)}.</p>
     </article>`;
   } else {
-  h+=`<article class="record record--${anyEol?"crit":"ok"}">
+  h+=`<article class="record record--${anyEol?"crit":"ok"} record--path">
     <div class="rec-head"><h2 class="rec-title">Required upgrade path</h2>
     <span class="pill pill--${steps.length>6?"crit":"warn"}">${steps.length} version hop${steps.length===1?"":"s"}</span></div>
     <p style="margin:0 0 4px;color:var(--ink-2);font-size:14px">To Rails ${TARGET_RAILS} on Ruby ${TARGET_RUBY}, the only combination in normal maintenance. Each hop ships and soaks in production before the next begins.</p>
@@ -254,7 +254,7 @@ function render(rv,uv){
   }
 
   if(anyEol){
-    h+=`<article class="record record--crit">
+    h+=`<article class="record record--crit record--controls">
       <div class="rec-head"><h2 class="rec-title">Controls implicated</h2>
       <span class="pill pill--crit">${CONTROLS.length} references</span></div>
       <p style="margin:0 0 14px;color:var(--ink-2);font-size:14px">These controls reference unsupported software directly. Which apply depends on the frameworks you are assessed against.</p>

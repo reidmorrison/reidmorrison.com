@@ -676,11 +676,32 @@ tbody tr:last-child td{border-bottom:0}
     border:1px solid var(--rule);box-shadow:none;animation:none;
     break-inside:avoid;page-break-inside:avoid;
   }
+  /* A card taller than the sheet cannot honour break-inside:avoid, and two of
+     them outgrow one: the controls table sets eight citations, and the ladder
+     from the oldest series on offer runs to ten Rails hops before the Ruby
+     ones are counted. The spec says break such a box anyway. WebKit on iOS
+     clips it instead and stops paginating, so an iPhone printed to the foot of
+     page 2 and lost half the controls, the sources, the disclaimer and the
+     entity line, with no gap on the page to show anything was missing. A
+     desktop layout is wide enough to fit the card and never sees it.
+
+     So those two break, at a granularity that cannot itself outgrow a page: a
+     table row, a rung. The controls header repeats on the continuation, or the
+     rows carried over arrive as three unlabelled columns. Every other record
+     is short by construction and still moves whole. */
+  .eol .record--controls,.eol .record--path{break-inside:auto;page-break-inside:auto}
+  .eol .record--controls thead{display:table-header-group}
+  .eol .record--controls tr,.eol .rung{break-inside:avoid;page-break-inside:avoid}
   .eol .rec-title{font-size:15pt}
   .eol .counter{margin-bottom:12px;padding-bottom:12px}
   .eol .counter-n{font-size:34pt}
   .eol .counter-l{font-size:7.5pt}
   .eol table{min-width:0;font-size:9.5pt}
   .eol th,.eol td{padding:6px 8px}
-  .eol-footer{margin-top:18px;font-size:8pt}
+  .eol-footer{margin-top:18px;padding-top:12px;font-size:8pt}
+  /* Tighter than the screen's 16px. At the screen value the entity line
+     overshot the foot of the last page by a few points and printed alone on a
+     sheet of its own, which is how a finding reaches an auditor not naming who
+     produced it. It is one line, so it can never be the box that clips. */
+  .eol-footer-entity{margin-top:8px;break-inside:avoid;page-break-inside:avoid}
 }
