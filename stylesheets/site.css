@@ -671,7 +671,18 @@ tbody tr:last-child td{border-bottom:0}
     letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:5px 0 0;
   }
   .eol .cols{display:block}
-  .eol .stack{gap:12px}
+  /* Block flow on paper, not flex. WebKit fragments a column flex container
+     unreliably: where a page break lands inside one it can drop the remainder
+     rather than carry it over, and that is what was left of the truncation
+     once the cards themselves were made breakable. Rails 7.1 on Ruby 3.3 runs
+     a little past two pages on a phone and lost the overflow; combinations
+     with more to say broke correctly, which is the shape of a fragmentation
+     bug rather than a height limit. Block boxes fragment correctly in every
+     engine, so the stack and the ladder come out of flex and are spaced with
+     margins instead of gaps. */
+  .eol .stack{display:block}
+  .eol .stack > * + *{margin-top:12px}
+  .eol .ladder{display:block}
   .eol .record,.eol .trap{
     border:1px solid var(--rule);box-shadow:none;animation:none;
     break-inside:avoid;page-break-inside:avoid;
