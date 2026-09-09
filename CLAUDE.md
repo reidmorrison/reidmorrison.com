@@ -575,7 +575,6 @@ two claims contradict each other.
   of those means SPF and DKIM records at GoDaddy alongside the existing
   iCloud-only SPF.
 - No version numbers in the URL, so a finding cannot yet be linked.
-- No social share image. Link unfurls are text-only.
 
 ### The tests read the data file, and nothing else
 
