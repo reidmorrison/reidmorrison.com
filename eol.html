@@ -140,7 +140,33 @@ function ladder(rails,ruby){
 const railsSel=document.getElementById("rails"), rubySel=document.getElementById("ruby");
 RAILS.slice().reverse().forEach(r=>railsSel.add(new Option(`Rails ${r.v}`,r.v)));
 RUBY.slice().reverse().forEach(r=>rubySel.add(new Option(`Ruby ${r.v}`,r.v)));
-railsSel.value="6.1"; rubySel.value="3.0";
+
+/* ---------- the selection lives in the URL ---------- */
+/* `/eol/?rails=7.2&ruby=3.3`, so a finding can be linked rather than only
+   reproduced: pasted into the ticket, sent to the auditor who asked for it,
+   bookmarked before the next review. A query string rather than a path,
+   because the site is static and every number on the page is worked out in
+   the browser. The canonical link in the head stays a bare `/eol/`, so no
+   combination is indexed as a page of its own. */
+const DEFAULT_RAILS="6.1", DEFAULT_RUBY="3.0";
+const listed=(list,v)=>v!==null&&list.some(r=>r.v===v);
+
+function fromUrl(){
+  const q=new URLSearchParams(location.search), rv=q.get("rails"), uv=q.get("ruby");
+  /* A version this page does not list falls back to the default rather than
+     erroring: the link is old, or hand-typed, and a finding for the wrong
+     version would be worse than the starting form. */
+  return {rv:listed(RAILS,rv)?rv:DEFAULT_RAILS, uv:listed(RUBY,uv)?uv:DEFAULT_RUBY,
+          named:listed(RAILS,rv)||listed(RUBY,uv)};
+}
+
+function toUrl(rv,uv,replace){
+  const next=`${location.pathname}?rails=${encodeURIComponent(rv)}&ruby=${encodeURIComponent(uv)}`;
+  if(next===location.pathname+location.search) return;
+  /* A copy of this page saved and opened from disk has no history to write to.
+     The finding still renders; only the address bar does not follow. */
+  try{history[replace?"replaceState":"pushState"]({rv,uv},"",next)}catch(e){}
+}
 
 function statusOf(eol){
   const d=days(eol);
@@ -338,9 +364,26 @@ function render(rv,uv){
 }
 
 document.getElementById("calc").addEventListener("submit",e=>{
-  e.preventDefault(); render(railsSel.value,rubySel.value);
+  e.preventDefault();
+  toUrl(railsSel.value,rubySel.value);
+  render(railsSel.value,rubySel.value);
 });
-render(railsSel.value,rubySel.value);
+
+/* Back and forward walk the checks someone has run, which is how a visitor
+   comparing two versions expects them to behave. */
+window.addEventListener("popstate",()=>{
+  const s=fromUrl();
+  railsSel.value=s.rv; rubySel.value=s.uv;
+  render(s.rv,s.uv);
+});
+
+const start=fromUrl();
+railsSel.value=start.rv; rubySel.value=start.uv;
+/* Only a link that named a version gets rewritten, and then only to complete
+   it: half a link, or a misspelt one, becomes the pair actually shown. An
+   unadorned /eol/ stays unadorned until the visitor checks something. */
+if(start.named) toUrl(start.rv,start.uv,true);
+render(start.rv,start.uv);
 </script>
 
 {% include analytics.html %}

@@ -6,9 +6,9 @@
  * pipeline rather than the pipeline.
  *
  * The build is cached in test/.site and reused while it is newer than every
- * input, so the suite's three files do not pay for it three times. They are
- * three separate processes, so that cache is shared state and is taken under
- * a lock; see build().
+ * input, so the suite's files do not each pay for it. They are separate
+ * processes, so that cache is shared state and is taken under a lock; see
+ * build().
  */
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
