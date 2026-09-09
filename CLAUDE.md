@@ -39,9 +39,11 @@ rather than a practice selling a service, that is a bug.
 
 ### Open work
 
-- **The procurement line**, on `/security` and `/contact`. Gated on all three
-  documents existing: EIN issued, E&O bound, D-U-N-S issued. An HTML comment
-  marks the spot on both pages, and each points at the other.
+- **The rest of the procurement line**, on `/security` and `/contact`. The W-9
+  sentence went live 2026-09-09; the certificate of insurance waits on E&O being
+  bound, and the D-U-N-S number until D&B issues it, at which point it is
+  published as a row on `/security` rather than offered on request. An HTML
+  comment on both pages holds the detail, and each points at the other.
 - **A `Gemfile.lock` drop zone** on `/eol/`, parsed in the browser with nothing
   uploaded. The strongest single addition left.
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than

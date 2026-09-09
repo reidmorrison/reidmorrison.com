@@ -157,13 +157,13 @@ How your code, your access and your credentials are handled is set out in full
 on [our security page]({{ '/security.html' | relative_url }}), which is written
 for the reviewer your CISO forwards it to.
 
+**Our W-9 is available on request.** It is in the legal name above and carries
+the EIN; neither is published, because a taxpayer identification number belongs
+in your vendor file rather than in a search index.
+
 <!--
-  The procurement line from the round 2 plan is deliberately NOT here yet:
-
-    "W-9, certificate of insurance and D-U-N-S number are available on request."
-
-  Same gate as /security.html, where the other half of this pair is marked:
-  EIN issued, E&O bound, D-U-N-S issued. Publishing it before all three exist
-  promises a document that cannot be produced, to the one reader who will ask
-  for it. Add it to both pages on the same day, not before.
+  The rest of the round 2 procurement line still waits, and /security.html
+  holds the full note: the certificate of insurance until E&O is bound, the
+  D-U-N-S number until D&B issues it, at which point it is published on that
+  page rather than offered here. Change the two pages on the same day.
 -->
