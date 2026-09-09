@@ -46,8 +46,6 @@ rather than a practice selling a service, that is a bug.
   comment on both pages holds the detail, and each points at the other.
 - **A `Gemfile.lock` drop zone** on `/eol/`, parsed in the browser with nothing
   uploaded. The strongest single addition left.
-- **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
-  only reproduced.
 
 ## Email addresses are never published on this site
 
@@ -481,7 +479,7 @@ The free JavaScript beacon. Nothing else about Cloudflare is used.
   one.
 - **Keep the tag external.** `test/helpers/site.mjs` lifts the calculator by
   matching the one `<script>` on `/eol/` without a `src`, so an inline beacon
-  breaks all three test files.
+  breaks every test file.
 
 Two limits before reading the numbers:
 
@@ -545,6 +543,36 @@ way. If the key needs replacing, create it at <https://web3forms.com/> **using
 the public alias**, because submissions are delivered to whichever address
 created the key.
 
+### The selection lives in the URL
+
+`/eol/?rails=7.2&ruby=3.3` renders that finding on load, and pressing Check
+exposure writes the pair back into the address bar. That is what lets a finding
+be **linked rather than only reproduced**: pasted into a ticket, sent to the
+auditor who asked for it, bookmarked before a review. Printing remains the way
+it leaves the browser; the link is how it gets forwarded.
+
+Four rules hold it together, and the tests in `eol-url.test.mjs` are what keep
+them true:
+
+- **A query string, not a path.** The site is static and every number is worked
+  out in the browser, so `/eol/7.2/3.3/` would mean generating 165 pages to say
+  what one page already says.
+- **The canonical link in the head stays a bare `/eol/`.** No combination is a
+  page of its own, and none should be indexed as one.
+- **An unadorned `/eol/` stays unadorned.** The starting selection is an
+  example, not an answer, and stamping it into the address bar would hand a
+  first-time visitor a link to a finding they never asked for. The URL gains
+  parameters when the visitor checks something, or when they arrived on a link.
+- **A version the page does not list falls back to the default**, and a link
+  naming only one of the two is completed with `replaceState` rather than
+  pushed. Back must not return a visitor to a URL they never chose. A URL
+  carrying nothing this page recognises, a campaign tag say, is left alone.
+
+Checks push, so Back and Forward walk the combinations someone has compared.
+`history` is wrapped in a `try`, because a copy of the page saved and opened
+from disk has nowhere to write: the finding still renders, only the address bar
+does not follow.
+
 ### Printing is the delivery mechanism
 
 The page prints itself through the `@media print` block in `site.css`: it forces
@@ -574,7 +602,6 @@ two claims contradict each other.
 - No email delivery, no autoresponder, no server-side PDF generation. Adding any
   of those means SPF and DKIM records at GoDaddy alongside the existing
   iCloud-only SPF.
-- No version numbers in the URL, so a finding cannot yet be linked.
 
 ### The tests read the data file, and nothing else
 
@@ -604,8 +631,8 @@ Four things to know before editing a test:
   hop must be to the next series in the file and only once Ruby clears that
   series' floor, every Ruby hop must stay under the current series' ceiling, and
   the walk must end on both targets.
-- **The build cache is taken under a lock.** `node --test` runs each of the
-  three files in its own process, so `test/.site` is shared state, and Jekyll
+- **The build cache is taken under a lock.** `node --test` runs each file in its
+  own process, so `test/.site` is shared state, and Jekyll
   empties its destination before it writes. `helpers/site.mjs` lets one process
   build while the others wait on `test/.site.lock`. Without it, three concurrent
   builds mean one process reading a page another just deleted, failing about one
@@ -615,6 +642,11 @@ Four things to know before editing a test:
   `RAILS[i + 1]`), each series can carry Ruby high enough to reach the next one,
   and the targets exist and run together. An edit to `_data/eol.yml` can break
   the page without touching a line of code, and that file is where it is caught.
+- **`eol-url.test.mjs` covers the address bar**, and it asserts the round trip
+  rather than the string: a check writes a link, a load reads it back, and the
+  markup the second page produces must equal the markup the first one showed.
+  Every combination in the data file goes round, so the case list grows with the
+  data and never restates a version.
 
 Two deliberate exceptions to the rule above, both of which can only fire on a
 regression: the 90 day warning window, which is the page's threshold and not the

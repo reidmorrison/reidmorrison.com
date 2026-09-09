@@ -39,12 +39,17 @@ than on an edit:
 | `eol-rendering.test.mjs` | The Liquid layer. The three tables and both targets reaching the browser unaltered, the verified date in the sources footer, both dropdowns, and the control citations in the findings table. |
 | `eol-calculator.test.mjs` | The arithmetic and the findings. Day counters and status pills for every series, the turn from Supported to Expiring to Unsupported around a series' own end-of-life date, the upgrade ladder for every combination, the trap, the impossible combinations, and when controls are cited. |
 | `eol-data.test.mjs` | The assumptions the calculator makes about the data file, which an edit to it can break without touching a line of code. |
+| `eol-url.test.mjs` | The selection in the address bar. The round trip from a check to a link to the same finding, half and unknown links, and Back. |
 
 ## How the harness works
 
 `helpers/calculator.mjs` lifts the inline script out of the built page and runs
 it, unmodified, in a `node:vm` context against a DOM stub that implements only
-what the script touches. One line is appended, to publish the handful of values
+what the script touches, plus an address bar: the selection is read out of it
+on load and written back on every check, so the stub parses a pushed URL and
+keeps the entries a test needs in order to press Back.
+
+One line is appended, to publish the handful of values
 the tests assert against: `const` at the top level of a vm script lives in the
 context's lexical scope rather than on the global object.
 

@@ -2,8 +2,13 @@
  *
  * The script is lifted verbatim out of the built page and evaluated in a
  * node:vm context against a DOM stub that implements only what it touches:
- * two <select>s, the output element, the print letterhead spans, and
- * addEventListener. Nothing is rewritten on the way in.
+ * two <select>s, the output element, the print letterhead spans,
+ * addEventListener, and an address bar. Nothing is rewritten on the way in.
+ *
+ * The address bar is a working one rather than a placeholder, because the
+ * selection is read out of it on load and written back on every check. It
+ * parses a pushed URL and keeps the entries, so a test can arrive on a link
+ * and press Back.
  *
  * The clock is pinned because every headline number on the page is a distance
  * from today. With a fixed `now`, a day counter and a Supported / Expiring /
@@ -78,9 +83,43 @@ function makeDocument() {
   };
 }
 
-/* Loads the calculator with `now` fixed at the given epoch milliseconds. */
-export function loadCalculator(now) {
+/* The address bar, and the history behind it. `pushState` and `replaceState`
+   take a URL the same way the browser does; `back()` walks an entry off and
+   fires popstate, which is the only way the page hears about it. */
+function makeHistory(url) {
+  const entries = [String(url)];
+  const location = { pathname: "", search: "" };
+  const apply = (next) => {
+    const [pathname, search] = String(next).split("?");
+    location.pathname = pathname;
+    location.search = search === undefined ? "" : `?${search}`;
+  };
+  apply(entries[0]);
+
+  const history = {
+    get length() {
+      return entries.length;
+    },
+    pushState(state, title, next) {
+      entries.push(String(next));
+      apply(next);
+    },
+    replaceState(state, title, next) {
+      entries[entries.length - 1] = String(next);
+      apply(next);
+    },
+  };
+
+  return { entries, location, history, apply };
+}
+
+/* Loads the calculator with `now` fixed at the given epoch milliseconds, on
+   the given URL. The default is the bare page, which is how a visitor who
+   followed no link arrives. */
+export function loadCalculator(now, url = "/eol/") {
   const { registry, document } = makeDocument();
+  const { entries, location, history, apply } = makeHistory(url);
+  const windowListeners = {};
 
   class PinnedDate extends RealDate {
     constructor(...args) {
@@ -105,7 +144,13 @@ export function loadCalculator(now) {
     fetch: () => {
       throw new Error("the tests never submit the lead form");
     },
-    window: { print: () => {} },
+    window: {
+      print: () => {},
+      addEventListener: (type, fn) => ((windowListeners[type] ||= []).push(fn)),
+    },
+    location,
+    history,
+    URLSearchParams,
     console,
     Math,
     JSON,
@@ -142,6 +187,26 @@ export function loadCalculator(now) {
     options: (select) => internals[select].options.map((o) => ({ text: o.text, value: o.value })),
     now,
     registry,
+    /* What the address bar reads, and everything it has read. */
+    url: () => location.pathname + location.search,
+    entries,
+    /* The browser Back button: one entry off, then popstate. */
+    back() {
+      if (entries.length < 2) return;
+      entries.pop();
+      apply(entries[entries.length - 1]);
+      for (const fn of windowListeners.popstate ?? []) fn({});
+      return out.innerHTML;
+    },
+    /* Picks the two dropdowns and presses Check exposure, which is the only
+       path that writes to the address bar. */
+    check(rails, ruby) {
+      internals.railsSel.value = rails;
+      internals.rubySel.value = ruby;
+      for (const fn of registry.get("calc").listeners.submit ?? []) fn({ preventDefault() {} });
+      return out.innerHTML;
+    },
+    selected: () => ({ rails: internals.railsSel.value, ruby: internals.rubySel.value }),
     /* Renders a combination and returns the markup the page would show. */
     render(rails, ruby) {
       internals.render(rails, ruby);
