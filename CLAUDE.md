@@ -44,7 +44,6 @@ rather than a practice selling a service, that is a bug.
   marks the spot on both pages, and each points at the other.
 - **A `Gemfile.lock` drop zone** on `/eol/`, parsed in the browser with nothing
   uploaded. The strongest single addition left.
-- **A social share image.** Link unfurls for `/eol/` are text-only.
 - **Version numbers in the `/eol/` URL**, so a finding can be linked rather than
   only reproduced.
 
@@ -226,6 +225,39 @@ larger sizes.
 
 Regenerate with the scratch renderer if the accent changes; the letterform is
 live text in Spectral, not a path, so it needs a browser to rasterise.
+
+### The link preview cards
+
+`images/og/`, five 1200x630 PNGs, built by `script/og-cards.mjs`:
+
+```sh
+node script/og-cards.mjs   # from the repository root
+```
+
+Until 2026-09-09 the site set no `og:image` at all, so every link to it unfurled
+on LinkedIn, Slack and iMessage as a block of grey text. `_config.yml` now
+defaults `image` for every page; `services.md`, `security.md` and
+`open-source.md` name their own, and `eol.html` writes the tags by hand because
+it carries its own shell and never runs `{% seo %}`.
+
+- **One card per page that gets shared on its own**, not one card for the site.
+  Those four are the media links on the LinkedIn services page, and four
+  identical previews stacked in one section reads as a placeholder.
+- **The card's headline is the page's own h1, or a compression of it.** A card
+  that promises something the page does not is noticed within a second of
+  arriving.
+- **It is generated, not drawn, because one of them states the download total.**
+  `og-open-source.png` sums `_data/projects.yml`, the same file the pages read,
+  so a refreshed count and a re-run cannot leave the image contradicting the
+  page. Re-run the script after touching that file.
+- **The art rebuilds the top bar's lockup** from `_includes/logo-mark.svg`, the
+  wordmark, the 2px rule and the mono sub-line. It does not use the master logo
+  PNG, which still carries a "CONSULTING" tier.
+- **The cards are always the light palette.** A preview renders on the
+  platform's chrome, not in the visitor's theme, and a dark card on LinkedIn's
+  white feed reads as a banner ad.
+- `script/` is excluded from the build; `images/og/` is published. Commit the
+  PNGs, because Pages builds the site and never runs this script.
 
 ### The elapsed counter is the signature element
 
@@ -670,7 +702,9 @@ done
 Update the badge values in `_data/projects.yml` and the date in the note on
 `open-source.md`. The two figures on `about.md` render from the data file and
 follow automatically. **The 79M total is written out in prose in several places
-and has to be changed by hand.**
+and has to be changed by hand.** The one exception is `images/og/og-open-source.png`,
+which sums the data file itself: re-run `node script/og-cards.mjs` instead of
+editing it.
 
 ## Content rules
 

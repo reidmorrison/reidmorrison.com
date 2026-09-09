@@ -6,6 +6,12 @@ standfirst: >-
   The assessment produces the remediation plan your assessor is asking for, and
   sizes the upgrade. The upgrade is quoted from it. Nothing is billed by the
   hour.
+# Shared on its own, so it gets its own link preview card rather than the
+# site default. Built by script/og-cards.mjs.
+image:
+  path: /images/og/og-services.png
+  width: 1200
+  height: 630
 description: >-
   How an engagement with Reid Morrison Inc. works: a two-week fixed-price
   Remediation Assessment producing the PCI DSS 12.3.4 remediation plan, the

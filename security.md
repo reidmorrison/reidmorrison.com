@@ -6,6 +6,12 @@ heading: How we work with your code
 standfirst: >-
   Written the way a security questionnaire asks it, so your third-party risk
   team can read this page instead of waiting on a document.
+# Shared on its own, so it gets its own link preview card rather than the
+# site default. Built by script/og-cards.mjs.
+image:
+  path: /images/og/og-security.png
+  width: 1200
+  height: 630
 description: >-
   How Reid Morrison Inc. handles client code: work in your repositories and
   environments, nothing retained, managed and encrypted devices, MFA, access
