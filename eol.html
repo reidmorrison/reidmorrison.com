@@ -20,7 +20,20 @@ permalink: /eol/
 <meta property="og:title" content="Is your Rails application a compliance finding?">
 <meta property="og:description" content="Enter your Rails and Ruby versions. See the days without vendor security patches, the controls implicated, and the upgrade path required.">
 <meta property="og:url" content="{{ '/eol/' | absolute_url }}">
-<meta name="twitter:card" content="summary">
+{% comment %}
+  The link preview card. This page carries its own shell, so it does not get
+  the `image` default in _config.yml that jekyll-seo-tag turns into these four
+  tags on every other page: set them here or the page previews as a bare block
+  of text, which is how it looked until 2026-09-09.
+
+  images/og/ is built by script/og-cards.mjs. Re-run it after editing a
+  headline there or refreshing _data/projects.yml.
+{% endcomment %}
+<meta property="og:image" content="{{ '/images/og/og-eol.png' | absolute_url }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Reid Morrison, EOL Remediation. How long has your Rails version been unpatched?">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:wght@600;700&display=swap">

@@ -103,6 +103,24 @@ feed:
   path: feed.xml
 
 defaults:
+  # The link preview card, on every page that does not name its own. Without an
+  # image jekyll-seo-tag emits no og:image at all and LinkedIn, Slack and iMessage
+  # render the link as a block of grey text. Pages that get shared on their own
+  # set `image` in their front matter instead; /eol/ carries its own shell and
+  # writes the tags by hand.
+  #
+  # The files are built by script/og-cards.mjs, which reads the palette, the
+  # shield and the download total from the same places the site does.
+  - scope:
+      path: ""
+    values:
+      # The hash form, so jekyll-seo-tag emits og:image:width and :height too.
+      # LinkedIn and Slack lay the card out from those without waiting on the
+      # image itself, which is what stops the first share rendering small.
+      image:
+        path: /images/og/og-default.png
+        width: 1200
+        height: 630
   - scope:
       path: ""
       type: posts
@@ -123,6 +141,9 @@ exclude:
   # The test suite, and the throwaway build it makes to test against. Neither is
   # part of the published site. See test/README.md.
   - test
+  # The link preview card builder. Its output in images/og/ IS published; the
+  # script that draws them is not. See script/og-cards.mjs.
+  - script
   # The logo master artwork, deliberately untracked. Excluding it keeps a local
   # build identical to production for whoever has a copy sitting in images/.
   - images/reid-morrison-consulting.png

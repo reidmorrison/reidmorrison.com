@@ -5,6 +5,12 @@ heading: Eleven libraries, 79 million downloads, all auditable
 standfirst: >-
   The case study that needs no NDA. Anyone can read the diffs and judge how I
   work before deciding whether to hire me.
+# Shared on its own, so it gets its own link preview card rather than the
+# site default. Built by script/og-cards.mjs.
+image:
+  path: /images/og/og-open-source.png
+  width: 1200
+  height: 630
 description: >-
   Reid Morrison's 11 open-source Ruby libraries with over 79 million combined
   downloads, including Semantic Logger, Rails Semantic Logger and Symmetric

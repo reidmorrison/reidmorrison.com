@@ -6,6 +6,12 @@ heading: How we work with your code
 standfirst: >-
   Written the way a security questionnaire asks it, so your third-party risk
   team can read this page instead of waiting on a document.
+# Shared on its own, so it gets its own link preview card rather than the
+# site default. Built by script/og-cards.mjs.
+image:
+  path: /images/og/og-security.png
+  width: 1200
+  height: 630
 description: >-
   How Reid Morrison Inc. handles client code: work in your repositories and
   environments, nothing retained, managed and encrypted devices, MFA, access
@@ -266,15 +272,28 @@ The document number is the public record, so you can verify the entity and its
 standing with the Florida Division of Corporations without asking us for
 anything.
 
+**Our W-9 is available on request**, in the legal name above. It carries the
+EIN, and neither the form nor that number is published here: a taxpayer
+identification number belongs in your vendor file, not in a search index.
+
 <!--
-  The procurement line from the round 2 plan is deliberately NOT here yet:
+  Added 2026-09-09, and it is one third of the round 2 procurement line. The
+  other two thirds stay out for the reason the gate exists: naming a document
+  here that cannot be produced fails in front of the one reader who will
+  actually ask for it.
 
-    "W-9, certificate of insurance and D-U-N-S number are available on request."
+    Certificate of insurance  Waits on E&O being bound. Add the sentence the day
+                              the binder lands, here and in contact.md together.
 
-  It names three documents and publishing it before all three exist would
-  promise a document that cannot be produced, in front of the one reader who
-  will actually ask for it. Gate: EIN issued, E&O bound, D-U-N-S issued.
-  Add it to this section and to contact.md on the same day, not before.
+    D-U-N-S number            Applied for 2026-09-06 on the free route, so up to
+                              30 business days. When D&B issues it, it goes into
+                              the list above as its own row rather than being
+                              offered on request: like the Florida document
+                              number it identifies the entity and grants nothing,
+                              and a number a reviewer can copy off the page is
+                              one fewer email in their onboarding.
+
+  The W-9 and the EIN are the opposite case and stay on request permanently.
 -->
 
 **Send us your questionnaire.** SIG Lite, CAIQ or your own form: the answers are
