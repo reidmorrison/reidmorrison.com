@@ -560,8 +560,28 @@ directly, and Back has to bring the notice with it.
 node script/advisories.mjs   # from the repository root, then commit the JSON
 ```
 
-**Re-run it on a schedule.** The page prints the date the file was generated, so
-a stale database is visible on the page rather than silent.
+**It re-runs itself**, via `.github/workflows/advisories.yml`, Mondays at
+12:00 UTC, plus a `workflow_dispatch` button. It rebuilds, runs the suite, and
+opens a pull request for review rather than pushing: what changes is a claim
+this practice makes in front of a compliance reader, so somebody looks at it.
+
+- **A quiet week opens nothing.** `generated` and `commit` move every run
+  whether or not an advisory did, so the script compares the advisories alone
+  and leaves the file untouched when they match. Otherwise the review that
+  mattered would be lost among fifty that only changed a date.
+- **The pull request body is the diff that is readable.** A 320KB JSON diff is
+  not, so the script emits markdown: what is new and what was withdrawn,
+  worst-CVSS first, linked, capped at 30 each.
+- **One branch, `advisories-refresh`, reset each week.** An unmerged refresh is
+  replaced rather than stacked behind a near-identical second pull request.
+- **A failing suite does not cancel the pull request.** The data is still worth
+  seeing, the body says plainly that it did not pass, and the job fails at the
+  end so the run goes red. The case most likely to catch something is the one
+  asserting every requirement string in the shipped database parses.
+
+Two things to know about GitHub's scheduler: it only runs workflows on the
+default branch, and it disables scheduled workflows after 60 days without
+repository activity.
 
 **Cost, measured 2026-09-10 and not a concern:** 69KB gzipped over the wire,
 0.7ms to `JSON.parse`, 0.2ms to parse a lockfile and about 1ms to match an

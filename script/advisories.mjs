@@ -39,7 +39,7 @@
 // visible rather than silent.
 
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, writeFileSync, rmSync, statSync } from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, appendFileSync, existsSync, rmSync, statSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
@@ -97,16 +97,66 @@ try {
     gems: parsed.gems,
   };
 
-  writeFileSync(out, JSON.stringify(db));
+  // WHAT COUNTS AS A CHANGE, and why it is not "the file differs".
+  //
+  // `generated` is today and `commit` is whatever upstream last pushed, so the
+  // file differs on every single run even when not one advisory moved. A
+  // scheduled refresh that opened a pull request on that basis would ask for a
+  // review every week to approve a new date, and the reviews that mattered
+  // would be lost among them.
+  //
+  // So the comparison is on the advisories alone. When they are identical the
+  // file is left exactly as it was, which also leaves the date the page prints
+  // saying when the data was last actually rebuilt.
+  const before = existsSync(out) ? JSON.parse(readFileSync(out, "utf8")) : null;
+  const changed = JSON.stringify(before?.gems) !== JSON.stringify(db.gems);
+
+  const report = [];
+  if (!changed) {
+    report.push(`No advisory changed. \`data/advisories.json\` left as it was, built ${before.generated}.`);
+  } else {
+    writeFileSync(out, JSON.stringify(db));
+
+    const key = (o) => Object.entries(o?.gems ?? {}).flatMap(([g, l]) => l.map((a) => [`${g} ${a.id}`, { gem: g, ...a }]));
+    const wasMap = new Map(key(before));
+    const nowMap = new Map(key(db));
+    const added = [...nowMap].filter(([k]) => !wasMap.has(k)).map(([, a]) => a);
+    const removed = [...wasMap].filter(([k]) => !nowMap.has(k)).map(([, a]) => a);
+
+    const list = (rows, cap = 30) =>
+      rows
+        .sort((p, q) => (q.cvss || -1) - (p.cvss || -1) || p.gem.localeCompare(q.gem))
+        .slice(0, cap)
+        .map((a) => `- \`${a.gem}\` ${a.cvss == null ? "" : `**${a.cvss.toFixed(1)}** `}[${a.id}](${a.url}) ${a.title}`)
+        .concat(rows.length > cap ? [`- ...and ${rows.length - cap} more`] : []);
+
+    report.push(
+      before
+        ? `${db.advisories.toLocaleString()} advisories across ${Object.keys(db.gems).length} gems, ` +
+          `up from ${before.advisories.toLocaleString()} across ${Object.keys(before.gems).length}.`
+        : `${db.advisories.toLocaleString()} advisories across ${Object.keys(db.gems).length} gems.`
+    );
+    if (added.length) report.push("", `### ${added.length} new`, ...list(added));
+    if (removed.length) report.push("", `### ${removed.length} withdrawn or amended`, ...list(removed));
+  }
+
+  // stdout is the report, for a pull request body. Diagnostics go to stderr so
+  // one can be captured without the other.
+  process.stdout.write(report.join("\n") + "\n");
 
   const bytes = statSync(out).size;
-  const gz = gzipSync(JSON.stringify(db), { level: 9 }).length;
+  const gz = gzipSync(readFileSync(out), { level: 9 }).length;
   process.stderr.write(
-    `wrote data/advisories.json\n` +
+    `${changed ? "wrote" : "left"} data/advisories.json\n` +
       `  ${db.advisories} advisories across ${Object.keys(db.gems).length} gems\n` +
       `  ${(bytes / 1024).toFixed(0)}KB raw, ${(gz / 1024).toFixed(0)}KB gzipped\n` +
       `  upstream ${commit.slice(0, 12)}\n`
   );
+
+  // For the scheduled refresh in .github/workflows/advisories.yml.
+  if (process.env.GITHUB_OUTPUT) {
+    appendFileSync(process.env.GITHUB_OUTPUT, `changed=${changed}\n`);
+  }
 } finally {
   rmSync(work, { recursive: true, force: true });
 }
