@@ -25,6 +25,10 @@ const INPUTS = [
   path.join(ROOT, "_config.yml"),
   path.join(ROOT, "_includes"),
   path.join(ROOT, "_layouts"),
+  /* The advisory database, which the drop-zone tests match against out of the
+     built site. Re-running script/advisories.mjs has to invalidate this cache
+     or those tests go on asserting against the previous refresh. */
+  path.join(ROOT, "data", "advisories.json"),
 ];
 
 function newestInput() {

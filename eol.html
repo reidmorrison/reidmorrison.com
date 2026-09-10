@@ -58,16 +58,55 @@ permalink: /eol/
     <span class="ph-type"><span class="ph-name">Reid Morrison</span><span class="ph-tier">EOL Remediation</span></span>
   </div>
   <p class="ph-sub">Rails and Ruby end-of-life finding &middot; <span id="phctx"></span> &middot; <span id="phdate"></span></p>
+  {% comment %}
+    The way back, added 2026-09-10. This document's whole purpose is to be
+    forwarded: the engineer prints it for the auditor, or for the executive
+    who signs off the remediation plan. Until now it named the versions, the
+    date and the practice, and gave the person it landed on no way to check
+    it, change a version, or find out who produced it.
+
+    It carries the FULL finding rather than the bare domain, so a reader can
+    reproduce exactly what they were sent rather than land on the defaults.
+    Built from the arguments render() was called with, not from location, so
+    it cannot show the previous pair during the 1.5s before a selection
+    settles into the address bar.
+
+    A real anchor, because most people "print" this to PDF and forward that,
+    where the link stays clickable. On paper it is set as a URL and reads as
+    one.
+  {% endcomment %}
+  <p class="ph-link">Check or update this finding at <a id="phurl" href="{{ '/eol/' | absolute_url }}"></a></p>
 </div>
 
 <header class="masthead">
   <p class="eyebrow">EOL Exposure Check</p>
   <h1>Is your Rails application a compliance finding?</h1>
-  <p class="standfirst">Enter the two version numbers from your <code>Gemfile.lock</code>. This returns the days each version has been without vendor security patches, the specific controls that puts you against, and the upgrade path the version compatibility rules force you to take.</p>
+  <p class="standfirst">Pick your Rails and Ruby versions. You get the days each has gone without vendor security patches, the controls that implicates, and the upgrade path required. Add your <code>Gemfile.lock</code> and it also names every published advisory matching a gem you have pinned. Nothing is uploaded.</p>
 </header>
 
 <div class="cols">
 
+  {% comment %}
+    One box, and the order inside it is deliberate. The two dropdowns lead,
+    because they are the whole product and most visitors will not have a
+    lockfile to hand: they are on a phone, or in a meeting.
+
+    The drop zone sits last, after Ruby, marked optional and recommended. Two
+    earlier arrangements were wrong. Above the dropdowns (2026-09-09) it read
+    as step one and gated the finding on a file. In a second box of its own
+    (2026-09-10 morning) it was clearly optional but detached, and the copy
+    justifying it ran longer than anything else on the panel.
+
+    There is no submit button: the finding follows the fields. See "the
+    finding follows the fields" further down.
+
+    Keep the copy here short. This is the first thing an evaluator reads, and
+    every extra sentence is a reason to leave before touching anything.
+
+    The input is real, under a label, so the keyboard and the phone both reach
+    it. The file is read with FileReader and goes nowhere, which is the claim
+    /privacy.html makes and the reason this page still has no backend.
+  {% endcomment %}
   <form class="panel panel--sticky" id="calc" autocomplete="off">
     <p class="panel-title">Your versions</p>
     <div class="field">
@@ -77,19 +116,49 @@ permalink: /eol/
     <div class="field">
       <label for="ruby">Ruby version</label>
       <select id="ruby"></select>
-      <p class="hint">Both are on the last lines of your <code>Gemfile.lock</code>, under <code>RUBY VERSION</code> and next to <code>rails</code>.</p>
     </div>
-    <button type="submit">Check exposure</button>
+
+    {% comment %}
+      The headline of the finding, restated in one line inside the panel. It
+      does two jobs that the Check exposure button used to do when it was the
+      only way to redraw the page.
+
+      On a phone the panel stacks ABOVE the finding, so changing a dropdown
+      would otherwise update something entirely below the fold and look like
+      nothing happened. This changes in view.
+
+      And it is the page's one aria-live region now. It used to be #out, the
+      whole finding, which was tolerable when a button meant one announcement
+      per deliberate press; with the finding following the dropdowns it would
+      read out every table again on every change. A one-line summary is both
+      quieter and more useful.
+    {% endcomment %}
+    <p class="summary" id="summary" role="status" aria-live="polite"></p>
+
+    <div class="field field--drop">
+      <p class="drop-head">
+        <label for="lockfile"><code>Gemfile.lock</code></label>
+        <span class="tag">Optional, recommended</span>
+      </p>
+      <div class="drop" id="drop">
+        <input type="file" id="lockfile" accept=".lock,text/plain">
+        <label for="lockfile">
+          <span class="drop-lead">Drop it here, or choose a file</span>
+          <span class="drop-sub">Checks every gem you pin for published advisories, and sets the versions above. Read in your browser, never uploaded.</span>
+        </label>
+      </div>
+      <p class="notice hidden" id="dropstatus" role="status"></p>
+    </div>
   </form>
 
-  <main id="out" aria-live="polite">
+  <main id="out">
     <p class="placeholder">Select your versions to generate the finding.</p>
   </main>
 </div>
 
 <footer class="eol-footer">
-  <p><strong>Sources.</strong> Rails end-of-life dates from the <a href="https://guides.rubyonrails.org/maintenance_policy.html">Rails maintenance policy</a> and the <a href="https://rubyonrails.org/maintenance">supported versions</a> and end-of-support announcements published on rubyonrails.org; Rails release dates from <a href="https://rubygems.org/gems/rails/versions">RubyGems</a>. Ruby dates from the <a href="https://www.ruby-lang.org/en/downloads/branches/">Ruby maintenance branches</a>. Verified {{ site.data.eol.verified | date: "%-d %B %Y" }}. Version compatibility from the <a href="https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html">FastRuby compatibility table</a>. Control references are to PCI DSS v4.0.1, the SOC 2 Trust Services Criteria, 45 CFR Part 164, and ISO/IEC 27001:2022.</p>
-  <p>This tool reports whether your versions receive vendor security patches and which controls reference that condition. It is not a vulnerability scan, does not enumerate CVEs, and is not a compliance opinion. Whether a given control is met depends on your compensating controls and your assessor.</p>
+  <p><strong>Sources.</strong> Rails end-of-life dates from the <a href="https://guides.rubyonrails.org/maintenance_policy.html">Rails maintenance policy</a> and the <a href="https://rubyonrails.org/maintenance">supported versions</a> and end-of-support announcements published on rubyonrails.org; Rails release dates from <a href="https://rubygems.org/gems/rails/versions">RubyGems</a>. Ruby dates from the <a href="https://www.ruby-lang.org/en/downloads/branches/">Ruby maintenance branches</a>. Verified {{ site.data.eol.verified | date: "%-d %B %Y" }}. Version compatibility from the <a href="https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html">FastRuby compatibility table</a>. Gem advisories from <a href="https://github.com/rubysec/ruby-advisory-db">rubysec/ruby-advisory-db</a>, the database <code>bundler-audit</code> reads, matched the way it matches them. Control references are to PCI DSS v4.0.1, the SOC 2 Trust Services Criteria, 45 CFR Part 164, and ISO/IEC 27001:2022.</p>
+  <p>This tool reports whether your versions receive vendor security patches, which controls reference that condition, and, if you provide a <code>Gemfile.lock</code>, which published advisories name the gem versions pinned in it. It is not a vulnerability scan: it reads declared version numbers rather than running code, and it cannot see a backported fix, a vendored patch or a compensating control, any of which may already answer a row it reports. It is not a compliance opinion. Whether a given control is met depends on your compensating controls and your assessor.</p>
   <p class="eol-footer-entity">{{ site.entity.name }}, {{ site.entity.form_short }} &middot; {{ site.entity.address }}<span class="print-hide"> &middot; <a href="{{ '/privacy.html' | relative_url }}">Privacy</a></span></p>
 </footer>
 </div>
@@ -102,6 +171,11 @@ const TARGET_RAILS={{ site.data.eol.target_rails | jsonify }}, TARGET_RUBY={{ si
 
 const CONTROLS={{ site.data.eol.controls | jsonify }};
 
+/* This page's own address, for the link the printed finding carries. From
+   Jekyll rather than from location, so a copy of the page saved to disk still
+   points at the site. */
+const PAGE_URL={{ '/eol/' | absolute_url | jsonify }};
+
 const cmp=(a,b)=>{const x=a.split(".").map(Number),y=b.split(".").map(Number);
   for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1}return 0};
 const railsRec=v=>RAILS.find(r=>r.v===v);
@@ -112,6 +186,156 @@ const RUBY_FLOOR=railsRec(TARGET_RAILS).min;
 const days=iso=>Math.floor((Date.now()-new Date(iso+"T00:00:00Z").getTime())/864e5);
 const fmtDate=iso=>new Date(iso+"T00:00:00Z").toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric",timeZone:"UTC"});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- reading a Gemfile.lock ---------- */
+/* All of this is pure string work on a file the browser never sends anywhere.
+   Nothing here asks the network. The one fetch on this page is for
+   data/advisories.json, a static file on this origin, and it is a constant
+   URL: the request is identical whatever was dropped, so it carries nothing
+   about the visitor's application. See /privacy.html. */
+
+/* RubyGems version ordering, which is neither string comparison nor semver: a
+   version is a run of numeric and alphabetic segments, a missing segment
+   counts as 0, and an alphabetic segment sorts BEFORE a numeric one, which is
+   what puts 1.0.0.beta ahead of 1.0.0. Ported from Gem::Version#<=>, because
+   getting this wrong shows a client a fix they have already applied. */
+const segs=v=>String(v).match(/[0-9]+|[a-z]+/gi)||[];
+function vcmp(a,b){
+  const x=segs(a), y=segs(b);
+  for(let i=0;i<Math.max(x.length,y.length);i++){
+    const l=x[i]===undefined?0:(/^\d+$/.test(x[i])?Number(x[i]):x[i]);
+    const r=y[i]===undefined?0:(/^\d+$/.test(y[i])?Number(y[i]):y[i]);
+    if(l===r) continue;
+    const ln=typeof l==="number", rn=typeof r==="number";
+    if(ln!==rn) return ln?1:-1;
+    return l<r?-1:1;
+  }
+  return 0;
+}
+
+/* Gem::Version#bump: keep the leading numeric segments, drop the last one if
+   more than one remains, increment what is now last. "6.1.7.3" bumps to
+   "6.1.8", which is what makes "~> 6.1.7.3" mean ">= 6.1.7.3, < 6.1.8". */
+function bump(v){
+  const s=[];
+  for(const x of segs(v)){ if(!/^\d+$/.test(x)) break; s.push(Number(x)); }
+  if(!s.length) return "0";
+  if(s.length>1) s.pop();
+  s[s.length-1]++;
+  return s.join(".");
+}
+
+/* One requirement string from the advisory database, which may hold several
+   comma-separated constraints that ALL have to hold: "~> 7.0.8, >= 7.0.8.5"
+   is a single entry, not two. Splitting it into two entries would turn an AND
+   into an OR and mark patched applications vulnerable. */
+function meets(version,requirement){
+  return String(requirement).split(",").every(part=>{
+    const m=part.trim().match(/^(>=|<=|~>|!=|==|=|>|<)?\s*(\S+)$/);
+    if(!m) return false;
+    const op=m[1]||"=", want=m[2], c=vcmp(version,want);
+    if(op===">=") return c>=0;
+    if(op===">")  return c>0;
+    if(op==="<=") return c<=0;
+    if(op==="<")  return c<0;
+    if(op==="!=") return c!==0;
+    if(op==="~>") return c>=0 && vcmp(version,bump(want))<0;
+    return c===0;
+  });
+}
+
+/* bundler-audit's rule, and it is two negatives on purpose: a version is
+   affected unless the advisory says it is patched or says it was never
+   affected. An advisory carrying neither has no published fix at all, so every
+   version of that gem matches. That is correct, and the page says so rather
+   than hiding it in a blank column. */
+const affected=(version,a)=>
+  !(a.unaffected||[]).some(r=>meets(version,r)) && !(a.patched||[]).some(r=>meets(version,r));
+
+/* The lockfile grammar, which is small and fixed. Section names start in
+   column 1; inside GEM, PATH and GIT a resolved spec sits at four spaces and
+   its own dependencies at six, so the four-space rule is what separates "this
+   application runs this version" from "this gem asks for that range". Two
+   spaces is CHECKSUMS, PLATFORMS and DEPENDENCIES, none of which are that.
+
+   A version can carry a platform suffix, "1.17.4-arm64-darwin", and the gem
+   then appears once per platform. The suffix comes off and the pairs are
+   de-duplicated: an advisory names a gem version, not a build of one. Bundler
+   writes prereleases with a dot rather than a dash, so stripping at the dash
+   cannot eat one.
+
+   Gems from GIT or PATH are counted and never matched. The version beside a
+   git revision is whatever that gemspec claimed at the time and says nothing
+   about which commit is checked out, so reporting it clean would be a
+   guess presented as a finding. */
+function parseLock(text){
+  const gems=new Map();
+  let section="", source="", external=0, ruby=null, bundler=null;
+  for(const line of String(text).split(/\r?\n/)){
+    if(!line.trim()) continue;
+    if(/^[A-Z]/.test(line)){
+      section=line.trim();
+      source=/^(GEM|PATH|GIT)$/.test(section)?section:"";
+      continue;
+    }
+    if(section==="RUBY VERSION"){
+      const m=line.match(/ruby\s+([0-9][0-9a-z.]*)/i);
+      if(m&&!ruby) ruby=m[1];
+      continue;
+    }
+    if(section==="BUNDLED WITH"){ if(!bundler) bundler=line.trim(); continue; }
+    if(!source) continue;
+    const m=line.match(/^ {4}([A-Za-z0-9_.-]+) \(([^)]+)\)\s*$/);
+    if(!m) continue;
+    if(source!=="GEM"){ external++; continue; }
+    const name=m[1], version=m[2].replace(/-[a-zA-Z].*$/,"").trim();
+    gems.set(name+" "+version,{name,version});
+  }
+  return {gems:[...gems.values()], ruby, bundler, external};
+}
+
+/* The series a lockfile version belongs to: 7.0.10 is Rails 7.0, 3.1.4p223 is
+   Ruby 3.1. The dropdowns list series and a lockfile states a release, so this
+   is the join between them.
+
+   It picks the longest series the page ACTUALLY LISTS rather than slicing two
+   segments and hoping. Almost every series is two segments, but Ruby's oldest
+   is "1.9.3", and a fixed slice reads 1.9.3p551 as "1.9", matches nothing, and
+   silently leaves the visitor on whatever the dropdown already said. */
+function series(list,v){
+  const s=segs(v);
+  for(let n=Math.min(4,s.length);n>0;n--){
+    const candidate=s.slice(0,n).join(".");
+    if(list.some(r=>r.v===candidate)) return candidate;
+  }
+  return null;
+}
+
+/* Rails, from the lockfile. `rails` is the metagem and most applications have
+   it, but an application that requires the frameworks separately does not, and
+   railties is the one every such application still pulls in. */
+function railsFromLock(lock){
+  for(const name of ["rails","railties","activesupport"]){
+    const g=lock.gems.find(x=>x.name===name);
+    if(g) return g.version;
+  }
+  return null;
+}
+
+/* Every advisory naming a pinned version, worst first. Severity ordering is
+   the database's cvss where it has one; the rows without one sort last rather
+   than sorting as zero-risk, because an absent score is unknown, not low. */
+function findings(lock,db){
+  const rows=[];
+  for(const g of lock.gems){
+    for(const a of db.gems[g.name]||[]){
+      if(affected(g.version,a)) rows.push({gem:g.name,version:g.version,a});
+    }
+  }
+  rows.sort((p,q)=>
+    (q.a.cvss||-1)-(p.a.cvss||-1) || p.gem.localeCompare(q.gem) || String(p.a.id).localeCompare(String(q.a.id)));
+  return rows;
+}
 
 /* build the alternating upgrade ladder */
 function ladder(rails,ruby){
@@ -193,6 +417,147 @@ function versionRecord(kind,v,eol){
   </article>`;
 }
 
+/* ---------- the dropped lockfile, and the advisories it implies ---------- */
+/* Both are state rather than arguments, so render() keeps the signature the
+   whole page and its tests are built on: a visitor who never drops a file gets
+   byte-identical output to the one this page produced before the drop zone
+   existed. */
+let LOCK=null, ADV=null, advState="none";
+
+const ADV_URL="{{ '/data/advisories.json' | relative_url }}";
+
+/* Fetched on the first drop and never before, and once per page load at most.
+   A visitor who only picks two versions from the dropdowns never causes this
+   request, which is why the database is not inlined into the page: it is
+   320KB, 69KB over the wire, to answer a question most visitors do not ask.
+
+   ORDINARY CACHING, deliberately. This asked for `cache: "force-cache"` until
+   2026-09-10, which returns a cached copy fresh or stale and only goes to the
+   network when there is no entry at all. GitHub Pages sends `max-age=600` on
+   this file, so that turned a ten-minute cache into an unbounded one: a
+   returning visitor would go on matching against whichever database their
+   browser happened to be holding, weeks after script/advisories.mjs was
+   re-run. The default respects max-age and revalidates against the ETag, so a
+   drop inside ten minutes costs nothing and a later one costs a 304. */
+async function loadAdvisories(){
+  if(advState==="ready"||advState==="loading") return;
+  advState="loading";
+  try{
+    const res=await fetch(ADV_URL);
+    if(!res.ok) throw new Error(res.status);
+    ADV=await res.json();
+    advState="ready";
+  }catch(e){
+    advState="failed";
+  }
+}
+
+const sevOf=c=>c==null?{label:"Unscored",cls:"warn"}
+  :c>=9?{label:"Critical",cls:"crit"}
+  :c>=7?{label:"High",cls:"crit"}
+  :c>=4?{label:"Medium",cls:"warn"}
+  :{label:"Low",cls:"ok"};
+
+/* What the dropped file said, measured against what the page is showing right
+   now. It is RECOMPUTED ON EVERY RENDER rather than written once when the file
+   lands, because the visitor can move either dropdown afterwards and a notice
+   that still names the Ruby they started on is worse than no notice: it is a
+   confident wrong statement about a document that is about to be printed and
+   handed to an auditor.
+
+   So every clause names the version being shown, and says where it came
+   from. A version the file settled and nobody has touched reads as "from the
+   file"; anything else says what is selected and what the file actually
+   holds, so the two can never silently disagree. */
+function lockSummary(rv,uv){
+  if(!LOCK) return "";
+  const parts=[`<strong>${LOCK.gems.length.toLocaleString()} gems read.</strong>`];
+
+  const fromFile=[];
+  if(LOCK.railsSeries===rv) fromFile.push(`Rails <strong>${esc(LOCK.rails)}</strong>`);
+  if(LOCK.rubySeries===uv) fromFile.push(`Ruby <strong>${esc(LOCK.ruby)}</strong>`);
+  if(fromFile.length) parts.push(`${fromFile.join(" and ")} from the file.`);
+
+  if(LOCK.railsSeries!==rv){
+    parts.push(LOCK.rails
+      ? `Using Rails <strong>${esc(rv)}</strong> as selected; the file has ${esc(LOCK.rails)}.`
+      : `No Rails gem in the file, using Rails <strong>${esc(rv)}</strong> as selected.`);
+  }
+  if(LOCK.rubySeries!==uv){
+    parts.push(LOCK.ruby
+      ? `Using Ruby <strong>${esc(uv)}</strong> as selected; the file has ${esc(LOCK.ruby)}.`
+      : `No Ruby version detected in the <code>Gemfile.lock</code>, using Ruby <strong>${esc(uv)}</strong> as selected.`);
+  }
+  return parts.join(" ");
+}
+
+function dependencyBlock(){
+  if(!LOCK) return "";
+  const total=LOCK.gems.length;
+  const ext=LOCK.external
+    ? ` ${LOCK.external} more come from a git or path source and are not checked, because the version written beside a git revision describes the gemspec rather than the commit checked out.`
+    : "";
+
+  if(advState==="loading"||advState==="none"){
+    return `<article class="record record--warn">
+      <div class="rec-head"><h2 class="rec-title">Your dependencies</h2>
+      <span class="pill pill--warn">Reading</span></div>
+      <p class="rec-note">${total.toLocaleString()} gems read from your <code>Gemfile.lock</code>. Checking them against the published advisory database.</p>
+    </article>`;
+  }
+
+  if(advState==="failed"){
+    return `<article class="record record--warn">
+      <div class="rec-head"><h2 class="rec-title">Your dependencies</h2>
+      <span class="pill pill--warn">Unavailable</span></div>
+      <p class="rec-note">${total.toLocaleString()} gems read from your <code>Gemfile.lock</code>, but the advisory database did not load, so no gem has been checked. The version findings above are unaffected.</p>
+    </article>`;
+  }
+
+  const rows=findings(LOCK,ADV);
+  const gemsHit=new Set(rows.map(r=>r.gem)).size;
+  const stamp=`Advisory data from <a href="${esc(ADV.source)}">rubysec/ruby-advisory-db</a>, ${ADV.advisories.toLocaleString()} advisories, built ${fmtDate(ADV.generated)}.`;
+
+  if(!rows.length){
+    return `<article class="record record--ok">
+      <div class="rec-head"><h2 class="rec-title">Your dependencies</h2>
+      <span class="pill pill--ok">No advisory matched</span></div>
+      <p class="rec-note">No published advisory names any of the ${total.toLocaleString()} gem versions pinned in your <code>Gemfile.lock</code>.${ext}</p>
+      <p class="rec-note"><strong>This is not a clean bill of health.</strong> It means no advisory has been published and catalogued for these exact versions. It says nothing about vulnerabilities in your own code, about gems whose maintainers never filed an advisory, or about whether these versions will survive the upgrade above. ${stamp}</p>
+    </article>`;
+  }
+
+  const nofix=rows.filter(r=>!(r.a.patched||[]).length).length;
+
+  return `<article class="record record--crit record--advisories">
+    <div class="rec-head"><h2 class="rec-title">Published advisories in your dependencies</h2>
+    <span class="pill pill--crit">${gemsHit} of ${total.toLocaleString()} gems</span></div>
+    <p class="rec-note">${rows.length.toLocaleString()} published ${rows.length===1?"advisory names a gem version":"advisories name gem versions"} pinned in your <code>Gemfile.lock</code>.${nofix?` ${nofix} of them ${nofix===1?"has":"have"} no published fix.`:""}${ext}</p>
+    <div class="table-scroll"><table>
+      <thead><tr><th>Gem</th><th>Pinned</th><th>Severity</th><th>Advisory</th><th>Fixed in</th></tr></thead>
+      <tbody>${rows.map(r=>{
+        const s=sevOf(r.a.cvss);
+        /* One line per patched requirement, because they are alternatives and
+           because a single one can itself hold a comma: run them together and
+           "~> 7.2.3, >= 7.2.3.2 or >= 8.1.3.1" reads as four bounds instead of
+           two fixed lines. Stacked, it reads the way a Rails security
+           announcement does. */
+        const fix=(r.a.patched||[]).length
+          ? r.a.patched.map(p=>`<span class="fix">${esc(p)}</span>`).join("")
+          : "<em>No fix published</em>";
+        return `<tr>
+          <td class="ctl">${esc(r.gem)}</td>
+          <td class="ctl">${esc(r.version)}</td>
+          <td><span class="sev sev--${s.cls}">${s.label}${r.a.cvss!=null?` ${r.a.cvss.toFixed(1)}`:""}</span></td>
+          <td><a href="${esc(r.a.url)}">${esc(r.a.id)}</a><span class="adv-title">${esc(r.a.title)}</span></td>
+          <td class="ctl">${fix}</td>
+        </tr>`;
+      }).join("")}</tbody>
+    </table></div>
+    <p class="rec-note">Matched on the version numbers written in the file, the way <code>bundler-audit</code> matches them. It does not inspect running code, and it cannot see a backported fix, a vendored patch or a compensating control, any of which may mean a row here is already answered. ${stamp}</p>
+  </article>`;
+}
+
 function render(rv,uv){
   const rr=railsRec(rv), ur=RUBY.find(r=>r.v===uv);
   const anyEol = days(rr.eol)>0 || days(ur.eol)>0;
@@ -217,6 +582,25 @@ function render(rv,uv){
       <p style="margin:0;color:var(--ink-2);font-size:14px">The end-of-life dates above are still correct for each version on its own, but no upgrade path is shown, because the starting point cannot exist. Both numbers are on the last lines of your <code>Gemfile.lock</code>, under <code>RUBY VERSION</code> and next to <code>rails</code>.</p>
     </article>`;
   }
+
+  /* Straight after the two version records, and ahead of both the trap and
+     the ladder. That ordering is the buyer's rather than the engineer's
+     (advisories moved above the path 2026-09-10, above the trap the same day).
+
+     An engineer reads down to the ladder, because the hops are the work. A
+     CISO stops at the first concrete thing, and named CVEs against gem
+     versions this application actually pins are concrete in a way that "six
+     version hops" and "structurally trapped" are not: both of those are
+     characterisations of a situation, and the advisory table is evidence out
+     of the reader's own repository.
+
+     So the finding runs: these two versions are unpatched, here is what that
+     has already let in, here is why it cannot be fixed with one bump, here is
+     the sequence that fixes it, here is the control language for the memo.
+
+     It renders only once a file has been dropped; without one the page is
+     exactly what it was before the drop zone existed. */
+  h+=dependencyBlock();
 
   if(trapped && !mismatch){
     h+=`<section class="trap">
@@ -267,14 +651,14 @@ function render(rv,uv){
 
   h+=`<section class="capture">
     <h3>Take this finding with you</h3>
-    <p>This page prints as a clean document for your auditor and your executive sponsor: the versions, the dates, the controls implicated, and the upgrade path required. Nothing you enter is uploaded, and nothing is stored.</p>
+    <p>This page prints as a clean document for your auditor and your executive sponsor: the versions, the dates, the controls implicated, the upgrade path required, and any advisories matching the gems you pinned. Nothing you enter or drop in is uploaded, and nothing is stored.</p>
     <button type="button" id="printbtn">Print this finding</button>
   </section>`;
 
 {% if site.web3forms_key and site.web3forms_key != "" %}
   h+=`<section class="capture">
     <h3>Or talk it through</h3>
-    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
+    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the work this page cannot do: resolving your <code>Gemfile</code> against the target Rails to establish which gems actually block the upgrade. A resolver on its own will not tell you that either. It catches the gems that declare a version ceiling and stays silent on the abandoned ones, whose constraints are open-ended and which fail at runtime instead. $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
     <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
     <p class="hint">Or send the details below, with your versions attached, and we will come back to you.</p>
@@ -314,7 +698,7 @@ function render(rv,uv){
 {% else %}
   h+=`<section class="capture">
     <h3>Or talk it through</h3>
-    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the dependency analysis this page cannot see, for $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
+    <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the work this page cannot do: resolving your <code>Gemfile</code> against the target Rails to establish which gems actually block the upgrade. A resolver on its own will not tell you that either. It catches the gems that declare a version ceiling and stays silent on the abandoned ones, whose constraints are open-ended and which fail at runtime instead. $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
     <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
 {% endif %}
@@ -325,10 +709,42 @@ function render(rv,uv){
   h+=`</div>`;
   document.getElementById("out").innerHTML=h;
 
+  /* The finding in one line, inside the panel. See the comment on #summary in
+     the markup for why it exists: it is what changes in view on a phone, and
+     it is the page's only aria-live region. */
+  document.getElementById("summary").textContent=
+    mismatch
+      ? `Rails ${rv} does not run on Ruby ${uv}. ${belowMin?`It needs Ruby ${rr.min} or later.`:`It caps at Ruby ${rr.max}.`}`
+      : [
+          [`Rails ${rv}`,rr.eol],
+          [`Ruby ${uv}`,ur.eol],
+        ].map(([label,eol])=>{
+          const st=statusOf(eol);
+          return st.d>0
+            ? `${label} unsupported ${st.d.toLocaleString()} days`
+            : `${label} supported`;
+        }).join(". ")
+        + ". "
+        + (steps.length?`${steps.length} version hop${steps.length===1?"":"s"} required.`:"No upgrade required.");
+
   /* Letterhead is print-only, so the printed document names the versions and
      the date it was produced. */
   document.getElementById("phctx").textContent=`Rails ${rv} / Ruby ${uv}`;
   document.getElementById("phdate").textContent=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+
+  /* The way back for whoever the printout is forwarded to. The scheme comes
+     off the visible text, because nobody types it and it is noise on paper,
+     and stays on the href so the link works from a PDF. */
+  /* Same reason the summary and the letterhead are written here: render() is
+     the one place that knows which pair is on screen. popstate calls it
+     directly, so hanging this off the change listener instead would leave the
+     notice stale after Back. */
+  if(LOCK) say(lockSummary(rv,uv));
+
+  const permalink=`${PAGE_URL}?rails=${encodeURIComponent(rv)}&ruby=${encodeURIComponent(uv)}`;
+  const phurl=document.getElementById("phurl");
+  phurl.textContent=permalink.replace(/^https?:\/\//,"");
+  phurl.href=permalink;
 
   document.getElementById("printbtn").addEventListener("click",()=>window.print());
 
@@ -363,17 +779,148 @@ function render(rv,uv){
   });
 }
 
-document.getElementById("calc").addEventListener("submit",e=>{
-  e.preventDefault();
-  toUrl(railsSel.value,rubySel.value);
-  render(railsSel.value,rubySel.value);
-});
+/* ---------- the finding follows the fields ---------- */
+/* There is no Check exposure button. Every number on this page is worked out
+   locally in under a millisecond, so a button was asking the visitor to
+   confirm something the page already knew, and the drop zone did not ask: it
+   redrew on drop. One of the two had to change.
+
+   HISTORY IS THE PART THAT NEEDS CARE, because pressing that button used to
+   be the only thing that wrote an entry, and Back walking between findings is
+   a feature with its own tests. Writing one per `change` would bury the page
+   the visitor arrived from under a dozen entries from one trip through a
+   dropdown.
+
+   So a change renders immediately and the entry is DEFERRED: a pair becomes
+   history only once it has been left alone for SETTLE_MS. Transient states on
+   the way to a choice never land, and a pair that returns to where it started
+   writes nothing, which is what keeps two identical entries out of the stack.
+
+   The cost is that the address bar can trail the finding by up to SETTLE_MS.
+   That is invisible in practice: the URL exists to be copied once somebody has
+   settled on a version, which is by definition after they stopped changing
+   it. Rendering is never deferred, only the entry. */
+
+const SETTLE_MS=1500;
+let settled=null, settleTimer=null;
+
+function show(rv,uv,{settleNow=false}={}){
+  render(rv,uv);
+  clearTimeout(settleTimer);
+  const promote=()=>{
+    settleTimer=null;
+    const pair=`${rv}/${uv}`;
+    if(pair===settled) return;
+    settled=pair;
+    toUrl(rv,uv);
+  };
+  /* A dropped file is one deliberate act that can move both fields at once,
+     so it settles on the spot rather than waiting to see if more is coming. */
+  if(settleNow) promote(); else settleTimer=setTimeout(promote,SETTLE_MS);
+}
+
+for(const sel of [railsSel,rubySel]){
+  sel.addEventListener("change",()=>show(railsSel.value,rubySel.value));
+}
+
+/* No submit button, but a form can still be submitted by other means, and a
+   reload would throw away the finding being read. */
+document.getElementById("calc").addEventListener("submit",e=>e.preventDefault());
+
+/* ---------- the drop zone ---------- */
+
+const dropEl=document.getElementById("drop"),
+      fileEl=document.getElementById("lockfile"),
+      dropStatus=document.getElementById("dropstatus");
+
+/* The status reads as a notice rather than as a footnote, and it is hidden
+   until there is something to report. It is the only confirmation a visitor
+   gets that the file was read and that it moved the two dropdowns above it,
+   and a grey line under a form field is not enough to notice that happening. */
+const say=(msg,cls)=>{
+  dropStatus.className=cls?`notice ${cls}`:"notice";
+  dropStatus.innerHTML=msg;
+};
+
+/* 8MB. A Gemfile.lock for a very large monolith is well under 200KB, so
+   anything past this is not one, and reading it would only freeze the tab. */
+const MAX_BYTES=8e6;
+
+function applyLock(text,name){
+  const lock=parseLock(text);
+  if(!lock.gems.length&&!lock.external){
+    say(`<strong>${esc(name)}</strong> does not read as a <code>Gemfile.lock</code>. No resolved gems were found in it.`,"notice--err");
+    return;
+  }
+  /* The two versions the file states, alongside the series each maps to. Rails
+     is always in there. RUBY VERSION is only written when the Gemfile pins a
+     Ruby, so most lockfiles do not carry one and the dropdown keeps whatever
+     was selected. */
+  lock.rails=railsFromLock(lock);
+  lock.railsSeries=lock.rails?series(RAILS,lock.rails):null;
+  lock.rubySeries=lock.ruby?series(RUBY,lock.ruby):null;
+  LOCK=lock;
+
+  if(lock.railsSeries) railsSel.value=lock.railsSeries;
+  if(lock.rubySeries) rubySel.value=lock.rubySeries;
+
+  /* A drop is one deliberate act, so it settles at once rather than waiting
+     out the debounce a dropdown change does. */
+  const paint=()=>show(railsSel.value,rubySel.value,{settleNow:true});
+  paint();
+  /* Painted twice on purpose: once now, so the versions and the gem count
+     appear immediately, and again when the advisory database arrives. The
+     first paint is the whole finding; the second only fills in one block.
+     The promise is returned so the tests can wait for the second one. */
+  return loadAdvisories().then(paint);
+}
+
+function readFile(file){
+  if(!file) return;
+  if(file.size>MAX_BYTES){
+    say(`<strong>${esc(file.name)}</strong> is too large to be a <code>Gemfile.lock</code>. Nothing was read.`,"notice--err");
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=()=>applyLock(reader.result,file.name);
+  reader.onerror=()=>say(`That file could not be read.`,"notice--err");
+  reader.readAsText(file);
+}
+
+if(dropEl){
+  fileEl.addEventListener("change",()=>readFile(fileEl.files&&fileEl.files[0]));
+
+  /* dragover has to be cancelled or the browser navigates to the file, which
+     replaces the page with a text dump of the visitor's dependency list. */
+  for(const type of ["dragenter","dragover"]){
+    dropEl.addEventListener(type,e=>{ e.preventDefault(); dropEl.classList.add("drop--over"); });
+  }
+  for(const type of ["dragleave","dragend","drop"]){
+    dropEl.addEventListener(type,()=>dropEl.classList.remove("drop--over"));
+  }
+  dropEl.addEventListener("drop",e=>{
+    e.preventDefault();
+    const dt=e.dataTransfer;
+    if(dt&&dt.files&&dt.files.length) readFile(dt.files[0]);
+  });
+
+  /* The same guard on the window. Without it a near miss still navigates away,
+     and the visitor loses the finding they were reading. */
+  for(const type of ["dragover","drop"]){
+    window.addEventListener(type,e=>{ if(!dropEl.contains(e.target)) e.preventDefault(); });
+  }
+}
 
 /* Back and forward walk the checks someone has run, which is how a visitor
    comparing two versions expects them to behave. */
 window.addEventListener("popstate",()=>{
   const s=fromUrl();
   railsSel.value=s.rv; rubySel.value=s.uv;
+  /* Arriving at an entry makes it the settled one, and cancels any promotion
+     still pending. Without this, a change made straight after pressing Back
+     would push the entry Back had just returned to. */
+  clearTimeout(settleTimer); settleTimer=null;
+  settled=`${s.rv}/${s.uv}`;
   render(s.rv,s.uv);
 });
 
@@ -383,6 +930,7 @@ railsSel.value=start.rv; rubySel.value=start.uv;
    it: half a link, or a misspelt one, becomes the pair actually shown. An
    unadorned /eol/ stays unadorned until the visitor checks something. */
 if(start.named) toUrl(start.rv,start.uv,true);
+settled=`${start.rv}/${start.uv}`;
 render(start.rv,start.uv);
 </script>
 

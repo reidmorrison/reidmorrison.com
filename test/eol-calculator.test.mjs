@@ -265,3 +265,69 @@ test("the finding carries the selected versions into the letterhead and the enqu
     assert.match(html, new RegExp(`name="versions" id="ctx" value="Rails ${rv} / Ruby ${uv}"`));
   }
 });
+
+/* -------------------------------------------------- the one-line summary */
+
+/* Removing the Check exposure button made this line load-bearing rather than
+   decorative. On a phone the panel stacks above the finding, so it is the
+   only thing that visibly changes when a dropdown changes, and it is the
+   page's only aria-live region now that #out is not one. It has to say what
+   the finding says. */
+
+test("the summary states each version's standing, derived from the data file", () => {
+  for (const [rv, uv] of supported) {
+    const calc = loadCalculator(NOW);
+    calc.render(rv, uv);
+    const line = calc.summary();
+
+    for (const [label, rec] of [
+      [`Rails ${rv}`, data.rails.find((r) => r.v === rv)],
+      [`Ruby ${uv}`, data.ruby.find((u) => u.v === uv)],
+    ]) {
+      const st = calc.statusOf(rec.eol);
+      assert.match(
+        line,
+        st.d > 0
+          ? new RegExp(`${label} unsupported ${st.d.toLocaleString()} days`)
+          : new RegExp(`${label} supported`),
+        `${rv}/${uv}: ${line}`
+      );
+    }
+  }
+});
+
+test("the summary counts the same hops the ladder draws", () => {
+  for (const [rv, uv] of supported) {
+    const calc = loadCalculator(NOW);
+    calc.render(rv, uv);
+    const hops = calc.ladder(rv, uv).length;
+
+    assert.match(
+      calc.summary(),
+      hops
+        ? new RegExp(`${hops} version hop${hops === 1 ? "" : "s"} required\\.$`)
+        : /No upgrade required\.$/,
+      `${rv}/${uv} should report ${hops} hops`
+    );
+  }
+});
+
+test("an impossible pair is summarised as impossible, not as a day count", () => {
+  const impossible = data.rails.flatMap((r) =>
+    data.ruby.filter((u) => !runs(r, u.v)).map((u) => [r, u])
+  );
+
+  for (const [r, u] of impossible.slice(0, 12)) {
+    const calc = loadCalculator(NOW);
+    calc.render(r.v, u.v);
+    const line = calc.summary();
+
+    assert.match(line, new RegExp(`Rails ${r.v} does not run on Ruby ${u.v}\\.`));
+    /* And it names the way out, because this is the state a visitor lands in
+       mid-edit now that there is no button to hold the finding back. */
+    assert.match(
+      line,
+      cmp(u.v, r.min) < 0 ? new RegExp(`needs Ruby ${r.min} or later`) : new RegExp(`caps at Ruby ${r.max}`)
+    );
+  }
+});

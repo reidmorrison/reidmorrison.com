@@ -91,6 +91,18 @@ browser. The versions you select never leave the page: the dates, the days
 unpatched, the controls and the upgrade path are all computed locally, nothing
 is uploaded, and nothing is saved.
 
+**The same is true of a `Gemfile.lock` you drop in.** The file is read in your
+browser, matched against a list of published advisories there, and discarded
+when you leave the page. It is never uploaded, and no part of it, not the gem
+names, not the versions, not the file name, is sent anywhere or written to
+storage. We never receive it and could not produce it if asked.
+
+Dropping a file causes exactly one request, and it goes the other way: your
+browser downloads `data/advisories.json`, the advisory list, from this site. It
+is the same fixed file for every visitor and the request is identical whatever
+you dropped, so it tells us nothing about your application beyond the fact that
+somebody used the feature.
+
 That is a property of how the page is built rather than a promise we are asking
 you to take on trust. The site is static and has no backend to receive
 anything, and you can confirm it in your browser's network tab in about ten

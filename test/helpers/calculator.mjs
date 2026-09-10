@@ -14,11 +14,31 @@
  * from today. With a fixed `now`, a day counter and a Supported / Expiring /
  * Unsupported pill are exact values derived from _data/eol.yml rather than
  * something that drifts overnight.
+ *
+ * The drop zone brought three more things into the stub: a FileReader, a file
+ * input that can be handed a file, and a fetch that answers for
+ * data/advisories.json. That fetch serves the file out of the BUILT site, so
+ * the suite matches against the real 1,200-advisory database and also covers
+ * Jekyll publishing it. Every other URL still throws.
+ *
+ * setTimeout is stubbed too, and it is not an optimisation. Removing the
+ * Check exposure button made the address bar follow a debounce, and real
+ * timers would turn every history case into a race. The sandbox holds the one
+ * pending callback and settle() fires it, so "left it alone" is a thing a
+ * test states rather than waits for.
  */
 import vm from "node:vm";
-import { calculatorSource } from "./site.mjs";
+import fs from "node:fs";
+import path from "node:path";
+import { calculatorSource, build } from "./site.mjs";
 
 const RealDate = Date;
+
+/* The advisory database as the browser would receive it. build() returns the
+   path to the built /eol/index.html, so the site root is two levels up. */
+function advisoriesJson() {
+  return fs.readFileSync(path.join(path.dirname(build()), "..", "data", "advisories.json"), "utf8");
+}
 
 /* Elements carrying an id are discoverable after they are written into
    innerHTML, which is how the script reaches #printbtn and #lead: both are
@@ -58,6 +78,10 @@ function makeDocument() {
       querySelector() {
         return element("anonymous");
       },
+      /* The window-level drag guard asks whether the event landed inside the
+         drop zone. Nothing in the suite dispatches a stray drag, so this only
+         has to exist and answer. */
+      contains: () => false,
       classList: {
         add: (c) => el.classes.add(c),
         remove: (c) => el.classes.delete(c),
@@ -71,7 +95,7 @@ function makeDocument() {
      rendered by the script before it can be found, which is the real
      behaviour: a typo in an id would return null here and throw, as it would
      in a browser. */
-  for (const id of ["rails", "ruby", "calc", "out", "phctx", "phdate"]) {
+  for (const id of ["rails", "ruby", "calc", "out", "phctx", "phdate", "phurl", "summary", "drop", "lockfile", "dropstatus"]) {
     registry.set(id, element(id));
   }
 
@@ -131,9 +155,22 @@ export function loadCalculator(now, url = "/eol/") {
     }
   }
 
+  /* The debounce behind the deferred history entry. Real timers would make
+     every history case a race, so the sandbox holds the pending callback and
+     the test fires it through settle(). Only one can be outstanding: the page
+     clears the previous before setting another. */
+  let pendingTimer = null;
+
   const sandbox = {
     document,
     Date: PinnedDate,
+    setTimeout: (fn) => {
+      pendingTimer = fn;
+      return 1;
+    },
+    clearTimeout: () => {
+      pendingTimer = null;
+    },
     Option: class Option {
       constructor(text, value) {
         this.text = text;
@@ -141,8 +178,24 @@ export function loadCalculator(now, url = "/eol/") {
       }
     },
     FormData: class FormData {},
-    fetch: () => {
+    /* The advisory database is served; everything else still throws, which is
+       what keeps the lead form out of the suite. */
+    fetch: async (url) => {
+      if (String(url).endsWith("/data/advisories.json")) {
+        const body = advisoriesJson();
+        return { ok: true, json: async () => JSON.parse(body) };
+      }
       throw new Error("the tests never submit the lead form");
+    },
+    /* Enough of FileReader for readAsText. The real one is asynchronous, and
+       so is this: a synchronous stub would hide an ordering bug in the page. */
+    FileReader: class FileReader {
+      readAsText(file) {
+        Promise.resolve().then(() => {
+          this.result = file.text;
+          if (this.onload) this.onload();
+        });
+      }
     },
     window: {
       print: () => {},
@@ -166,7 +219,8 @@ export function loadCalculator(now, url = "/eol/") {
      handful of values the tests assert against have to be published. */
   const source =
     calculatorSource() +
-    "\n;globalThis.__internals={RAILS,RUBY,CONTROLS,TARGET_RAILS,TARGET_RUBY,RUBY_FLOOR,cmp,ladder,statusOf,render,railsSel,rubySel};\n";
+    "\n;globalThis.__internals={RAILS,RUBY,CONTROLS,TARGET_RAILS,TARGET_RUBY,RUBY_FLOOR,cmp,ladder,statusOf,render,railsSel,rubySel," +
+    "vcmp,bump,meets,affected,parseLock,series,railsFromLock,findings,applyLock,dependencyBlock};\n";
 
   vm.runInContext(source, sandbox, { filename: "eol.html:script" });
 
@@ -184,6 +238,8 @@ export function loadCalculator(now, url = "/eol/") {
     CONTROLS: plain(internals.CONTROLS),
     ladder: (rails, ruby) => plain(internals.ladder(rails, ruby)),
     statusOf: (eol) => plain(internals.statusOf(eol)),
+    parseLock: (text) => plain(internals.parseLock(text)),
+    findings: (lock, db) => plain(internals.findings(lock, db)),
     options: (select) => internals[select].options.map((o) => ({ text: o.text, value: o.value })),
     now,
     registry,
@@ -198,12 +254,19 @@ export function loadCalculator(now, url = "/eol/") {
       for (const fn of windowListeners.popstate ?? []) fn({});
       return out.innerHTML;
     },
-    /* Picks the two dropdowns and presses Check exposure, which is the only
-       path that writes to the address bar. */
-    check(rails, ruby) {
-      internals.railsSel.value = rails;
-      internals.rubySel.value = ruby;
-      for (const fn of registry.get("calc").listeners.submit ?? []) fn({ preventDefault() {} });
+    /* Changes the two dropdowns the way a visitor does, one at a time, and
+       lets the pair settle. There is no Check exposure button any more: the
+       finding follows the fields, and the address bar follows once the
+       selection has been left alone. Pass { settle: false } to stop just
+       before the history entry, which is the transient state. */
+    check(rails, ruby, { settle = true } = {}) {
+      const change = (sel, value) => {
+        internals[sel].value = value;
+        for (const fn of registry.get(sel === "railsSel" ? "rails" : "ruby").listeners.change ?? []) fn({});
+      };
+      if (internals.railsSel.value !== rails) change("railsSel", rails);
+      if (internals.rubySel.value !== ruby) change("rubySel", ruby);
+      if (settle) this.settle();
       return out.innerHTML;
     },
     selected: () => ({ rails: internals.railsSel.value, ruby: internals.rubySel.value }),
@@ -212,11 +275,46 @@ export function loadCalculator(now, url = "/eol/") {
       internals.render(rails, ruby);
       return out.innerHTML;
     },
+    /* Drops a Gemfile.lock in, as the page does once FileReader has handed it
+       the text: it sets the dropdowns, renders, fetches the advisories and
+       renders again. Awaiting it waits for the second render. */
+    async drop(text, name = "Gemfile.lock") {
+      await internals.applyLock(text, name);
+      return out.innerHTML;
+    },
+    /* The same thing through the file input, which is the path that also runs
+       FileReader and the size guard. Everything on that path settles in
+       microtasks, so one turn of the event loop drains all of it. */
+    async dropFile(file) {
+      const input = registry.get("lockfile");
+      input.files = [file];
+      for (const fn of input.listeners.change ?? []) fn({});
+      await new Promise((resolve) => setImmediate(resolve));
+      return out.innerHTML;
+    },
+    /* What the panel says under the drop zone. */
+    dropStatus: () => registry.get("dropstatus").innerHTML,
+    /* The one-line finding inside the panel, which is also the page's only
+       aria-live region. */
+    summary: () => registry.get("summary").textContent,
+    /* Runs the pending debounce, which is what promotes the current pair to a
+       history entry. Returns whether there was one to run. */
+    settle() {
+      const fn = pendingTimer;
+      pendingTimer = null;
+      if (fn) fn();
+      return Boolean(fn);
+    },
+    settlePending: () => pendingTimer !== null,
     /* What the page shows on first load, before anything is selected. */
     initialHtml: out.innerHTML,
     letterhead: () => ({
       context: registry.get("phctx").textContent,
       date: registry.get("phdate").textContent,
+      /* The printed way back. Text and href differ: the scheme is dropped
+         from what a reader sees and kept in what a PDF follows. */
+      url: registry.get("phurl").textContent,
+      href: registry.get("phurl").href,
     }),
   };
 }

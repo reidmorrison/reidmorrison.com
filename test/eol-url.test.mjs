@@ -112,6 +112,124 @@ test("re-checking the same combination adds no history entry", () => {
   assert.equal(page.entries.length, after);
 });
 
+/* ---------------------------------------------------- the deferred entry */
+
+/* There is no Check exposure button any more. The finding follows the fields,
+   and the address bar follows once the selection has been left alone, so that
+   one trip through a dropdown does not bury the page the visitor arrived from
+   under a dozen entries. These are the cases that keeps honest. */
+
+test("a selection still being made renders, and writes no history entry", () => {
+  const page = loadCalculator(NOW);
+  const entries = page.entries.length;
+
+  const html = page.check(...OLD, { settle: false });
+
+  assert.match(html, /<article/, "the finding is drawn immediately");
+  assert.equal(page.entries.length, entries, "and nothing is in history yet");
+  assert.equal(page.settlePending(), true, "with a promotion still pending");
+});
+
+test("leaving a selection alone promotes it to a history entry", () => {
+  const page = loadCalculator(NOW);
+  const entries = page.entries.length;
+
+  page.check(...OLD, { settle: false });
+  page.settle();
+
+  assert.equal(page.entries.length, entries + 1);
+  assert.equal(page.url(), link(OLD));
+});
+
+test("passing through a combination on the way to another leaves no trace", () => {
+  /* Changing Rails and then Ruby is two `change` events and one decision.
+     The pair in between is a state nobody chose, and on this page it is
+     usually an incompatible one. It must not be in history, and it must not
+     be what a copied link points at. */
+  const page = loadCalculator(NOW);
+  const entries = page.entries.length;
+
+  page.check(OLD[0], TARGET[1], { settle: false });
+  page.check(...OLD, { settle: false });
+  page.settle();
+
+  assert.equal(page.entries.length, entries + 1, "one decision, one entry");
+  assert.equal(page.url(), link(OLD));
+});
+
+test("wandering away and back again writes nothing", () => {
+  const page = loadCalculator(NOW);
+  page.check(...OLD);
+  const entries = page.entries.length;
+
+  page.check(...TARGET, { settle: false });
+  page.check(...OLD, { settle: false });
+  page.settle();
+
+  /* Two identical adjacent entries would make Back do nothing visible, which
+     is the same failure the case above this block guards. */
+  assert.equal(page.entries.length, entries);
+  assert.equal(page.url(), link(OLD));
+});
+
+test("a change made straight after Back does not re-push where Back landed", () => {
+  const page = loadCalculator(NOW);
+  page.check(...OLD);
+  page.check(...TARGET);
+  page.back();
+  const entries = page.entries.length;
+
+  /* Back arrives at OLD. Selecting OLD again is a no-op and must stay one,
+     rather than pushing a second copy of the entry just returned to. */
+  page.check(...OLD);
+
+  assert.equal(page.entries.length, entries);
+  assert.equal(page.url(), link(OLD));
+});
+
+/* ------------------------------------------------ the way back, on paper */
+
+/* The printed finding is the artifact that travels: an engineer prints it for
+   the auditor or for the executive who signs the remediation plan. Whoever it
+   lands on needs a way to check it. Nobody notices this breaking, because it
+   is invisible on screen, so it is tested rather than trusted. */
+
+test("the printed letterhead carries a link back to this exact finding", () => {
+  for (const pair of [OLD, TARGET]) {
+    const page = loadCalculator(NOW);
+    page.check(...pair);
+    const { url, href } = page.letterhead();
+
+    assert.match(href, /^https?:\/\//, "the href is absolute, so it works from a PDF");
+    assert.equal(href.endsWith(link(pair)), true, `${href} should end with ${link(pair)}`);
+    /* Shown without the scheme: nobody types it, and it is noise on paper. */
+    assert.equal(url, href.replace(/^https?:\/\//, ""));
+  }
+});
+
+test("the printed link follows the finding immediately, not the address bar", () => {
+  /* The address bar lags by up to SETTLE_MS. A visitor who changes a version
+     and prints straight away must not hand somebody a document whose figures
+     and whose link disagree. */
+  const page = loadCalculator(NOW);
+  page.check(...OLD);
+  page.check(...TARGET, { settle: false });
+
+  assert.equal(page.url(), link(OLD), "the address bar has not caught up yet");
+  assert.equal(page.letterhead().href.endsWith(link(TARGET)), true, "but the printed link has");
+  assert.equal(page.letterhead().context, `Rails ${TARGET[0]} / Ruby ${TARGET[1]}`);
+});
+
+test("the printed link round-trips to the finding it was printed from", () => {
+  const sent = loadCalculator(NOW);
+  const html = sent.check(...OLD);
+
+  /* Follow the printed link the way a recipient would, path and query only. */
+  const received = loadCalculator(NOW, sent.letterhead().href.replace(/^https?:\/\/[^/]+/, ""));
+
+  assert.equal(received.initialHtml, html);
+});
+
 test("a linked finding still names its versions to the lead form", () => {
   /* The hidden `versions` field and the print letterhead are what carry the
      combination off the page. Both are built by the same render, so arriving
