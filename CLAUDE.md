@@ -583,6 +583,14 @@ Two things to know about GitHub's scheduler: it only runs workflows on the
 default branch, and it disables scheduled workflows after 60 days without
 repository activity.
 
+**Anything shelled out to Ruby must require what it uses, explicitly.** Both
+`script/advisories.mjs` and `test/helpers/data.mjs` pass `permitted_classes:
+[Date]` to Psych, and both relied on `require "yaml"` pulling `date` in with
+it. It does on Ruby 3.4 and does not on 3.3, so both worked locally for a week
+and the first scheduled run died on `uninitialized constant Date`. The runner
+pinning a different Ruby from the development machine is what exposed it;
+that difference is worth keeping.
+
 **Cost, measured 2026-09-10 and not a concern:** 69KB gzipped over the wire,
 0.7ms to `JSON.parse`, 0.2ms to parse a lockfile and about 1ms to match an
 87-gem one. A deliberately absurd worst case, every one of the 467 gems the
