@@ -1,0 +1,136 @@
+# Rebuilds data/advisories.json from rubysec/ruby-advisory-db and opens a pull
+# request when the advisories have actually changed.
+#
+# WHY THIS IS SCHEDULED AND NOT AUTOMATIC. The file is the evidence behind the
+# "Published advisories" block on /eol/, which a visitor prints and forwards to
+# an auditor. It is refreshed on a schedule because an advisory database is
+# stale the day after it is built, and it lands as a pull request rather than a
+# push because what changes is a claim this practice is making in front of a
+# compliance reader. Somebody looks at it.
+#
+# WHAT COUNTS AS A CHANGE is decided by script/advisories.mjs, not here: the
+# generated date and the upstream commit move every week whether or not a
+# single advisory did, so the comparison is on the advisories alone. A quiet
+# week ends with a green run and no pull request.
+
+name: Refresh gem advisories
+
+on:
+  schedule:
+    # Mondays at 12:00 UTC, which is 08:00 in St. Petersburg on daylight time
+    # and 07:00 in winter. Cron has no notion of daylight saving and neither
+    # does this comment: an hour either way does not matter for a weekly job.
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# A manual run started while the scheduled one is in flight must not race it
+# onto the same branch.
+concurrency:
+  group: advisories-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Ruby is not incidental here. script/advisories.mjs parses the upstream
+      # YAML with Psych rather than a JavaScript library, for the reason
+      # test/helpers/data.mjs does: it is the parser those files were written
+      # against. The suite below also builds the site, which needs Jekyll.
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Rebuild from rubysec/ruby-advisory-db
+        id: refresh
+        run: node script/advisories.mjs > "$RUNNER_TEMP/report.md"
+
+      # The suite is the point of reviewing this at all. One case asserts that
+      # every requirement string in the shipped database parses, so an operator
+      # the matcher does not understand fails here, on the day of the refresh,
+      # rather than in front of a client.
+      #
+      # A failure does NOT cancel the pull request: the data is still worth
+      # looking at, and the body says plainly that it did not pass. The job is
+      # failed at the end instead, so the run goes red and sends mail.
+      - name: Test against the new data
+        id: suite
+        if: steps.refresh.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node --test
+
+      - name: Open or update the pull request
+        if: steps.refresh.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUITE: ${{ steps.suite.outcome }}
+        run: |
+          set -euo pipefail
+          branch=advisories-refresh
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # One branch, reset from the default branch every week, so an
+          # unmerged refresh is replaced rather than stacked behind a second
+          # pull request saying almost the same thing. -C rather than -c: a
+          # runner that already has the branch, or a re-run, must reset it
+          # rather than fail.
+          git switch -C "$branch"
+          git add data/advisories.json
+          git commit -m "Refresh gem advisories from rubysec/ruby-advisory-db" \
+                     -m "$(cat "$RUNNER_TEMP/report.md")"
+          git push --force origin "$branch"
+
+          {
+            if [ "$SUITE" = "success" ]; then
+              echo "The suite passes against this data."
+            else
+              echo "> [!WARNING]"
+              echo "> **The suite does not pass against this data.** Do not merge on the"
+              echo "> strength of the summary below. The likeliest cause is a requirement"
+              echo "> string using an operator the matcher does not understand, which would"
+              echo "> silently mis-report whether a pinned version is affected."
+            fi
+            echo
+            cat "$RUNNER_TEMP/report.md"
+            echo
+            echo "---"
+            echo
+            echo "Rebuilt by \`.github/workflows/advisories.yml\`. The comparison is on the"
+            echo "advisories themselves, so a week in which nothing changed opens no pull"
+            echo "request at all. Regenerate locally with \`node script/advisories.mjs\`."
+          } > "$RUNNER_TEMP/body.md"
+
+          if gh pr view "$branch" --json state --jq .state 2>/dev/null | grep -qx OPEN; then
+            gh pr edit "$branch" --body-file "$RUNNER_TEMP/body.md"
+          else
+            gh pr create \
+              --head "$branch" \
+              --title "Refresh gem advisories" \
+              --body-file "$RUNNER_TEMP/body.md"
+          fi
+
+      - name: Summary
+        if: always()
+        run: cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+
+      # Last, so the pull request is already open when the run goes red.
+      - name: Fail the run if the suite failed
+        if: steps.suite.outcome == 'failure'
+        run: |
+          echo "The test suite failed against the refreshed advisory data." >&2
+          exit 1

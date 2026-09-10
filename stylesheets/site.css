@@ -361,12 +361,12 @@ tbody tr:last-child td{border-bottom:0}
 
 /* The block submit button. .panel and .capture are /eol/'s cards: the same
    component as .form, in a page that builds its own shell. */
-.form button,.panel button,.capture button{
+.form button,.capture button{
   width:100%;padding:12px;border:0;border-radius:3px;
   background:var(--accent);color:var(--accent-ink);
   font:inherit;font-weight:600;font-size:15px;cursor:pointer;
 }
-.form button:hover,.panel button:hover,.capture button:hover{filter:brightness(1.1)}
+.form button:hover,.capture button:hover{filter:brightness(1.1)}
 .form button:disabled,.capture button:disabled{opacity:.6;cursor:default}
 
 .note{margin:12px 0 0;font-size:13.5px;color:var(--ink-3)}
@@ -411,6 +411,76 @@ tbody tr:last-child td{border-bottom:0}
   color:var(--ink-3);font-size:15px;padding:36px 20px;text-align:center;
   border:1px dashed var(--rule-2);border-radius:4px;
 }
+
+/* ---- the Gemfile.lock drop zone --- */
+
+/* The finding in one line, under the two dropdowns. It is what visibly
+   changes when a dropdown changes on a phone, where the finding itself is
+   below the fold, so it is set as data rather than as prose: tabular numerals
+   and the mono face, matching the counters it summarises. */
+.summary{
+  margin:2px 0 16px;padding:10px 0 0;border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:12px;line-height:1.55;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+}
+.summary:empty{display:none}
+
+/* It lives INSIDE the versions form, under the two dropdowns and the summary.
+   Separated by a rule rather than by a box of its own: it is the third input
+   on one panel, not a second decision. */
+.field--drop{border-top:1px solid var(--rule);padding-top:16px;margin-bottom:0}
+.drop-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin:0;
+}
+.drop-head label{font-size:13px;font-weight:600;color:var(--ink-2)}
+
+/* "Optional, recommended" carries the whole framing that used to take a
+   paragraph. It is the accent rather than a warning colour: this is an
+   invitation, and an amber chip beside a form field reads as a problem. */
+.tag{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:9.5px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  padding:3px 7px;border-radius:2px;
+  background:var(--accent-soft);color:var(--accent);
+}
+
+/* A real <input type="file"> under a <label>, so the keyboard and the phone
+   both reach it. The input is taken out of the layout rather than hidden with
+   display:none, which would take it out of the tab order with it. */
+.drop{
+  position:relative;margin:0;
+  border:1px dashed var(--rule-2);border-radius:4px;background:var(--surface-2);
+  transition:border-color .12s ease,background .12s ease;
+}
+.drop input[type=file]{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+.drop label{display:block;padding:16px 14px;text-align:center;cursor:pointer}
+.drop-lead{display:block;font-weight:600;font-size:13.5px;color:var(--ink)}
+.drop-sub{display:block;margin-top:5px;font-size:12px;color:var(--ink-3);line-height:1.45}
+
+/* What the file did, and it has to be seen. A grey line under a form field is
+   not enough to tell somebody that the two dropdowns above just changed
+   underneath them, and that change ends up on a document going to an auditor.
+   So it is a tinted notice, in the accent because reading a file successfully
+   is information rather than a warning. */
+.notice{
+  margin:12px 0 0;padding:9px 11px;border-radius:3px;
+  border-left:3px solid var(--accent);background:var(--accent-soft);
+  font-size:12.5px;line-height:1.5;color:var(--ink-2);
+}
+.notice--err{border-left-color:var(--crit);background:var(--crit-soft);color:var(--crit)}
+.notice code{font-size:11.5px}
+
+/* Hover, keyboard focus and a dragged file all get the same treatment: there
+   is one affordance here and three ways to reach it. */
+.drop:hover,
+.drop--over,
+.drop:focus-within{border-color:var(--accent);background:var(--accent-soft)}
+.drop:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ---- the finding --- */
 
@@ -464,6 +534,38 @@ tbody tr:last-child td{border-bottom:0}
   font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;
   white-space:nowrap;color:var(--accent);
 }
+
+/* The prose inside a record. Was an inline style repeated on every paragraph
+   the script composes; the advisory block added enough of them to be worth a
+   class. */
+.rec-note{margin:0 0 12px;color:var(--ink-2);font-size:14px}
+.rec-note:last-child{margin-bottom:0}
+
+/* ---- the advisories matched from a dropped Gemfile.lock --- */
+
+/* Five columns rather than three, and the advisory title runs to prose, so
+   this table needs more room before it starts scrolling than the controls
+   table does. */
+.record--advisories table{min-width:720px}
+.record--advisories td{vertical-align:top}
+/* The identifier is a link and the title sits under it, so a scan down the
+   column reads as CVE numbers rather than as a wall of sentences. */
+.adv-title{display:block;margin-top:3px;font-size:12.5px;color:var(--ink-3);line-height:1.4}
+/* "Fixed in" holds one line per patched requirement. They are alternatives,
+   and a single one can carry a comma of its own, so they stack rather than run
+   together on one line. */
+.record--advisories td.ctl{white-space:normal}
+.fix{display:block;white-space:nowrap}
+.fix + .fix{margin-top:3px}
+
+.sev{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+  padding:3px 7px;border-radius:2px;
+}
+.sev--crit{background:var(--crit-soft);color:var(--crit)}
+.sev--warn{background:var(--warn-soft);color:var(--warn)}
+.sev--ok{background:var(--ok-soft);color:var(--ok)}
 
 /* ---- the elapsed counter --- */
 
@@ -638,6 +740,12 @@ tbody tr:last-child td{border-bottom:0}
      which names the versions and the date, goes in. Scoped to body.eol so
      the rest of the site still prints its own title. */
   .eol .masthead,.eol .panel,.eol .capture,.eol .placeholder{display:none !important}
+  /* Both findings tables carry a min-width on screen so their columns stay
+     legible while .table-scroll takes the overflow. On paper there is no
+     scroll container to take it, so a 720px minimum runs off the sheet and
+     the advisory rows are the ones an auditor most wants to read. */
+  .eol .record table,.eol .record--advisories table{min-width:0}
+  .eol .record--advisories tr{break-inside:avoid;page-break-inside:avoid}
   .eol .printhead{
     display:block;border-bottom:2px solid var(--ink);
     padding-bottom:10px;margin-bottom:18px;
@@ -670,6 +778,19 @@ tbody tr:last-child td{border-bottom:0}
     font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8pt;
     letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:5px 0 0;
   }
+  /* The way back, for whoever this printout was forwarded to. Not uppercased
+     like the line above it: a URL is something to be typed, and small caps
+     make that harder rather than smarter. */
+  .eol .ph-link{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8pt;
+    color:var(--ink-3);margin:3px 0 0;
+  }
+  /* The one link on the printed page that stays visibly a link. The rule
+     above strips link styling for print, which is right for navigation that
+     is dead on paper and wrong for the single address the reader is being
+     asked to visit. Print-to-PDF keeps it clickable, and on paper the colour
+     is what says "this is an address". */
+  .eol .ph-link a{color:var(--accent);text-decoration:none}
   /* Pin the printed measure in absolute units. Measured off two PDFs of the
      same finding, an iPhone renders this document 1.148x larger than a Mac
      does from identical CSS: iOS lays the page out at one width and scales the
