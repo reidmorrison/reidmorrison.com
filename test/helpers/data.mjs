@@ -22,7 +22,11 @@ export function eolData() {
   if (cached) return cached;
   const json = execFileSync(
     "ruby",
-    ["-ryaml", "-rjson", "-e", "print JSON.generate(YAML.safe_load_file(ARGV[0], permitted_classes: [Date]))", DATA_FILE],
+    /* -rdate explicitly: Psych pulls it in on some Rubies and not others, and
+       `verified:` in the data file parses to a Date. Without it this raises
+       "uninitialized constant Date" on, among others, the Ruby 3.3 the
+       scheduled advisory refresh runs on. */
+    ["-ryaml", "-rjson", "-rdate", "-e", "print JSON.generate(YAML.safe_load_file(ARGV[0], permitted_classes: [Date]))", DATA_FILE],
     { encoding: "utf8" }
   );
   cached = JSON.parse(json);

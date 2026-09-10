@@ -67,6 +67,11 @@ try {
   const ruby = `
     require "yaml"
     require "json"
+    # Explicitly, and not incidentally. An advisory's \`date:\` parses to a Date,
+    # so it has to be in permitted_classes. Psych pulls \`date\` in on some Rubies
+    # and not others: this passed on 3.4 for a week and failed the first time
+    # the scheduled refresh ran it on 3.3, with "uninitialized constant Date".
+    require "date"
     gems = Hash.new { |h, k| h[k] = [] }
     total = 0
     Dir.glob(File.join(ARGV[0], "gems", "*", "*.yml")).sort.each do |file|
