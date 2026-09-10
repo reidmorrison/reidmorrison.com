@@ -583,6 +583,16 @@ Two things to know about GitHub's scheduler: it only runs workflows on the
 default branch, and it disables scheduled workflows after 60 days without
 repository activity.
 
+**The generated file must be reproducible, or the schedule is worthless.**
+Two runs of `script/advisories.mjs` against the same upstream commit have to
+produce byte-identical output, whatever Ruby they run on. Ruby's `sort_by` is
+not stable, so ordering the rows on `[-cvss, date]` alone left ties in
+whichever order the implementation chose: 99 rows across 22 gems came out
+differently on the runner's 3.3 than on the 3.4 they were generated with, and
+the first scheduled run duly produced a pull request with no information in
+it. The id is the tiebreaker that makes the order total, and
+`eol-lockfile.test.mjs` asserts the shipped file is in it.
+
 **Anything shelled out to Ruby must require what it uses, explicitly.** Both
 `script/advisories.mjs` and `test/helpers/data.mjs` pass `permitted_classes:
 [Date]` to Psych, and both relied on `require "yaml"` pulling `date` in with
