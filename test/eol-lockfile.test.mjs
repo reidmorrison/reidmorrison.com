@@ -320,6 +320,29 @@ test("the shipped database has the shape the page reads", () => {
   }
 });
 
+test("the shipped database is in a total order, so a rebuild is reproducible", () => {
+  /* Ruby's sort_by is not stable. Ordering the rows on [-cvss, date] alone
+     left advisories sharing both in whichever order the implementation
+     picked, and 99 rows across 22 gems came out differently on Ruby 3.3 than
+     on 3.4. Nothing about the page changed, but the FILE changed, so the
+     scheduled refresh opened a pull request containing no information every
+     time it ran on a different Ruby from the one that generated it.
+
+     The id is unique within a gem, which is what makes the order total. This
+     asserts the shipped file is actually in that order, so a regenerate that
+     drops the tiebreaker fails here rather than next Monday. */
+  for (const [gem, list] of Object.entries(db.gems)) {
+    const sorted = [...list].sort(
+      (p, q) => (q.cvss || 0) - (p.cvss || 0) || p.date.localeCompare(q.date) || p.id.localeCompare(q.id)
+    );
+    assert.deepEqual(
+      list.map((a) => a.id),
+      sorted.map((a) => a.id),
+      `${gem} is not in canonical order`
+    );
+  }
+});
+
 test("every requirement string in the shipped database parses", () => {
   const { meets } = load();
 

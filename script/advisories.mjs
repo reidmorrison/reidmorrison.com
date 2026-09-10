@@ -88,7 +88,14 @@ try {
         "unaffected" => a["unaffected_versions"] || []
       }
     end
-    gems.each_value { |list| list.sort_by! { |x| [-(x["cvss"] || 0), x["date"]] } }
+    # Worst first, and the id is a TIEBREAKER RATHER THAN DECORATION. Ruby's
+    # sort_by is not stable, so ordering on [-cvss, date] alone leaves
+    # advisories that share both in an order the implementation picks: 99 rows
+    # across 22 gems came out differently on the runner's Ruby 3.3 than on the
+    # 3.4 this was generated with. Every one of those is a diff with nothing
+    # in it, and the scheduled refresh would have opened a pull request for
+    # them every week. The id is unique within a gem, so this order is total.
+    gems.each_value { |list| list.sort_by! { |x| [-(x["cvss"] || 0), x["date"], x["id"]] } }
     print JSON.generate("total" => total, "gems" => gems.sort.to_h)
   `;
 
