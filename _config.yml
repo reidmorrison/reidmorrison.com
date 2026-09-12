@@ -26,6 +26,7 @@ entity:
   form_short: a Florida corporation
   form: Florida profit corporation
   document: P26000043890
+  duns: "149936082"
   address: 7901 4th St N, Ste 300, St. Petersburg, FL 33702
 
 github_username: reidmorrison
