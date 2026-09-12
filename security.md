@@ -265,6 +265,7 @@ to it.
   <dt>Entity</dt><dd>{{ site.entity.name }}</dd>
   <dt>Form</dt><dd>{{ site.entity.form }}</dd>
   <dt>Document</dt><dd>{{ site.entity.document }}</dd>
+  <dt>D-U-N-S</dt><dd>{{ site.entity.duns }}</dd>
   <dt>Address</dt><dd>{{ site.entity.address }}</dd>
 </dl>
 
@@ -277,21 +278,17 @@ EIN, and neither the form nor that number is published here: a taxpayer
 identification number belongs in your vendor file, not in a search index.
 
 <!--
-  Added 2026-09-09, and it is one third of the round 2 procurement line. The
-  other two thirds stay out for the reason the gate exists: naming a document
-  here that cannot be produced fails in front of the one reader who will
-  actually ask for it.
+  Added 2026-09-09. D-U-N-S shipped 2026-09-12 as its own row above (issued
+  same day as requested, applied 2026-09-06): it identifies the entity and
+  grants nothing, like the Florida document number, and a number a reviewer
+  can copy off the page is one fewer email in their onboarding.
+
+  The certificate of insurance is the one item still gated, for the reason
+  the gate exists: naming a document here that cannot be produced fails in
+  front of the one reader who will actually ask for it.
 
     Certificate of insurance  Waits on E&O being bound. Add the sentence the day
                               the binder lands, here and in contact.md together.
-
-    D-U-N-S number            Applied for 2026-09-06 on the free route, so up to
-                              30 business days. When D&B issues it, it goes into
-                              the list above as its own row rather than being
-                              offered on request: like the Florida document
-                              number it identifies the entity and grants nothing,
-                              and a number a reviewer can copy off the page is
-                              one fewer email in their onboarding.
 
   The W-9 and the EIN are the opposite case and stay on request permanently.
 -->

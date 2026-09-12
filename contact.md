@@ -162,8 +162,8 @@ the EIN; neither is published, because a taxpayer identification number belongs
 in your vendor file rather than in a search index.
 
 <!--
-  The rest of the round 2 procurement line still waits, and /security.html
-  holds the full note: the certificate of insurance until E&O is bound, the
-  D-U-N-S number until D&B issues it, at which point it is published on that
-  page rather than offered here. Change the two pages on the same day.
+  The D-U-N-S number shipped 2026-09-12 on /security.html as its own row,
+  not offered here. The certificate of insurance still waits on E&O being
+  bound; /security.html holds that note too. Change the two pages on the
+  same day when it lands.
 -->
