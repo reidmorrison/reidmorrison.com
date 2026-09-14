@@ -668,6 +668,24 @@ whose constraints are open-ended, which was verified against `paperclip` (last
 released 2018, resolves cleanly against Rails 8.1 because its gemspec says
 `activemodel >= 4.2.0`).
 
+**The CTA also carries the supported-series argument** (added 2026-09-14). The
+advisory table above it answers "what has already been published against your
+pinned versions". The missing half was what happens next, and it is this: upstream
+fixes are written for supported series only, so an end-of-life application collects
+advisories whose "Fixed in" column it can never reach.
+
+CVE-2026-66066 is the worked example and it is there because it is checkable in
+under a minute: the rubyonrails.org security announcement of 2026-07-29 lists the
+fixed versions as 7.2.3.2, 8.0.5.1 and 8.1.3.1 and nothing older, and exploitation
+in the wild was reported 2026-08-31. The copy says "no upstream fix to install",
+not "no fix at any price", because backports are sold for exactly these series and
+the stronger phrasing would be false.
+
+**The paragraph appears twice**, once in each branch of the `web3forms_key`
+condition, and the two must not drift. Nothing about it weakens the page's standing
+disclaimer: it is still not a vulnerability scan, and this paragraph describes a
+published advisory rather than anything read out of the visitor's own code.
+
 ### The data lives in `_data/eol.yml`, not in the JavaScript
 
 Version tables, target versions and the eight control citations render from
