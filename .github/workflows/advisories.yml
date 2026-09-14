@@ -17,10 +17,13 @@ name: Refresh gem advisories
 
 on:
   schedule:
-    # Mondays at 12:00 UTC, which is 08:00 in St. Petersburg on daylight time
-    # and 07:00 in winter. Cron has no notion of daylight saving and neither
-    # does this comment: an hour either way does not matter for a weekly job.
-    - cron: "0 12 * * 1"
+    # Mondays at 12:07 UTC, which is 08:07 in St. Petersburg on daylight time
+    # and 07:07 in winter. Cron has no notion of daylight saving and neither
+    # does this comment: a few minutes either way does not matter for a weekly
+    # job. Off the hour deliberately: GitHub's own docs warn that on-the-hour
+    # schedules queue behind the platform's heaviest load and can be delayed
+    # or dropped outright, which is what happened to the 2026-09-14 run.
+    - cron: "7 12 * * 1"
   workflow_dispatch:
 
 permissions:
