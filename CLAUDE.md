@@ -850,8 +850,8 @@ two claims contradict each other.
 ### Things it deliberately does not do
 
 - No email delivery, no autoresponder, no server-side PDF generation. Adding any
-  of those means SPF and DKIM records at GoDaddy alongside the existing
-  iCloud-only SPF.
+  of those means adding the sender to the SPF record at GoDaddy, which since
+  2026-09-15 is Microsoft 365 only and ends in `-all`, plus its own DKIM.
 
 ### The tests read the data file, and nothing else
 
