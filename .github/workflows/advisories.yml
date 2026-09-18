@@ -9,21 +9,42 @@
 # compliance reader. Somebody looks at it.
 #
 # WHAT COUNTS AS A CHANGE is decided by script/advisories.mjs, not here: the
-# generated date and the upstream commit move every week whether or not a
+# generated date and the upstream commit move on every run whether or not a
 # single advisory did, so the comparison is on the advisories alone. A quiet
-# week ends with a green run and no pull request.
+# run ends green, with no pull request.
+#
+# THE ONE STEP THAT RUNS EITHER WAY is the freshness check at the end, which
+# fails once data/advisories.json is 45 days old. A quiet run and a refresh
+# that has silently stopped finding anything look identical from here, and the
+# second is the one that leaves a stale claim on a page a compliance reader
+# prints. See test/eol-freshness.test.mjs.
 
 name: Refresh gem advisories
 
 on:
   schedule:
-    # Mondays at 12:07 UTC, which is 08:07 in St. Petersburg on daylight time
-    # and 07:07 in winter. Cron has no notion of daylight saving and neither
-    # does this comment: a few minutes either way does not matter for a weekly
-    # job. Off the hour deliberately: GitHub's own docs warn that on-the-hour
+    # Mondays and Thursdays at 12:07 UTC, which is 08:07 in St. Petersburg on
+    # daylight time and 07:07 in winter. Cron has no notion of daylight saving
+    # and neither does this comment: a few minutes either way does not matter
+    # here. Off the hour deliberately: GitHub's own docs warn that on-the-hour
     # schedules queue behind the platform's heaviest load and can be delayed
     # or dropped outright, which is what happened to the 2026-09-14 run.
-    - cron: "7 12 * * 1"
+    #
+    # TWICE A WEEK RATHER THAN WEEKLY, measured 2026-09-18 against five years
+    # of rubysec/ruby-advisory-db. Upstream touches gems/ on 140 days a year,
+    # in 87% of weeks. Weekly left an advisory against a gem a Rails lockfile
+    # actually pins waiting 4.4 days on average and up to 7. Monday and
+    # Thursday halves that to 2.7 and caps it at 4, for roughly 62 pull
+    # requests a year against 40.
+    #
+    # Daily was rejected rather than overlooked. It would reach about 95 pull
+    # requests a year, and this refresh lands as a pull request precisely
+    # because somebody reads it; at two a week that stays a review rather than
+    # a reflex. There is also nothing to be won by outrunning the database
+    # itself, whose median lag from an advisory's own date to the file
+    # appearing upstream is 2 days, with a third of them taking more than a
+    # week.
+    - cron: "7 12 * * 1,4"
   workflow_dispatch:
 
 permissions:
@@ -87,7 +108,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # One branch, reset from the default branch every week, so an
+          # One branch, reset from the default branch on every run, so an
           # unmerged refresh is replaced rather than stacked behind a second
           # pull request saying almost the same thing. -C rather than -c: a
           # runner that already has the branch, or a re-run, must reset it
@@ -114,7 +135,7 @@ jobs:
             echo "---"
             echo
             echo "Rebuilt by \`.github/workflows/advisories.yml\`. The comparison is on the"
-            echo "advisories themselves, so a week in which nothing changed opens no pull"
+            echo "advisories themselves, so a run in which nothing changed opens no pull"
             echo "request at all. Regenerate locally with \`node script/advisories.mjs\`."
           } > "$RUNNER_TEMP/body.md"
 
@@ -131,9 +152,33 @@ jobs:
         if: always()
         run: cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
 
+      # The one check that runs on a quiet refresh too, and the quiet refresh is
+      # what it is for: a run that finds nothing and a refresh that has quietly
+      # stopped finding anything are the same green tick from here. It needs no
+      # Jekyll build, so it is one file rather than the suite.
+      #
+      # It cannot catch a schedule that has stopped firing altogether, because
+      # then nothing here runs at all. That case is caught by `node --test`
+      # locally, which is why the check is a test rather than a shell step.
+      - name: Check the database is not stale
+        id: freshness
+        if: always()
+        continue-on-error: true
+        run: node --test test/eol-freshness.test.mjs
+
       # Last, so the pull request is already open when the run goes red.
-      - name: Fail the run if the suite failed
-        if: steps.suite.outcome == 'failure'
+      - name: Fail the run if the suite failed or the database is stale
+        if: always() && (steps.suite.outcome == 'failure' || steps.freshness.outcome == 'failure')
+        env:
+          SUITE: ${{ steps.suite.outcome }}
+          FRESHNESS: ${{ steps.freshness.outcome }}
         run: |
-          echo "The test suite failed against the refreshed advisory data." >&2
+          if [ "$SUITE" = "failure" ]; then
+            echo "The test suite failed against the refreshed advisory data." >&2
+          fi
+          if [ "$FRESHNESS" = "failure" ]; then
+            echo "data/advisories.json is stale, so the refresh has stopped landing:" >&2
+            echo "it is running and finding nothing, or the pull requests are not" >&2
+            echo "being merged. See the step above for how old the file is." >&2
+          fi
           exit 1

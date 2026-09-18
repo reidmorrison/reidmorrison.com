@@ -27,22 +27,27 @@ parser so the suite sees exactly what Jekyll sees. A test that repeated a value
 from the data file would keep passing after that value changed, which is the
 failure this suite exists to catch.
 
-Two deliberate exceptions, both of which can only fire on a regression rather
+Three deliberate exceptions, all of which can only fire on a regression rather
 than on an edit:
 
 - The 90 day warning window, in `eol-calculator.test.mjs`. That threshold is the
   page's, not the data's.
 - The three citation errors in `eol-data.test.mjs`, which assert that a control
   is **not** one of the wrong values CLAUDE.md records as recurring.
+- The 45 day staleness limit in `eol-freshness.test.mjs`. That one is a
+  statement about the refresh rather than about the data: it is derived from how
+  long `rubysec/ruby-advisory-db` can legitimately sit still, which is 27 days
+  at its worst over five years.
 
-`eol-lockfile.test.mjs` is a third case, and a different one. Its fixtures name
-gem versions, but they are **inputs it constructs**, not values restated from a
-data file: `~> 6.1.7.3` is there to pin down what the pessimistic operator
-means, and it would mean the same thing whatever `_data/eol.yml` said. Where
-that file does touch real data it derives, never names: the Rails series it
-expects a lockfile to select comes from `_data/eol.yml`, and the gem it expects
-an advisory for is found in `data/advisories.json` at run time, by looking for
-an advisory whose only statement is a lower bound. Both survive a refresh.
+`eol-lockfile.test.mjs` is a case of its own, and a different one. Its fixtures
+name gem versions, but they are **inputs it constructs**, not values restated
+from a data file: `~> 6.1.7.3` is there to pin down what the pessimistic
+operator means, and it would mean the same thing whatever `_data/eol.yml` said.
+Where that file does touch real data it derives, never names: the Rails series
+it expects a lockfile to select comes from `_data/eol.yml`, and the gem it
+expects an advisory for is found in `data/advisories.json` at run time, by
+looking for an advisory whose only statement is a lower bound. Both survive a
+refresh.
 
 ## What each file covers
 
@@ -53,6 +58,7 @@ an advisory whose only statement is a lower bound. Both survive a refresh.
 | `eol-data.test.mjs` | The assumptions the calculator makes about the data file, which an edit to it can break without touching a line of code. |
 | `eol-lockfile.test.mjs` | The `Gemfile.lock` drop zone: the lockfile grammar, RubyGems version ordering and requirement matching, the vulnerability rule, and the finding a dropped file produces. |
 | `eol-url.test.mjs` | The selection in the address bar. The round trip from a check to a link to the same finding, half and unknown links, Back, and the deferred history entry: what a selection still being made writes, and what settling writes. |
+| `eol-freshness.test.mjs` | Whether `data/advisories.json` is still being refreshed at all. It reads that file and nothing else, so it builds no site and the advisory workflow runs it on its own, on every refresh including a quiet one. |
 
 ## How the harness works
 

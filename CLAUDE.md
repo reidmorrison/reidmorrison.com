@@ -568,20 +568,38 @@ directly, and Back has to bring the notice with it.
 node script/advisories.mjs   # from the repository root, then commit the JSON
 ```
 
-**It re-runs itself**, via `.github/workflows/advisories.yml`, Mondays at
-12:00 UTC, plus a `workflow_dispatch` button. It rebuilds, runs the suite, and
-opens a pull request for review rather than pushing: what changes is a claim
-this practice makes in front of a compliance reader, so somebody looks at it.
+**It re-runs itself**, via `.github/workflows/advisories.yml`, **Mondays and
+Thursdays at 12:07 UTC**, plus a `workflow_dispatch` button. It rebuilds, runs
+the suite, and opens a pull request for review rather than pushing: what changes
+is a claim this practice makes in front of a compliance reader, so somebody
+looks at it.
 
-- **A quiet week opens nothing.** `generated` and `commit` move every run
+**Twice a week, and the interval was measured rather than picked** (changed from
+weekly 2026-09-18, against five years of `rubysec/ruby-advisory-db`). Upstream
+touches `gems/` on 140 days a year, in 87% of weeks, so weekly already opened a
+pull request most weeks. What weekly cost was latency: an advisory against a gem
+a Rails lockfile actually pins waited 4.4 days on average and up to 7. Monday
+and Thursday halves that to 2.7 and caps it at 4, for roughly 62 pull requests a
+year against 40.
+
+**Daily was rejected, and the reason is the review.** It would reach about 95
+pull requests a year, and this lands as a pull request precisely because
+somebody reads it; at that volume reading becomes rubber-stamping and the
+workflow loses the only thing that justifies it. There is also nothing to win by
+outrunning the database: its own median lag from an advisory's date to the file
+appearing upstream is 2 days, and a third take more than a week. **For the rare
+advisory that actually moves a buyer, the answer is the `workflow_dispatch`
+button on the day, not a faster cron.**
+
+- **A quiet run opens nothing.** `generated` and `commit` move every run
   whether or not an advisory did, so the script compares the advisories alone
   and leaves the file untouched when they match. Otherwise the review that
   mattered would be lost among fifty that only changed a date.
 - **The pull request body is the diff that is readable.** A 320KB JSON diff is
   not, so the script emits markdown: what is new and what was withdrawn,
   worst-CVSS first, linked, capped at 30 each.
-- **One branch, `advisories-refresh`, reset each week.** An unmerged refresh is
-  replaced rather than stacked behind a near-identical second pull request.
+- **One branch, `advisories-refresh`, reset on every run.** An unmerged refresh
+  is replaced rather than stacked behind a near-identical second pull request.
 - **A failing suite does not cancel the pull request.** The data is still worth
   seeing, the body says plainly that it did not pass, and the job fails at the
   end so the run goes red. The case most likely to catch something is the one
@@ -590,6 +608,35 @@ this practice makes in front of a compliance reader, so somebody looks at it.
 Two things to know about GitHub's scheduler: it only runs workflows on the
 default branch, and it disables scheduled workflows after 60 days without
 repository activity.
+
+### The refresh stopping is a quieter failure than the refresh being wrong
+
+Added 2026-09-18, and what made it worth adding is that by then **no scheduled
+run had ever fired**: all three runs to that date were `workflow_dispatch`, the
+2026-09-14 schedule having been dropped by GitHub's queue. A refresh that stops
+does not go red. It goes silent, the page keeps matching lockfiles against a
+frozen database, and `/eol/` prints the date it was built at the foot of a
+document going to an auditor.
+
+`test/eol-freshness.test.mjs` fails once `generated` is more than **45 days**
+old. It reads `data/advisories.json` and nothing else, so it needs no Jekyll
+build and runs in milliseconds.
+
+- **45, because `generated` only moves when an advisory actually changed.** The
+  floor under it is how long upstream can legitimately sit still, and the
+  longest stretch without a change under `gems/` in five years is 27 days
+  (2025-01-10 to 2025-02-06). 45 clears that by over two weeks, which is room
+  for a quiet spell plus an unhurried review, and stays under the 60 day window
+  in which GitHub switches a scheduled workflow off, so it fails before the
+  schedule disappears rather than after.
+- **The workflow runs it on every refresh, including a quiet one**, outside the
+  `changed == 'true'` gate that holds back the rest of the suite. A quiet run
+  and a refresh that has silently stopped finding anything are the same green
+  tick otherwise, and the second is the one that matters.
+- **It cannot catch a schedule that stopped firing**, because then nothing in
+  the workflow runs at all. That case is caught by `node --test` locally, which
+  is why the check is a test and not a shell step in the workflow. If a CI
+  workflow is ever added on push, it inherits the catch for free.
 
 **The generated file must be reproducible, or the schedule is worthless.**
 Two runs of `script/advisories.mjs` against the same upstream commit have to
@@ -924,10 +971,11 @@ Four things to know before editing a test:
   Every combination in the data file goes round, so the case list grows with the
   data and never restates a version.
 
-Two deliberate exceptions to the rule above, both of which can only fire on a
+Three deliberate exceptions to the rule above, all of which can only fire on a
 regression: the 90 day warning window, which is the page's threshold and not the
-data's, and a test asserting that no control has regressed to PCI DSS 4.0,
-164.312 or CC6.1.
+data's; a test asserting that no control has regressed to PCI DSS 4.0, 164.312
+or CC6.1; and the 45 day staleness limit in `eol-freshness.test.mjs`, which is a
+statement about the refresh rather than about the data.
 
 **The five pre-2.4 Ruby branches (1.9.3, 2.0.0, 2.1, 2.2, 2.3) are deliberate.**
 Rails 4.2 caps Ruby at 2.3 and the 5.x series require 2.2, so without them the

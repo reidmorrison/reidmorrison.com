@@ -94,7 +94,7 @@ try {
     # across 22 gems came out differently on the runner's Ruby 3.3 than on the
     # 3.4 this was generated with. Every one of those is a diff with nothing
     # in it, and the scheduled refresh would have opened a pull request for
-    # them every week. The id is unique within a gem, so this order is total.
+    # them on every run. The id is unique within a gem, so this order is total.
     gems.each_value { |list| list.sort_by! { |x| [-(x["cvss"] || 0), x["date"], x["id"]] } }
     print JSON.generate("total" => total, "gems" => gems.sort.to_h)
   `;
@@ -114,7 +114,7 @@ try {
   // `generated` is today and `commit` is whatever upstream last pushed, so the
   // file differs on every single run even when not one advisory moved. A
   // scheduled refresh that opened a pull request on that basis would ask for a
-  // review every week to approve a new date, and the reviews that mattered
+  // review twice a week to approve a new date, and the reviews that mattered
   // would be lost among them.
   //
   // So the comparison is on the advisories alone. When they are identical the
