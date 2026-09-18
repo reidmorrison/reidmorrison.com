@@ -661,7 +661,7 @@ function render(rv,uv){
     <p>Upstream fixes are written for supported series only: the Rails maintenance policy leaves bugs and security issues in an unsupported series to you. <strong>CVE-2026-66066</strong>, the critical Active Storage flaw disclosed on 29 July 2026 and exploited in the wild from 31 August, was patched in 7.2.3.2, 8.0.5.1 and 8.1.3.1, and in nothing older. An application on 7.1 had no upstream fix to install. Every advisory published from here behaves the same way, which is what makes the list above grow rather than settle.</p>
     <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the work this page cannot do: resolving your <code>Gemfile</code> against the target Rails to establish which gems actually block the upgrade. A resolver on its own will not tell you that either. It catches the gems that declare a version ceiling and stays silent on the abandoned ones, whose constraints are open-ended and which fail at runtime instead. $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
-    <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
+    <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url | escape }}">Book a video call</a></div>
     <p class="hint">Or send the details below, with your versions attached, and we will come back to you.</p>
 {% endif %}
     <form id="lead">
@@ -702,7 +702,7 @@ function render(rv,uv){
     <p>Upstream fixes are written for supported series only: the Rails maintenance policy leaves bugs and security issues in an unsupported series to you. <strong>CVE-2026-66066</strong>, the critical Active Storage flaw disclosed on 29 July 2026 and exploited in the wild from 31 August, was patched in 7.2.3.2, 8.0.5.1 and 8.1.3.1, and in nothing older. An application on 7.1 had no upstream fix to install. Every advisory published from here behaves the same way, which is what makes the list above grow rather than settle.</p>
     <p>PCI DSS 12.3.4 wants a remediation plan approved by senior management. The two-week Remediation Assessment produces exactly that document, along with the work this page cannot do: resolving your <code>Gemfile</code> against the target Rails to establish which gems actually block the upgrade. A resolver on its own will not tell you that either. It catches the gems that declare a version ceiling and stays silent on the abandoned ones, whose constraints are open-ended and which fail at runtime instead. $12,500 fixed. If it concludes you should not do this work, or should not do it with us, you pay nothing.</p>
 {% if site.booking_url and site.booking_url != "" %}
-    <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url }}">Book a video call</a></div>
+    <div class="cta-row"><a class="btn btn-primary" href="{{ site.booking_url | escape }}">Book a video call</a></div>
 {% endif %}
     <p class="hint">Reach us on <a href="https://www.linkedin.com/in/reidmorrison">LinkedIn</a> to start a conversation.</p>
   </section>`;

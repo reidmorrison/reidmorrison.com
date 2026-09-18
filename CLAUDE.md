@@ -58,6 +58,14 @@ rather than a practice selling a service, that is a bug.
   unavailable, link LinkedIn rather than printing an address.
 - **Do not reintroduce an address anywhere in this repo**, including comments,
   commit messages, and this file. Refer to "the public alias" instead.
+- **`booking_url` holds the one string in this repo shaped like an address, and
+  it is not one.** Microsoft Bookings builds a personal booking link as
+  `<mailbox Exchange GUID>@reidmorrison.com`. The local part is a GUID, so it
+  names nobody and cannot receive mail. It is here rather than the shared
+  Bookings form, which would publish a real mailbox as
+  `outlook.office365.com/book/<smtp address>/` and genuinely break this rule.
+  **Do not "fix" it by removing the link**, and do not let a future re-share
+  swap it for a shared page: check the local part is still a GUID.
 
 ## Repository facts
 
@@ -447,7 +455,7 @@ grep -rn "localStorage\|sessionStorage\|cookie" --include=*.html --include=*.md 
 ```
 
 It names **five third parties**: GitHub Pages, Google Fonts, Cloudflare,
-Web3Forms and Google Calendar, each linked to its own statement. **Adding any
+Web3Forms and Microsoft Bookings, each linked to its own statement. **Adding any
 embed, font, script or analytics tool means adding a row to that table in the
 same commit.** A privacy page that is out of date is worse than none, on a page
 set whose job is establishing that this vendor can be trusted.
