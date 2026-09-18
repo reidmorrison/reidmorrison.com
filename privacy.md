@@ -69,8 +69,8 @@ own statement.
       <td>Only when you press Send on a form</td>
     </tr>
     <tr>
-      <td><a href="https://policies.google.com/privacy">Google Calendar</a></td>
-      <td>Runs the booking page and creates the meeting. Everything from the click onward happens on Google's own page, under Google's terms.</td>
+      <td><a href="https://privacy.microsoft.com/privacystatement">Microsoft Bookings</a></td>
+      <td>Runs the booking page and creates the Microsoft Teams meeting. Everything from the click onward happens on Microsoft's own page, under Microsoft's terms.</td>
       <td>Only when you follow "Book a video call"</td>
     </tr>
   </tbody>

@@ -76,10 +76,24 @@ plugins:
 
 # Video call booking link. Renders a "Book a video call" button on the home
 # page, /services.html, /security.html, /contact.html and /eol/. Empty means no
-# button anywhere and the forms are the only route. A Google Calendar
-# appointment schedule: the meeting name set there becomes the subject line on
-# the prospect's own calendar.
-booking_url: "https://calendar.app.google/wkaaAoqxXj1xoVUQ8"
+# button anywhere and the forms are the only route. The meeting type name set
+# in Bookings becomes the subject line on the prospect's own calendar.
+#
+# MICROSOFT BOOKINGS ("Bookings with me"), the personal page, NOT a shared
+# Bookings page. That choice is what keeps this line legal under the rule that
+# no address appears in the markup: a shared page publishes its mailbox as
+# https://outlook.office365.com/book/<smtp address>/, while the personal page
+# uses the mailbox Exchange GUID, which is not deliverable and names nobody.
+# If this is ever regenerated, check the local part is still a GUID.
+#
+# KEEP EVERY QUERY PARAMETER. `anonymous` is what lets a prospect book without
+# a Microsoft account; drop it and external visitors hit a sign-in wall, which
+# is a silent conversion failure nothing here would catch. The other two come
+# from the share button and are left exactly as Microsoft emitted them.
+#
+# IT NAMES THE MEETING TYPE, so renaming or recreating that meeting type in
+# Bookings breaks every button on the site. Re-share and update this line.
+booking_url: "https://bookings.cloud.microsoft/bookwithme/user/0b339c9eb8654e81981f13c162ccca47@reidmorrison.com/meetingtype/JAXTJezyfUSHWFGRtPoDCg2?anonymous&ismsaljsauthenabled&ep=mlink"
 
 # Web3Forms access key, gating BOTH lead forms: /contact.html and /eol/. While
 # it is empty NEITHER form renders and both pages point at LinkedIn instead,
