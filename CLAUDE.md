@@ -58,23 +58,29 @@ rather than a practice selling a service, that is a bug.
   unavailable, link LinkedIn rather than printing an address.
 - **Do not reintroduce an address anywhere in this repo**, including comments,
   commit messages, and this file. Refer to "the public alias" instead.
-- **`booking_url` holds the one string in this repo shaped like an address, and
-  it is not one.** Microsoft Bookings builds a personal booking link as
-  `<mailbox Exchange GUID>@reidmorrison.com`. The local part is a GUID, so it
-  names nobody and cannot receive mail. It is here rather than the shared
-  Bookings form, which would publish a real mailbox as
-  `outlook.office365.com/book/<smtp address>/` and genuinely break this rule.
-  **Do not "fix" it by removing the link**, and do not let a future re-share
-  swap it for a shared page: check the local part is still a GUID.
-- **The booking host is `outlook.live.com`, and a re-share will silently break
-  it.** Bookings now emits `bookings.cloud.microsoft`, and Safari Private
-  Browsing strips the `anonymous` parameter from any navigation a page starts
-  to that host, so the prospect lands on a Microsoft sign-in page with no guest
-  option. `outlook.office.com` and `outlook.office365.com` fail the same way.
-  Chrome reaches the guest view on every host and Reid's signed-in Safari does
-  too, so **this can only be caught by clicking the button in a Safari private
-  window**. The full test matrix and the re-test procedure are in the comment
-  above `booking_url` in `_config.yml`.
+- **`booking_url` is a Google Calendar appointment link and carries no address.**
+  Microsoft Bookings sits parked in a commented block directly beneath it in
+  `_config.yml`, disabled 2026-09-19 because its verification-code email is
+  rejected outright by iCloud and junked by Gmail, and that code cannot be
+  turned off on a personal booking page. **That parked URL is the one string in
+  this repo shaped like an address, and it is not one**: Microsoft builds a
+  personal booking link as `<mailbox Exchange GUID>@reidmorrison.com`, so the
+  local part names nobody and cannot receive mail. **Do not "fix" it by deleting
+  it.** If booking ever moves back, check the local part is still a GUID, and
+  never accept a shared Bookings page, which publishes a real mailbox as
+  `outlook.office365.com/book/<smtp address>/` and genuinely would break this
+  rule.
+- **If booking ever moves back to Microsoft, the host must be `outlook.live.com`,
+  and a re-share will silently break it.** Bookings now emits
+  `bookings.cloud.microsoft`, and Safari Private Browsing strips the `anonymous`
+  parameter from any navigation a page starts to that host, so the prospect
+  lands on a Microsoft sign-in page with no guest option. `outlook.office.com`
+  and `outlook.office365.com` fail the same way. Chrome reaches the guest view
+  on every host and Reid's signed-in Safari does too, so **this can only be
+  caught by clicking the button in a Safari private window**. The full test
+  matrix and the re-test procedure are in the parked block under `booking_url`
+  in `_config.yml`. The Google link has no query string, so nothing about it is
+  exposed to this failure.
 
 ## Repository facts
 
@@ -464,7 +470,7 @@ grep -rn "localStorage\|sessionStorage\|cookie" --include=*.html --include=*.md 
 ```
 
 It names **five third parties**: GitHub Pages, Google Fonts, Cloudflare,
-Web3Forms and Microsoft Bookings, each linked to its own statement. **Adding any
+Web3Forms and Google Calendar, each linked to its own statement. **Adding any
 embed, font, script or analytics tool means adding a row to that table in the
 same commit.** A privacy page that is out of date is worse than none, on a page
 set whose job is establishing that this vendor can be trusted.
