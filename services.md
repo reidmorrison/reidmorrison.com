@@ -116,9 +116,16 @@ scope.
 
 Quoted from the assessment findings, phase by phase, before any of it starts.
 
+- **No feature freeze.** Your application is tested against its current
+  dependencies and the target ones at the same time, in your own CI, for as long
+  as the upgrade runs. Your team keeps shipping while it happens. The second
+  `Gemfile.lock` is deleted when the last hop lands and CI goes back to a single
+  run. Most teams assume an upgrade means stopping, and that assumption is
+  usually what deferred it.
 - **Single-version hops.** Each one ships to production and soaks before the
   next begins, so a problem traces to one change rather than to a six-month
-  merge.
+  merge. It also means the work can pause between hops without leaving the
+  application half-migrated.
 - **Test coverage raised first**, and delivered as one test-only pull request
   with no production code in it, so your engineers can review it as a unit
   instead of one distraction at a time.
