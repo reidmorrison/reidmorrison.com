@@ -66,6 +66,15 @@ rather than a practice selling a service, that is a bug.
   `outlook.office365.com/book/<smtp address>/` and genuinely break this rule.
   **Do not "fix" it by removing the link**, and do not let a future re-share
   swap it for a shared page: check the local part is still a GUID.
+- **The booking host is `outlook.live.com`, and a re-share will silently break
+  it.** Bookings now emits `bookings.cloud.microsoft`, and Safari Private
+  Browsing strips the `anonymous` parameter from any navigation a page starts
+  to that host, so the prospect lands on a Microsoft sign-in page with no guest
+  option. `outlook.office.com` and `outlook.office365.com` fail the same way.
+  Chrome reaches the guest view on every host and Reid's signed-in Safari does
+  too, so **this can only be caught by clicking the button in a Safari private
+  window**. The full test matrix and the re-test procedure are in the comment
+  above `booking_url` in `_config.yml`.
 
 ## Repository facts
 

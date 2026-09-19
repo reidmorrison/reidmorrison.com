@@ -86,14 +86,49 @@ plugins:
 # uses the mailbox Exchange GUID, which is not deliverable and names nobody.
 # If this is ever regenerated, check the local part is still a GUID.
 #
-# KEEP EVERY QUERY PARAMETER. `anonymous` is what lets a prospect book without
-# a Microsoft account; drop it and external visitors hit a sign-in wall, which
-# is a silent conversion failure nothing here would catch. The other two come
-# from the share button and are left exactly as Microsoft emitted them.
+# `anonymous` IS WHAT LETS A PROSPECT BOOK WITHOUT A MICROSOFT ACCOUNT. Drop it
+# and external visitors hit a sign-in wall, which is a silent conversion failure
+# nothing here would catch.
+#
+# THE HOST IS `outlook.live.com` AND THAT IS DELIBERATE. DO NOT REPLACE IT WITH
+# WHATEVER THE SHARE BUTTON EMITS. Bookings now emits
+# `bookings.cloud.microsoft`, and on that host Safari Private Browsing strips
+# `anonymous` from any navigation a web page starts: an ordinary link click,
+# `target="_blank"`, `location.replace()`, `location.href` and a `<meta
+# http-equiv=refresh>` were each tested and each lost it. Pasting the identical
+# URL into the address bar keeps it. With `anonymous` gone the page boots into
+# the sign-in flow and the visitor lands on login.microsoftonline.com with no
+# guest option at all.
+#
+# Four hosts serve this same booking page. Verified by hand in Safari 27
+# private windows on 2026-09-19, clicking from a local test page:
+#
+#   outlook.live.com        reaches "Continue as guest"
+#   outlook.com             reaches "Continue as guest" (redirects to the above)
+#   outlook.office.com      SIGN-IN WALL
+#   outlook.office365.com   SIGN-IN WALL
+#   bookings.cloud.microsoft  SIGN-IN WALL
+#
+# Nothing in the query string rescues the failing hosts. `anonymous=true`,
+# reordering it, dropping `ismsaljsauthenabled`, dropping `ep=mlink` and
+# `rel="noreferrer"` were all tested and all still hit the wall, so this is a
+# property of the destination host and not of the parameters.
+#
+# THIS FAILS SILENTLY AND IT CANNOT BE CAUGHT FROM A NORMAL BROWSER. Reid's own
+# Safari has a live Microsoft session, so the button works for him while every
+# first-time prospect in a private window is turned away. Chrome reaches the
+# guest view on every host, so Chrome cannot see it either. RE-TEST IN A SAFARI
+# PRIVATE WINDOW, clicking the button rather than pasting the URL, and close
+# every private window first: Safari keeps one private session alive until the
+# last one closes, and an earlier success primes later attempts into passing.
+#
+# The two parameters the share button adds, `ismsaljsauthenabled` and
+# `ep=mlink`, are dropped. They are not needed, and the page appends
+# `ismsaljsauthenabled=true` to its own URL after it boots regardless.
 #
 # IT NAMES THE MEETING TYPE, so renaming or recreating that meeting type in
 # Bookings breaks every button on the site. Re-share and update this line.
-booking_url: "https://bookings.cloud.microsoft/bookwithme/user/0b339c9eb8654e81981f13c162ccca47@reidmorrison.com/meetingtype/JAXTJezyfUSHWFGRtPoDCg2?anonymous&ismsaljsauthenabled&ep=mlink"
+booking_url: "https://outlook.live.com/bookwithme/user/0b339c9eb8654e81981f13c162ccca47@reidmorrison.com/meetingtype/JAXTJezyfUSHWFGRtPoDCg2?anonymous"
 
 # Web3Forms access key, gating BOTH lead forms: /contact.html and /eol/. While
 # it is empty NEITHER form renders and both pages point at LinkedIn instead,
