@@ -22,7 +22,7 @@ Jobs, in priority order:
    valuable page on the site. Everything else exists to make it credible.
 2. **Sell the assessment.** $12,500, two weeks.
 3. **Establish credibility.** The open-source libraries are the proof, not the
-   product: 11 gems, 79M+ downloads, and public commits a prospect can audit
+   product: 11 gems, 81M+ downloads, and public commits a prospect can audit
    before signing. Frame them as evidence of how Reid works, never as a
    portfolio of things he has made.
 4. **Hold a place for future writing.** The blog is scaffolded but empty, and
@@ -1060,7 +1060,7 @@ Deliberately excluded, and listed instead in the "Elsewhere" section of
 
 Counts are hand-maintained and stamped with a verification date in both
 `_data/projects.yml` and the note under the cards on `open-source.md`, currently
-2026-09-08. Refresh before the site is pushed at buyers:
+2026-09-30. Refresh before the site is pushed at buyers:
 
 ```sh
 for g in semantic_logger rails_semantic_logger symmetric-encryption jruby-jms \
@@ -1073,7 +1073,7 @@ done
 
 Update the badge values in `_data/projects.yml` and the date in the note on
 `open-source.md`. The two figures on `about.md` render from the data file and
-follow automatically. **The 79M total is written out in prose in several places
+follow automatically. **The 81M total is written out in prose in several places
 and has to be changed by hand.** The one exception is `images/og/og-open-source.png`,
 which sums the data file itself: re-run `node script/og-cards.mjs` instead of
 editing it.
