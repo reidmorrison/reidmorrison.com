@@ -181,7 +181,9 @@ runs on a commercial account rather than a personal one**, so those are the term
 that apply to it.
 
 **On our managed machine**, the tooling runs against our own account under those
-terms. That is the default.
+terms, so Anthropic's customer is Reid Morrison Inc. Your code is covered by the
+no-training commitment, and everything the tooling produces for you is assigned
+to you in the agreement. That is the default.
 
 **In your tenancy**, it runs under accounts you provision, so it sits within your
 commercial relationship with Anthropic rather than ours. Ask for that and it goes
