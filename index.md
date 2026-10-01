@@ -112,6 +112,15 @@ which your source code is never downloaded at all. Whichever applies goes into
 the agreement rather than being promised in a meeting.
 [How we work with your code]({{ '/security.html' | relative_url }}).
 
+## The same method, two more problems
+
+A system running out of room, on Rails or Elixir, starts with the Scalability
+Assessment: $12,500 fixed, two weeks, measured from your own production
+telemetry. AI tooling that has not moved delivery starts with the Engineering
+Throughput Review, which measures how work actually flows and fixes the
+codebase, the tooling and the workflow around the agents.
+[Both, in full]({{ '/services.html' | relative_url }}#scalability-and-performance-the-scalability-assessment).
+
 ## Who this is for
 
 Mid-market companies in a regulated scope, weighted toward SaaS, healthcare,

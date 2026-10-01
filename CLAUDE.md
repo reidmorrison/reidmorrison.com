@@ -7,12 +7,17 @@ GitHub Pages runs itself.
 ## What this site is for
 
 **This is a commercial site. It is not a personal site and it is not a
-portfolio.** It generates and qualifies leads for an EOL remediation practice
-selling to regulated mid-market companies.
+portfolio.** It generates and qualifies leads for a fixed-price engineering
+practice with three entry points: EOL remediation for regulated mid-market
+companies, which leads and is the reason `/eol/` exists; scalability and
+performance on Rails and Elixir; and AI enablement for engineering teams. The
+last two were added 2026-10-01 and live on `services.md`, not in the nav.
 
-**The buyer is a CTO, CISO or VP Compliance, not a VP Engineering.** The site
-sells the removal of a named compliance finding, not "technical debt". The
-engineer is the internal advocate who forwards the finding, not the signer.
+**For EOL the buyer is a CTO, CISO or VP Compliance, not a VP Engineering**; for
+the two newer lines it can be the CTO or VP Engineering who owns the outage, the
+bill or the seats. Every line sells the removal of a named, measured problem
+with an owner, a budget and a date, never "technical debt". The engineer is the
+internal advocate who forwards the finding, not the signer.
 Every page answers "why should I trust this vendor with a system under audit",
 never "why should I hire this person".
 
@@ -20,7 +25,10 @@ Jobs, in priority order:
 
 1. **Generate qualified leads.** `/eol/` is the lead magnet and the most
    valuable page on the site. Everything else exists to make it credible.
-2. **Sell the assessment.** $12,500, two weeks.
+2. **Sell the assessments.** The Remediation Assessment and the Scalability
+   Assessment, $12,500 each, two weeks. The Engineering Throughput Review is
+   described but **carries no price on any page** until the business repo's
+   `offer-and-pricing.md` publishes one.
 3. **Establish credibility.** The open-source libraries are the proof, not the
    product: 11 gems, 81M+ downloads, and public commits a prospect can audit
    before signing. Frame them as evidence of how Reid works, never as a
@@ -28,7 +36,8 @@ Jobs, in priority order:
 4. **Hold a place for future writing.** The blog is scaffolded but empty, and
    there is no writing index page. Do not invent posts for it.
 
-The business runs out of `~/Documents/Business/eol_remediation`. That folder
+The business runs out of `~/Business/eol_remediation` (moved out of `~/Documents`
+on 2026-09-15). That folder
 holds the strategy and the commercial constraints, and this repo must not
 duplicate any of it.
 
@@ -118,7 +127,9 @@ index.md               Home. Sells the finding.
 services.md            THE product page: the two-step model, the $12,500
                        Remediation Assessment in full, and step two. Renders the
                        control table from _data/eol.yml. Carries
-                       `redirect_from: /assessment.html`.
+                       `redirect_from: /assessment.html`. Since 2026-10-01 also
+                       the Scalability Assessment (priced) and the Engineering
+                       Throughput Review (unpriced).
 privacy.md             Privacy policy. Short, because the site sets no cookies
                        and the only thing measured is page views. Linked from
                        every footer. Changing what a visitor's browser contacts
@@ -367,6 +378,16 @@ re-split:
   and it is why we can hold a fixed price afterwards"), which is why the
   assessment is not a discovery call with an invoice attached.
 - **The long-form deliverable list.**
+
+Added 2026-10-01, with two sections for the newer entry points, and two more
+things that must not be lost, because they are insurance positions rather than
+copy (the business repo's `CLAUDE.md`, "Never do these"):
+
+- **The acceptance rule**: performance work is fixed against a target measured
+  in an agreed environment, and production is reported, never promised. Nothing
+  on this site may promise a response time, a cost saving or a productivity gain.
+- **"It reviews the workflow, never the people"**, in the Throughput Review
+  section and in the second "What we do not do" box.
 
 ## `/security.html` is written to be forwarded, not read
 
