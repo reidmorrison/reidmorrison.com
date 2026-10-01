@@ -1,0 +1,35 @@
+{% comment %}
+  The three entry points, one card each. Included by index.md and services.md,
+  so the two pages a visitor chooses from cannot describe the lines differently.
+
+  Each card names the PROBLEM in the buyer's words, not the service, because the
+  buyer arrives knowing what is wrong and not what it is called. The product
+  name and its price sit at the foot of the card, where someone comparing the
+  three reads them side by side.
+
+  The Engineering Throughput Review carries no price here or anywhere else on
+  the site until offer-and-pricing.md in the business repo publishes one.
+
+  No severity modifier: these are three problems, not three verdicts, so all
+  three take the accent rule via .option--door.
+{% endcomment %}
+<div class="options doors" markdown="0">
+  <a class="option option--door" href="{{ '/remediation.html' | relative_url }}">
+    <p class="verdict">End-of-life remediation</p>
+    <h3>Your framework stopped receiving security patches</h3>
+    <p>Rails or Ruby past end of life, in PCI DSS, SOC 2, HIPAA or ISO 27001 scope, with an audit date, a blocked deal or an unpatched CVE forcing the timeline. We upgrade it to a supported version and hand you the plan your assessor asks for.</p>
+    <p class="door-foot"><span>Remediation Assessment &middot; $12,500</span><span class="door-go">Read more</span></p>
+  </a>
+  <a class="option option--door" href="{{ '/scalability.html' | relative_url }}">
+    <p class="verdict">Scalability and performance</p>
+    <h3>Your system is running out of room</h3>
+    <p>A capacity ceiling, a missed service level, a cloud bill growing faster than your traffic, or a big day on the calendar. We measure where it breaks, on Rails or Elixir, and fix it at a fixed price.</p>
+    <p class="door-foot"><span>Scalability Assessment &middot; $12,500</span><span class="door-go">Read more</span></p>
+  </a>
+  <a class="option option--door" href="{{ '/ai-enablement.html' | relative_url }}">
+    <p class="verdict">AI enablement</p>
+    <h3>Your team has AI tools, and delivery has not moved</h3>
+    <p>Seats bought, pull requests bigger, review slower, nothing shipping faster. We measure how work actually flows and fix the codebase, the tests and the workflow around the agents.</p>
+    <p class="door-foot"><span>Engineering Throughput Review</span><span class="door-go">Read more</span></p>
+  </a>
+</div>

@@ -6,14 +6,15 @@ standfirst: >-
   Tell us what you are running and what is forcing the timeline. Reid reads and
   answers these himself.
 description: >-
-  Get in touch with Reid Morrison Inc. about end-of-life remediation for a
-  Rails application in a regulated environment.
+  Get in touch with Reid Morrison Inc. about end-of-life remediation,
+  scalability and performance on Rails or Elixir, or AI enablement for your
+  engineering team.
 ---
 
 Everything starts with a video call rather than a phone slot, so we can look at
-the same screen. If you already have your `Gemfile.lock` to hand, mention it and
-we will read it before we speak, which makes the first conversation specific
-instead of general.
+the same screen. Tell us which problem brings you here and what is forcing the
+date, and the first conversation is about your system instead of a generic
+pitch.
 
 {% if site.booking_url and site.booking_url != "" %}
 <div class="cta-row" markdown="0">
@@ -42,7 +43,18 @@ Or send the details below and we will come back to you.
   </div>
 
   <div class="field">
-    <label for="rails">Rails version</label>
+    <label for="line">What brings you here?</label>
+    <select id="line" name="line">
+      <option value="">Select or skip</option>
+      <option value="eol">Software past its end of life</option>
+      <option value="performance">A system running out of room</option>
+      <option value="ai">AI tooling that has not moved delivery</option>
+      <option value="other">Something else</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="rails">Rails version, if it applies</label>
     <select id="rails" name="rails_version">
       <option value="">Select or skip</option>
       {% assign versions = site.data.eol.rails | sort: "v" | reverse %}
@@ -62,6 +74,9 @@ Or send the details below and we will come back to you.
       <option value="A penetration test finding">A penetration test finding</option>
       <option value="A specific unpatched CVE">A specific unpatched CVE</option>
       <option value="A transaction or diligence process">A transaction or diligence process</option>
+      <option value="A launch, peak or big day on the calendar">A launch, peak or big day on the calendar</option>
+      <option value="A missed service level or a growing cloud bill">A missed service level or a growing cloud bill</option>
+      <option value="An AI seat renewal or a board review of the rollout">An AI seat renewal or a board review of the rollout</option>
       <option value="Nothing specific yet">Nothing specific yet</option>
     </select>
     <p class="hint">This changes the answer more than the version does.</p>
@@ -88,6 +103,11 @@ Or send the details below and we will come back to you.
 (function () {
   var form = document.getElementById("enquiry");
   if (!form) return;
+  // Arriving from a line page (?line=eol, performance or ai) preselects it.
+  // Read in the browser only; the query string is sent nowhere.
+  var line = new URLSearchParams(location.search).get("line");
+  var lineSelect = document.getElementById("line");
+  if (line && lineSelect.querySelector('option[value="' + line.replace(/[^a-z]/g, "") + '"]')) lineSelect.value = line;
   var status = document.getElementById("status");
 
   form.addEventListener("submit", async function (e) {
@@ -98,7 +118,9 @@ Or send the details below and we will come back to you.
     status.textContent = "Sending...";
 
     var data = Object.fromEntries(new FormData(form));
+    var lineLabel = lineSelect.value ? lineSelect.options[lineSelect.selectedIndex].text : "";
     data.subject = "Enquiry: " + (data.company || "unknown company") +
+                   (lineLabel ? " (" + lineLabel + ")" : "") +
                    (data.rails_version ? " on " + data.rails_version : "");
 
     try {
@@ -130,21 +152,22 @@ meantime.
 
 Two things make a first conversation useful. Neither is a commitment.
 
-**Your `Gemfile.lock`.** The single highest-information file in this
-conversation. It carries your exact Rails and Ruby versions and every
+**The artifact that describes the problem.** For software past its end of life,
+your `Gemfile.lock`: it carries your exact Rails and Ruby versions and every
 dependency, which is what determines whether an upgrade is straightforward or
-structural.
+structural. For a performance problem, a screenshot from your monitoring of the
+moment it hurt. For AI tooling, which tools and plans your team holds.
 
-**What your assessor or your customer actually said.** The specific wording of a
-finding, a security questionnaire, or a blocked deal tells us which control you
-are being measured against, and that decides what the work has to produce.
+**What is forcing the date, in the words of whoever set it.** The wording of an
+audit finding, a security questionnaire, a blocked deal, a service level or a
+board request tells us what the work has to produce.
 
 ## What we will ask you
 
-Which frameworks you are assessed against. What is forcing the date, and how
-firm it is. Who signs, and what they need to see. Whether the application has a
-staging environment, continuous integration, and a test suite you would trust to
-catch a regression.
+What is forcing the date, and how firm it is. Who signs, and what they need to
+see. Which frameworks you are assessed against, if any. Whether the application
+has a staging environment, continuous integration, monitoring, and a test suite
+you would trust to catch a regression.
 
 ## What happens next
 

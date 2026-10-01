@@ -27,8 +27,11 @@
    The mark scales with the viewport the way h1 does, so the bar does not
    read as a thin strip above a 44px page title at full width. The floors are
    the sizes it carried before 2026-09-01 and they are load-bearing: the bar
-   fits on one line down to about 820px at those sizes, and pinning the larger
-   type all the way down pushed the nav onto a second line 60px earlier. */
+   fits on one line down to about 880px at those sizes (820px until
+   2026-10-01, when the sub-line grew from "EOL Remediation" to "Fixed-Price
+   Engineering" and cost 60px; measured, and accepted as the price of a header
+   that names all three lines), and pinning the larger type all the way down
+   pushed the nav onto a second line 60px earlier still. */
 .brand{
   display:inline-flex;align-items:center;gap:clamp(11px,1.1vw,12px);
   line-height:1;text-decoration:none;
