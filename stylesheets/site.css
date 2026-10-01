@@ -317,6 +317,38 @@ tbody tr:last-child td{border-bottom:0}
 .option--warn .verdict{color:var(--warn)}
 .option--ok .verdict{color:var(--ok)}
 
+/* The three doors (_includes/doors.html). The whole card is the link, so a
+   visitor on a phone gets a target the size of the card rather than two words.
+   A column so the product line sits on the same baseline in all three cards
+   however long the description above it runs. */
+.option--door{
+  display:flex;flex-direction:column;
+  border-top-color:var(--accent);color:var(--ink);text-decoration:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.option--door:hover{text-decoration:none;border-color:var(--accent);box-shadow:var(--shadow),0 0 0 1px var(--accent)}
+.option--door .verdict{color:var(--accent)}
+.option--door h3{font-size:18px;line-height:1.3;color:var(--ink)}
+.option--door .door-foot{
+  margin-top:auto;padding-top:12px;border-top:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:4px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;color:var(--ink-3);
+}
+.option--door .door-go{color:var(--accent);font-weight:600}
+.option--door .door-go::after{content:" \2192"}
+.option--door:hover .door-go{text-decoration:underline}
+
+/* The proof row on the home page: three facts a buyer checks before reading
+   anything else. Figures in mono, like the price box, because they are data. */
+.facts{display:grid;gap:16px;margin:0 0 18px}
+@media (min-width:52em){.facts{grid-template-columns:repeat(3,1fr)}}
+.fact{border-left:3px solid var(--rule-2);padding:2px 0 2px 14px}
+.fact-figure{
+  display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:26px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2;
+}
+.fact p{margin:4px 0 0;font-size:14.5px;color:var(--ink-2);max-width:none}
+
 /* --------------------------------------------------------------- price --- */
 
 .price{

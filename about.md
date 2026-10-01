@@ -3,13 +3,14 @@ layout: default
 title: About
 heading: You are buying judgement, not capacity
 standfirst: >-
-  Anyone can point a coding agent at a Rails upgrade. The reason to hire me is
-  twenty years of knowing what breaks, on systems where being wrong was
+  Anyone can point a coding agent at a production system. The reason to hire me
+  is twenty years of knowing what breaks, on systems where being wrong was
   expensive.
 description: >-
   Reid Morrison. Twenty years building regulated production systems: credit
   bureau, healthcare, payments. Author of 11 open-source Ruby libraries with
-  81M+ downloads. Now doing end-of-life remediation full time.
+  81M+ downloads. Now doing fixed-price end-of-life remediation, scalability
+  work and AI enablement full time.
 ---
 
 {% assign logger = site.data.projects | where: "name", "Semantic Logger" | first %}
@@ -18,15 +19,17 @@ description: >-
 <div class="about-intro" markdown="1">
 ![Reid Morrison]({{ '/images/reid-morrison.jpg' | relative_url }}){: class="avatar" }
 
-> I remove end-of-life findings from production Rails applications at regulated
-> companies. Fixed price, delivered in weeks, by the engineer who does the work.
+> I fix named problems in production applications: software past its end of
+> life, systems running out of room, and AI tooling that has not moved delivery.
+> Fixed price, delivered in weeks, by the engineer who does the work.
 </div>
 
 ## Why a buyer should care about experience here
 
-An upgrade under audit is not a technical purchase. You are handing someone
-write access to a system that regulators, customers, or an acquirer are
-currently looking at, and asking them not to break it.
+An upgrade under audit, a system at its capacity ceiling, a team handing work to
+agents: none of these is a technical purchase. You are handing someone write
+access to a system that regulators, customers, or an acquirer are currently
+looking at, and asking them not to break it.
 
 That makes experience the thing you are actually paying for. The market is full
 of people with the same AI tooling I have and none of the scar tissue. The
@@ -82,8 +85,8 @@ and no junior who does the work after the senior wins it. I take two engagements
 at a time so that neither is being fitted around the other.
 
 The trade is honest: I am not the right call for a twelve-team platform
-migration. For one business-critical application that has fallen off supported
-versions and now has a date attached to it, being solo is the feature.
+migration. For one business-critical application with a named problem and a
+date attached to it, being solo is the feature.
 
 **The agreement itself is with {{ site.entity.name }},
 {{ site.entity.form_short }}.** You get me, and you get me from an entity your

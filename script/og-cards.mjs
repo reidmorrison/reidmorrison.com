@@ -68,10 +68,31 @@ const millions = downloadTotalMillions();
 const cards = [
   {
     file: "og-default.png",
+    eyebrow: "End of life · Scalability · AI enablement",
+    headline: "Fixed-price engineering for production software with a deadline.",
+    foot: "Two-week fixed-price assessment · then the work, fixed",
+    url: "reidmorrison.com",
+  },
+  {
+    file: "og-remediation.png",
     eyebrow: "PCI DSS · SOC 2 · HIPAA · ISO 27001",
     headline: "Your Rails version is an audit finding. We close it at a fixed price.",
     foot: "Remediation Assessment · $12,500 fixed · two weeks",
-    url: "reidmorrison.com",
+    url: "reidmorrison.com/remediation",
+  },
+  {
+    file: "og-scalability.png",
+    eyebrow: "Scalability and performance · Rails and Elixir",
+    headline: "Find where your system breaks before your busiest day does.",
+    foot: "Scalability Assessment · $12,500 fixed · two weeks",
+    url: "reidmorrison.com/scalability",
+  },
+  {
+    file: "og-ai-enablement.png",
+    eyebrow: "AI enablement for engineering teams",
+    headline: "Your team has the AI tools. Delivery has not moved.",
+    foot: "Engineering Throughput Review · two weeks, fixed price",
+    url: "reidmorrison.com/ai-enablement",
   },
   {
     file: "og-eol.png",
@@ -84,7 +105,7 @@ const cards = [
     file: "og-services.png",
     eyebrow: "How an engagement works",
     headline: "Two steps. Both at a fixed price.",
-    foot: "Assessment $12,500 fixed · upgrade quoted from its findings",
+    foot: "Assessment $12,500 fixed · the work quoted from its findings",
     url: "reidmorrison.com/services",
   },
   {
@@ -146,7 +167,7 @@ function html({ eyebrow, headline, foot, url }) {
   .foot .url{color:${C.accent}}
 </style></head>
 <body><div class="card">
-  <div class="brand">${shield}<span class="brand-type"><span class="brand-name">Reid Morrison</span><span class="brand-sub">EOL Remediation</span></span></div>
+  <div class="brand">${shield}<span class="brand-type"><span class="brand-name">Reid Morrison</span><span class="brand-sub">Fixed-Price Engineering</span></span></div>
   <div class="body">
     <p class="eyebrow">${escape(eyebrow)}</p>
     <h1>${escape(headline)}</h1>

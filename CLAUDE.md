@@ -9,9 +9,24 @@ GitHub Pages runs itself.
 **This is a commercial site. It is not a personal site and it is not a
 portfolio.** It generates and qualifies leads for a fixed-price engineering
 practice with three entry points: EOL remediation for regulated mid-market
-companies, which leads and is the reason `/eol/` exists; scalability and
-performance on Rails and Elixir; and AI enablement for engineering teams. The
-last two were added 2026-10-01 and live on `services.md`, not in the nav.
+companies, which is the reason `/eol/` exists; scalability and performance on
+Rails and Elixir; and AI enablement for engineering teams. The last two were
+added 2026-10-01.
+
+**The site leads with the firm, then lets the visitor choose a door** (decided
+2026-10-01, reversing an earlier draft that kept the home page EOL-led and
+tucked the new lines into `services.md`). The home page says what the firm does,
+for whom and why it is different, then shows three cards, one per problem, each
+linking to that line's own page: `remediation.md`, `scalability.md`,
+`ai-enablement.md`. `services.md` is the hub for what the three share. `/eol/`
+stays the EOL tool and is not generalised. No page above the line pages may
+read as EOL-only, and the wordmark sub-line names what all three share.
+The research behind the order: buyers of professional services check the site
+to decide what kind of firm this is, rule most providers out without talking to
+them, and rank expertise and past performance highest (Hinge Research
+Institute); multi-line Rails firms (Test Double, Evil Martians) lead with the
+firm and route by service card, single-line ones (FastRuby, Speedshop) lead with
+the problem.
 
 **For EOL the buyer is a CTO, CISO or VP Compliance, not a VP Engineering**; for
 the two newer lines it can be the CTO or VP Engineering who owns the outage, the
@@ -23,8 +38,9 @@ never "why should I hire this person".
 
 Jobs, in priority order:
 
-1. **Generate qualified leads.** `/eol/` is the lead magnet and the most
-   valuable page on the site. Everything else exists to make it credible.
+1. **Generate qualified leads.** The home page routes each visitor to the line
+   page for their problem. `/eol/` is the EOL line's lead magnet and still the
+   most valuable single page.
 2. **Sell the assessments.** The Remediation Assessment and the Scalability
    Assessment, $12,500 each, two weeks. The Engineering Throughput Review is
    described but **carries no price on any page** until the business repo's
@@ -123,13 +139,20 @@ _layouts/default.html  Shared shell: sticky top bar, page title, footer.
                        their own title as a leading heading.
 _layouts/post.html     Blog post wrapper. Date line, then content.
 _posts/                Empty. Blog scaffold only, with no index page.
-index.md               Home. Sells the finding.
-services.md            THE product page: the two-step model, the $12,500
-                       Remediation Assessment in full, and step two. Renders the
-                       control table from _data/eol.yml. Carries
-                       `redirect_from: /assessment.html`. Since 2026-10-01 also
-                       the Scalability Assessment (priced) and the Engineering
-                       Throughput Review (unpriced).
+index.md               Home. Sells the firm, then the three doors.
+services.md            The hub: the two-step method, the guarantee and the
+                       terms all three lines share, both "What we do not do"
+                       boxes, and the doors again.
+remediation.md         EOL line page. The finding, the Ruby/Rails trap, the
+                       $12,500 Remediation Assessment in full, the control
+                       table from _data/eol.yml, the upgrade. Carries
+                       `redirect_from: /assessment.html`.
+scalability.md         Performance line page. The $12,500 Scalability
+                       Assessment and the fix phase.
+ai-enablement.md       AI line page. The Engineering Throughput Review,
+                       UNPRICED, and the change phase.
+_includes/doors.html   The three cards, included by index.md and services.md
+                       so the two cannot describe the lines differently.
 privacy.md             Privacy policy. Short, because the site sets no cookies
                        and the only thing measured is page views. Linked from
                        every footer. Changing what a visitor's browser contacts
@@ -213,8 +236,12 @@ Three consequences:
 
 ### The wordmark
 
-Typographic: "Reid Morrison" in Spectral 700, "EOL Remediation" in letterspaced
-mono in the accent colour, over a **2px rule**, with the shield to its left.
+Typographic: "Reid Morrison" in Spectral 700, "Fixed-Price Engineering" in
+letterspaced mono in the accent colour, over a **2px rule**, with the shield to
+its left. The sub-line read "EOL Remediation" until 2026-10-01; it names what
+all three lines share, and must never again name only one of them. The `/eol/`
+print letterhead keeps "EOL Remediation", because that document is an EOL
+finding.
 
 That rule is the point. It is the same device that sits under every page title,
 so the mark reads as part of this site rather than something dropped onto it.
@@ -269,7 +296,7 @@ live text in Spectral, not a path, so it needs a browser to rasterise.
 
 ### The link preview cards
 
-`images/og/`, five 1200x630 PNGs, built by `script/og-cards.mjs`:
+`images/og/`, eight 1200x630 PNGs, built by `script/og-cards.mjs`:
 
 ```sh
 node script/og-cards.mjs   # from the repository root
@@ -282,7 +309,10 @@ defaults `image` for every page; `services.md`, `security.md` and
 it carries its own shell and never runs `{% seo %}`.
 
 - **One card per page that gets shared on its own**, not one card for the site.
-  Those four are the media links on the LinkedIn services page, and four
+  The default card carries the firm's headline since 2026-10-01; the old EOL
+  headline moved to `og-remediation.png`, beside `og-scalability.png` and
+  `og-ai-enablement.png`. Services, security, open source and `/eol/` are the
+  media links on the LinkedIn services page, and four
   identical previews stacked in one section reads as a placeholder.
 - **The card's headline is the page's own h1, or a compression of it.** A card
   that promises something the page does not is noticed within a second of
@@ -366,10 +396,16 @@ The regulated-systems history is evidence for that argument, not a career
 summary. It carries no "Find me" list; GitHub and LinkedIn are in every footer,
 and the page ends on a call to action.
 
-### `services.md`
+### The line pages (`remediation.md`, `scalability.md`, `ai-enablement.md`)
 
-Absorbed the old assessment page, and these three must not be lost if it is ever
-re-split:
+Each sets `nav_parent: services.html`, so "Services" stays lit in the bar, and
+each has its own link preview card. Each CTA links `/contact.html?line=eol`,
+`performance` or `ai`, which preselects the form's "What brings you here?"
+field in the browser.
+
+`remediation.md` holds what `services.md` held for EOL until 2026-10-01 (the
+old assessment page before that), and these three must not be lost if it is
+ever re-split:
 
 - **The controls table**, rendered from `site.data.eol.controls`. Those are the
   eight verified citations and they are the compliance wedge. `/eol/` is the
@@ -379,15 +415,15 @@ re-split:
   assessment is not a discovery call with an invoice attached.
 - **The long-form deliverable list.**
 
-Added 2026-10-01, with two sections for the newer entry points, and two more
-things that must not be lost, because they are insurance positions rather than
-copy (the business repo's `CLAUDE.md`, "Never do these"):
+Two more things must not be lost, on `scalability.md`, `ai-enablement.md` and
+the second "What we do not do" box on `services.md`, because they are insurance
+positions rather than copy (the business repo's `CLAUDE.md`, "Never do these"):
 
 - **The acceptance rule**: performance work is fixed against a target measured
   in an agreed environment, and production is reported, never promised. Nothing
   on this site may promise a response time, a cost saving or a productivity gain.
-- **"It reviews the workflow, never the people"**, in the Throughput Review
-  section and in the second "What we do not do" box.
+- **"It reviews the workflow, never the people"**, on `ai-enablement.md` and
+  in the second "What we do not do" box.
 
 ## `/security.html` is written to be forwarded, not read
 
@@ -1025,15 +1061,16 @@ when a Rails series raises its `max`, with no change here.
 
 ## The nav
 
-No "Home" item: the wordmark is the home link. The order is EOL Check, Services,
-Security, Open Source, About, then Contact as the outlined call to action.
+No "Home" item: the wordmark is the home link. The order is Services, EOL
+Check, Security, Open Source, About, then Contact as the outlined call to
+action. Services leads since 2026-10-01 so the bar does not read as one line.
 
-`topbar.css` records that the bar holds one line down to about 820px at the
-floor sizes, and that budget is spent: **adding another nav item means removing
-one.**
+`topbar.css` records that the bar holds one line down to about 880px at the
+floor sizes (820px before the sub-line grew on 2026-10-01), and that budget is
+spent: **adding another nav item means removing one.**
 
-There is no sub-page under any nav item. If one is ever added, reintroduce a
-`nav_parent` front-matter key rather than growing the bar.
+The three line pages sit under Services through the `nav_parent` front-matter
+key, rather than growing the bar.
 
 ## The footer
 

@@ -5,13 +5,13 @@
 
   There is no "Home" item: the wordmark is the home link, which is the usual
   convention and the only way a sixth destination fits. topbar.css records that
-  the bar holds one line down to about 820px at the floor sizes, and that budget
+  the bar holds one line down to about 880px at the floor sizes, and that budget
   is spent. Adding another nav item means removing one.
 
   "Services" took the "Assessment" slot on 2026-09-03 under exactly that rule,
   and later the same day /assessment.html was folded into /services.html
-  outright, so there is no sub-page under this item and no need for the
-  nav-parent mechanism that briefly existed here.
+  outright. Since 2026-10-01 Services has three sub-pages again, one per line,
+  lit through `nav_parent` (below).
 
   The wordmark stays typographic: the 2px rule under the name is the same
   device that sits under every page title, so the mark reads as part of this
@@ -22,18 +22,28 @@
   and one file serves both themes. topbar.css sets those variables with the
   same three-state pattern the colour tokens use. It is aria-hidden: the
   adjacent text already names the link.
+
+  The sub-line read "EOL Remediation" until 2026-10-01, when the practice took
+  on two more lines and the header could no longer name only one. It now names
+  what all three share. /eol/ keeps "EOL Remediation" on its print letterhead,
+  because that document is an EOL finding.
+
+  The three line pages (remediation, scalability, ai-enablement) set
+  `nav_parent: services.html` in their front matter, so "Services" stays lit
+  while a visitor is inside one of them. Services leads the nav for the same
+  reason the home page leads with the firm: the bar must not read as one line.
 {% endcomment %}
 {% assign current_page = page.name | replace: '.md', '.html' %}
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="{{ '/index.html' | relative_url }}">
       {% include logo-mark.svg %}
-      <span class="brand-type"><span class="brand-name">Reid Morrison</span><span class="brand-sub">EOL Remediation</span></span>
+      <span class="brand-type"><span class="brand-name">Reid Morrison</span><span class="brand-sub">Fixed-Price Engineering</span></span>
     </a>
-    {% assign nav_items = "/eol/=EOL Check,services.html=Services,security.html=Security,open-source.html=Open Source,about.html=About" | split: ',' %}
+    {% assign nav_items = "services.html=Services,/eol/=EOL Check,security.html=Security,open-source.html=Open Source,about.html=About" | split: ',' %}
     <nav class="nav">
       {% for item in nav_items %}{% assign pair = item | split: '=' %}
-      <a href="{{ pair[0] | relative_url }}"{% if pair[0] == current_page or pair[0] == page.url %} class="active" aria-current="page"{% endif %}>{{ pair[1] }}</a>
+      <a href="{{ pair[0] | relative_url }}"{% if pair[0] == current_page or pair[0] == page.url %} class="active" aria-current="page"{% elsif pair[0] == page.nav_parent %} class="active" aria-current="true"{% endif %}>{{ pair[1] }}</a>
       {% endfor %}
       <a href="{{ '/contact.html' | relative_url }}" class="nav-cta{% if current_page == 'contact.html' %} active{% endif %}">Contact</a>
     </nav>

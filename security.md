@@ -18,8 +18,9 @@ description: >-
   handling and offboarding, and the AI tooling terms in full.
 ---
 
-An upgrade under audit means giving an outside party write access to a system
-your assessor is already looking at. That is a risk decision before it is a
+Engineering work on a production system means giving an outside party write
+access to something your customers, and often your assessor, are already
+looking at. That is a risk decision before it is a
 technical one, and for a small vendor it is usually the slowest part of getting
 started.
 
@@ -170,7 +171,7 @@ endpoint anyway.
 
 ## AI tooling
 
-The upgrade work is AI-assisted, and that is disclosed in the agreement rather
+The work is AI-assisted, and that is disclosed in the agreement rather
 than left for you to discover. The tooling is **Claude and Claude Code**, from
 Anthropic.
 
@@ -207,7 +208,7 @@ If neither route is open to you, the virtual desktop posture is not available an
 the work runs under one of the other two instead. That is a decision about
 posture, not a reason to stop.
 
-The failure mode with these tools on a production upgrade is not that they are
+The failure mode with these tools on a production system is not that they are
 too slow. It is that they are too fast. The control that matters is not the
 tooling's terms of service, it is knowing which step happens first and how
 little to change in any one iteration. [How that is delivered]({{ '/services.html' | relative_url }}).
