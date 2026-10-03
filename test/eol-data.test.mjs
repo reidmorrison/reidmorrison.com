@@ -96,7 +96,7 @@ test("every control citation is complete", () => {
 
 test("no control regresses to a citation that has already been wrong once", () => {
   /* Not expectations, which belong in the data file: these are the four
-     specific errors CLAUDE.md records as recurring. PCI DSS 4.0 was retired on
+     specific errors .claude/rules/eol.md records as recurring. PCI DSS 4.0 was retired on
      2024-12-31, and the other three name the wrong control for the claim made
      alongside it. */
   const known = [

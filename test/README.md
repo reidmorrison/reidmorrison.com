@@ -33,7 +33,7 @@ than on an edit:
 - The 90 day warning window, in `eol-calculator.test.mjs`. That threshold is the
   page's, not the data's.
 - The three citation errors in `eol-data.test.mjs`, which assert that a control
-  is **not** one of the wrong values CLAUDE.md records as recurring.
+  is **not** one of the wrong values `.claude/rules/eol.md` records as recurring.
 - The 45 day staleness limit in `eol-freshness.test.mjs`. That one is a
   statement about the refresh rather than about the data: it is derived from how
   long `rubysec/ruby-advisory-db` can legitimately sit still, which is 27 days
