@@ -52,10 +52,14 @@ Jobs, in priority order:
 4. **Hold a place for future writing.** The blog is scaffolded but empty, and
    there is no writing index page. Do not invent posts for it.
 
-The business runs out of `~/Business/eol_remediation` (moved out of `~/Documents`
+The business runs out of `~/Business/reid_morrison_inc` (moved out of `~/Documents`
 on 2026-09-15). That folder
 holds the strategy and the commercial constraints, and this repo must not
-duplicate any of it.
+duplicate any of it. What the two repos share about the site (the procurement
+line, the open-source counts, the booking test, the `/eol/` rules) lives in one
+file both read:
+
+@.claude/business-context.md
 
 `title`, `tagline` and `description` in `_config.yml` are read by
 `jekyll-seo-tag` for every page, so they decide how the site appears in search
@@ -64,11 +68,10 @@ rather than a practice selling a service, that is a bug.
 
 ### Open work
 
-- **The rest of the procurement line**, on `/security` and `/contact`. The W-9
-  sentence went live 2026-09-09; the certificate of insurance waits on E&O being
-  bound, and the D-U-N-S number until D&B issues it, at which point it is
-  published as a row on `/security` rather than offered on request. An HTML
-  comment on both pages holds the detail, and each points at the other.
+- **The certificate of insurance**, on `/security` and `/contact`, waits on E&O
+  being bound. The rest of the procurement line has shipped; see "The
+  procurement line" in `.claude/business-context.md`. An HTML comment on both
+  pages holds the detail, and each points at the other.
 - ~~A `Gemfile.lock` drop zone on `/eol/`~~ **Shipped 2026-09-09**, with the
   advisory matching that made it worth building. See "The `Gemfile.lock` drop
   zone" below. What is left is operational: re-run `script/advisories.mjs` on a
