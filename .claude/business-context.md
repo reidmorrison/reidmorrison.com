@@ -56,5 +56,4 @@ appointment schedule with Google Meet; the parked Microsoft block under
 
 Two rules, both load-bearing for the business as well as the page: **no per-gem
 rubygems.org calls, ever**, and the page **always says it is not a
-vulnerability scan**. Detail under "The EOL exposure check at `/eol/`" in this
-repo's `CLAUDE.md`.
+vulnerability scan**. Detail in this repo's `.claude/rules/eol.md`.
