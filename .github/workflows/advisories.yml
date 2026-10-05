@@ -23,12 +23,18 @@ name: Refresh gem advisories
 
 on:
   schedule:
-    # Mondays and Thursdays at 12:07 UTC, which is 08:07 in St. Petersburg on
-    # daylight time and 07:07 in winter. Cron has no notion of daylight saving
-    # and neither does this comment: a few minutes either way does not matter
-    # here. Off the hour deliberately: GitHub's own docs warn that on-the-hour
-    # schedules queue behind the platform's heaviest load and can be delayed
-    # or dropped outright, which is what happened to the 2026-09-14 run.
+    # Sundays and Wednesdays at 23:37 UTC, which is 19:37 in St. Petersburg
+    # on daylight time and 18:37 in winter: the evening before the Monday and
+    # Thursday the pull request is meant to be read. Cron has no notion of
+    # daylight saving and neither does this comment.
+    #
+    # THE EVENING BEFORE, because a scheduled run does not start when it is
+    # scheduled. Runs here have started many hours late, and the 2026-09-14
+    # run was dropped outright. Firing at 23:37 UTC leaves more than twelve
+    # hours of slack before the morning the pull request is reviewed, where
+    # the old 12:07 UTC slot left none. Off the hour and the half hour
+    # deliberately: GitHub's own docs warn that schedules there queue behind
+    # the platform's heaviest load.
     #
     # TWICE A WEEK RATHER THAN WEEKLY, measured 2026-09-18 against five years
     # of rubysec/ruby-advisory-db. Upstream touches gems/ on 140 days a year,
@@ -44,7 +50,7 @@ on:
     # itself, whose median lag from an advisory's own date to the file
     # appearing upstream is 2 days, with a third of them taking more than a
     # week.
-    - cron: "7 12 * * 1,4"
+    - cron: "37 23 * * 0,3"
   workflow_dispatch:
 
 permissions:
@@ -137,6 +143,9 @@ jobs:
             echo "Rebuilt by \`.github/workflows/advisories.yml\`. The comparison is on the"
             echo "advisories themselves, so a run in which nothing changed opens no pull"
             echo "request at all. Regenerate locally with \`node script/advisories.mjs\`."
+            echo
+            # The bot opens this, so nobody is notified unless named here.
+            echo "cc @reidmorrison"
           } > "$RUNNER_TEMP/body.md"
 
           if gh pr view "$branch" --json state --jq .state 2>/dev/null | grep -qx OPEN; then

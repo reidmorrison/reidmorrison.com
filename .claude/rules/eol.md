@@ -66,18 +66,25 @@ directly, and Back has to bring the notice with it.
 node script/advisories.mjs   # from the repository root, then commit the JSON
 ```
 
-**It re-runs itself**, via `.github/workflows/advisories.yml`, **Mondays and
-Thursdays at 12:07 UTC**, plus a `workflow_dispatch` button. It rebuilds, runs
+**It re-runs itself**, via `.github/workflows/advisories.yml`, **Sundays and
+Wednesdays at 23:37 UTC**, plus a `workflow_dispatch` button. It rebuilds, runs
 the suite, and opens a pull request for review rather than pushing: what changes
 is a claim this practice makes in front of a compliance reader, so somebody
-looks at it.
+looks at it. The body ends `cc @reidmorrison`, because a pull request the bot
+opens notifies nobody otherwise.
+
+**It fires the evening before the review, not the morning of** (changed
+2026-10-05). GitHub starts scheduled runs many hours late under load, and has
+dropped one outright (2026-09-14), so the old 12:07 UTC slot routinely landed
+after the morning it was meant for. 23:37 UTC leaves more than twelve hours of
+slack before a Monday or Thursday morning in Florida.
 
 **Twice a week, and the interval was measured rather than picked** (changed from
 weekly 2026-09-18, against five years of `rubysec/ruby-advisory-db`). Upstream
 touches `gems/` on 140 days a year, in 87% of weeks, so weekly already opened a
 pull request most weeks. What weekly cost was latency: an advisory against a gem
-a Rails lockfile actually pins waited 4.4 days on average and up to 7. Monday
-and Thursday halves that to 2.7 and caps it at 4, for roughly 62 pull requests a
+a Rails lockfile actually pins waited 4.4 days on average and up to 7. Two runs a week
+halves that to 2.7 and caps it at 4, for roughly 62 pull requests a
 year against 40.
 
 **Daily was rejected, and the reason is the review.** It would reach about 95
