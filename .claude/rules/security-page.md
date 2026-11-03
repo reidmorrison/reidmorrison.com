@@ -15,10 +15,13 @@ nothing may be added that has not been through the same check. It is the one
 page where a plausible guess is a liability rather than a placeholder, because a
 reviewer will hold the company to it and an auditor may read it. The facts:
 
-- Company-owned Mac, full-disk encryption, automatic screen lock, enrolled in
-  **Apple Business Manager** and centrally managed with **Mosyle**. Client work
-  never touches a personal device. The page says "centrally managed" rather than
-  naming Mosyle, because the vendor can change and the control cannot.
+- Company-owned Mac, full-disk encryption, automatic screen lock, **endpoint
+  detection and response**, enrolled in **Apple Business** and centrally managed
+  with **Microsoft Intune** (Mosyle until 2026-10-22). EDR is **Microsoft Defender
+  for Business**, reported healthy 2026-11-03. Client work never touches a
+  personal device. The page says "centrally managed" and "endpoint detection and
+  response" rather than naming Intune or Defender, because the vendor can change
+  and the control cannot.
 - MFA on every account that can reach client code, **passkeys wherever
   supported**, unique credentials in a password manager, no shared logins.
 - **Client code: destroyed at close-out, confirmed in writing, and excluded from

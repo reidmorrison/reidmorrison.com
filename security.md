@@ -42,7 +42,7 @@ offshore delivery team.
     <tr><td>What is kept afterwards</td><td>On your virtual desktop, nothing is downloaded in the first place. Otherwise working copies are destroyed at close-out and confirmed to you in writing.</td></tr>
     <tr><td>Backups</td><td>The directory holding client code is excluded from every backup, so deletion at close-out is final rather than deferred.</td></tr>
     <tr><td>Who does the work</td><td>One named engineer, throughout. No subcontractors, no offshore delivery, no bench.</td></tr>
-    <tr><td>Devices</td><td>Company-owned Mac. Full-disk encryption, automatic screen lock, enrolled in Apple Business Manager and centrally managed. Client work never touches a personal device.</td></tr>
+    <tr><td>Devices</td><td>Company-owned Mac. Full-disk encryption, automatic screen lock, endpoint detection and response, enrolled in Apple Business and centrally managed. Client work never touches a personal device.</td></tr>
     <tr><td>Accounts</td><td>Multi-factor authentication on every account that can reach your code, passkeys wherever supported, unique credentials in a password manager, no shared logins.</td></tr>
     <tr><td>Access</td><td>Issued by you, to a named individual, at the least privilege the phase needs. Revoked by you at close-out.</td></tr>
     <tr><td>Production changes</td><td>Through your own deployment and change process, never around it.</td></tr>
@@ -153,10 +153,11 @@ than left to somebody remembering.
 ## Our machine, and our accounts
 
 **One company-owned Mac.** Full-disk encryption is on, the screen locks
-automatically, and the machine is enrolled in Apple Business Manager and
-centrally managed with Mosyle, which enforces that policy and keeps the
-operating system current. It is a managed device rather than a personal laptop
-with good intentions. **Client work never touches a personal or family device.**
+automatically, and the machine is enrolled in Apple Business and centrally
+managed, which enforces that policy and keeps the operating system current.
+Endpoint detection and response runs on it, deployed and configured by the same
+management rather than installed by hand. It is a managed device rather than a
+personal laptop with good intentions. **Client work never touches a personal or family device.**
 
 **Multi-factor authentication on every account that can reach your code or your
 credentials**, including source control, mail and the AI tooling. Passkeys are
