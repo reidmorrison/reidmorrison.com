@@ -33,9 +33,9 @@ redirect_from: /assessment.html
 </div>
 
 Rails {{ r72.v }} stopped receiving security patches on
-{{ r72.eol | date: "%-d %B %Y" }}. Rails {{ r80.v }} follows on
-{{ r80.eol | date: "%-d %B %Y" }}, and after that Rails
-{{ site.data.eol.target_rails }} is the only series still receiving them. Ruby
+{{ r72.eol | date: "%-d %B %Y" }}, and Rails {{ r80.v }} followed on
+{{ r80.eol | date: "%-d %B %Y" }}. Rails {{ site.data.eol.target_rails }} is
+now the only series receiving them. Ruby
 {{ ruby32.v }} went end of life on {{ ruby32.eol | date: "%-d %B %Y" }}.
 
 If you are assessed against PCI DSS, SOC 2, HIPAA or ISO 27001, that is not a
