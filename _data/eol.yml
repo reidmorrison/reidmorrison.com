@@ -12,6 +12,8 @@
 #   Controls         PCI DSS v4.0.1,
 #                    SOC 2 Trust Services Criteria, 45 CFR Part 164,
 #                    ISO/IEC 27001:2022
+#   Rails CI         https://github.com/rails/buildkite-config (Rails 8.1's
+#                    max, and nothing else; see `max` below)
 #
 # One non-vendor source, feeding `max` and nothing else:
 #   Version ceilings https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
@@ -53,9 +55,19 @@
 #             Rails publishes a minimum Ruby, never a maximum. Their CI
 #             max_ruby is three coarse buckets (< 6.1 -> 2.7, < 8 -> 3.3,
 #             then none), which would call 4.2 good on 2.7 and leave 8.x
-#             uncapped, so it is not usable here.
+#             uncapped, so it is not usable as the general rule.
+#
+#             The one exception is Rails 8.1, which reads 4.0 where FastRuby
+#             still recommends 3.4 (their table has no Ruby 4.0 entry as of
+#             2026-11-17). Two things support it. For 8.x, Rails CI tests
+#             every Ruby minor from the gemspec floor upward, so a failure on
+#             4.0 counts. And 8.1.3 shipped fixes written specifically for
+#             Ruby 4.0. Rails 8.0 keeps FastRuby's 3.4: it reached end of
+#             life 2026-11-07, so nobody should adopt a new Ruby on it, and
+#             there is no 4.0-specific work to point to. Return to
+#             FastRuby for 8.1 once their table covers 4.0.
 
-verified: "2026-09-08"
+verified: "2026-11-17"
 
 target_rails: "8.1"
 target_ruby: "3.4"
@@ -80,7 +92,8 @@ rails:
   - { v: "8.0", released: "2024-11-07", eol: "2026-11-07", min: "3.2", max: "3.4" }
   # Announced 2027-10-10. The formula would say 2027-10-22 from the RubyGems
   # date; Rails dates the series from 2025-10-10.
-  - { v: "8.1", released: "2025-10-22", eol: "2027-10-10", min: "3.2", max: "3.4" }
+  # max 4.0 comes from Rails CI, not FastRuby; see `max` above.
+  - { v: "8.1", released: "2025-10-22", eol: "2027-10-10", min: "3.2", max: "4.0" }
 
 # `released` and `eol` come from the branches.json block on the ruby-lang.org
 # branches page.

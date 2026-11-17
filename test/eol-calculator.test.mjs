@@ -51,9 +51,8 @@ test("every version is dated from the data file and counted from today", async (
   for (const [kind, rec] of cases) {
     await t.test(`${kind} ${rec.v}`, () => {
       /* Pair each version with one it actually runs with where the data file
-         offers one. Some rows have no partner at all: Rails 4.2 caps Ruby
-         below the oldest series listed, and Ruby 4.0 sits above every ceiling.
-         Both versions are still dated and counted on their own, which is what
+         offers one. A row can have no partner at all: Rails 4.2 caps Ruby
+         below the oldest series listed. Such versions are still dated and counted on their own, which is what
          this checks, so those rows fall back to any partner. */
       const partner = kind === "Rails"
         ? data.ruby.find((u) => runs(rec, u.v)) ?? data.ruby[0]
@@ -129,7 +128,10 @@ test("the upgrade ladder obeys the compatibility rules in the data file", async 
       }
 
       assert.equal(rails, data.target_rails, "the ladder ends on the target Rails");
-      assert.equal(ruby, data.target_ruby, "the ladder ends on the target Ruby");
+      /* A Ruby already above the target (Ruby 4.0 on Rails 8.1, against a 3.4
+         target) is left where it is: the page never recommends a downgrade. */
+      const endRuby = cmp(uv, data.target_ruby) > 0 ? uv : data.target_ruby;
+      assert.equal(ruby, endRuby, "the ladder ends on the target Ruby, or stays above it");
     });
   }
 });

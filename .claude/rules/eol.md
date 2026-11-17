@@ -252,8 +252,11 @@ Version tables, target versions and the eight control citations render from
 `_data/eol.yml` through `jsonify`. Change the dates there and the tool changes
 with no JavaScript edit.
 
-**Re-verify before any campaign. The next scheduled change is Rails 8.0 reaching
-end of life 2026-11-07**, which alters what the tool says. Bump `verified:` when
+**Re-verify before any campaign. The next scheduled change is Ruby 3.3 reaching
+end of life 2027-03-31** (expected, not yet fixed by ruby-core), which alters
+what the tool says. After that, Rails 8.1 on 2027-10-10. When it passes, the
+sentence in `remediation.md` naming `target_rails` as the only supported
+series needs rewriting too, since it is prose and not computed. Bump `verified:` when
 you check; the footer date reads from it, so the page cannot claim a
 verification that did not happen.
 
@@ -488,9 +491,11 @@ oldest series on offer cannot produce a finding at all. Do not prune them for
 looking obsolete: an application still on Rails 4.2 is the most exposed reader
 this page has.
 
-**Ruby 4.0 has no compatible Rails, and that is correct.** It sits above every
-series ceiling because no Rails release supports it. It stops being an orphan
-when a Rails series raises its `max`, with no change here.
+**Ruby 4.0 pairs only with Rails 8.1**, since 2026-11-17. That ceiling comes
+from Rails' own CI and its Ruby 4.0 fixes, not from the FastRuby table, which
+had no 4.0 entry then; the comment above `max` in `_data/eol.yml` holds the
+reasoning. `target_ruby` stays 3.4 deliberately: a regulated upgrade should
+land on the more conservative supported Ruby until 4.0 has a longer record.
 
 ## The elapsed counter is the signature element
 

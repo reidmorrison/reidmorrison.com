@@ -157,7 +157,7 @@ permalink: /eol/
 </div>
 
 <footer class="eol-footer">
-  <p><strong>Sources.</strong> Rails end-of-life dates from the <a href="https://guides.rubyonrails.org/maintenance_policy.html">Rails maintenance policy</a> and the <a href="https://rubyonrails.org/maintenance">supported versions</a> and end-of-support announcements published on rubyonrails.org; Rails release dates from <a href="https://rubygems.org/gems/rails/versions">RubyGems</a>. Ruby dates from the <a href="https://www.ruby-lang.org/en/downloads/branches/">Ruby maintenance branches</a>. Verified {{ site.data.eol.verified | date: "%-d %B %Y" }}. Version compatibility from the <a href="https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html">FastRuby compatibility table</a>. Gem advisories from <a href="https://github.com/rubysec/ruby-advisory-db">rubysec/ruby-advisory-db</a>, the database <code>bundler-audit</code> reads, matched the way it matches them. Control references are to PCI DSS v4.0.1, the SOC 2 Trust Services Criteria, 45 CFR Part 164, and ISO/IEC 27001:2022.</p>
+  <p><strong>Sources.</strong> Rails end-of-life dates from the <a href="https://guides.rubyonrails.org/maintenance_policy.html">Rails maintenance policy</a> and the <a href="https://rubyonrails.org/maintenance">supported versions</a> and end-of-support announcements published on rubyonrails.org; Rails release dates from <a href="https://rubygems.org/gems/rails/versions">RubyGems</a>. Ruby dates from the <a href="https://www.ruby-lang.org/en/downloads/branches/">Ruby maintenance branches</a>. Verified {{ site.data.eol.verified | date: "%-d %B %Y" }}. Version compatibility from the <a href="https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html">FastRuby compatibility table</a>, except Rails 8.1 on Ruby 4.0, which is from <a href="https://github.com/rails/buildkite-config">Rails' own CI</a>. Gem advisories from <a href="https://github.com/rubysec/ruby-advisory-db">rubysec/ruby-advisory-db</a>, the database <code>bundler-audit</code> reads, matched the way it matches them. Control references are to PCI DSS v4.0.1, the SOC 2 Trust Services Criteria, 45 CFR Part 164, and ISO/IEC 27001:2022.</p>
   <p>This tool reports whether your versions receive vendor security patches, which controls reference that condition, and, if you provide a <code>Gemfile.lock</code>, which published advisories name the gem versions pinned in it. It is not a vulnerability scan: it reads declared version numbers rather than running code, and it cannot see a backported fix, a vendored patch or a compensating control, any of which may already answer a row it reports. It is not a compliance opinion. Whether a given control is met depends on your compensating controls and your assessor.</p>
   <p class="eol-footer-entity">{{ site.entity.name }}, {{ site.entity.form_short }} &middot; {{ site.entity.address }}<span class="print-hide"> &middot; <a href="{{ '/privacy.html' | relative_url }}">Privacy</a></span></p>
 </footer>
@@ -619,13 +619,13 @@ function render(rv,uv){
     h+=`<article class="record record--ok">
       <div class="rec-head"><h2 class="rec-title">No upgrade required</h2>
       <span class="pill pill--ok">Current</span></div>
-      <p style="margin:0;color:var(--ink-2);font-size:14px">You are on the only Rails and Ruby combination still in normal maintenance. Re-check when Rails ${TARGET_RAILS} approaches its end of life on ${fmtDate(railsRec(TARGET_RAILS).eol)}.</p>
+      <p style="margin:0;color:var(--ink-2);font-size:14px">Rails ${TARGET_RAILS} is the only Rails series still receiving security fixes, and you are on it with a supported Ruby. Re-check when Rails ${TARGET_RAILS} approaches its end of life on ${fmtDate(railsRec(TARGET_RAILS).eol)}.</p>
     </article>`;
   } else {
   h+=`<article class="record record--${anyEol?"crit":"ok"} record--path">
     <div class="rec-head"><h2 class="rec-title">Required upgrade path</h2>
     <span class="pill pill--${steps.length>6?"crit":"warn"}">${steps.length} version hop${steps.length===1?"":"s"}</span></div>
-    <p style="margin:0 0 4px;color:var(--ink-2);font-size:14px">To Rails ${TARGET_RAILS} on Ruby ${TARGET_RUBY}, the only combination in normal maintenance. Each hop ships and soaks in production before the next begins.</p>
+    <p style="margin:0 0 4px;color:var(--ink-2);font-size:14px">To Rails ${TARGET_RAILS} on Ruby ${TARGET_RUBY}. Rails ${TARGET_RAILS} is the only Rails series still receiving security fixes. Each hop ships and soaks in production before the next begins.</p>
     <ol class="ladder">${steps.map((s,i)=>`
       <li class="rung rung--${s.kind}">
         <span class="rung-n">${i+1}</span>
